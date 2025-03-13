@@ -1,0 +1,292 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+  list-style: none;
+  text-decoration: none;
+}
+
+body {
+  background-color: white;
+  color: black;
+}
+
+/*=================== MENU ===================*/
+.navegation{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 40px;
+  background-color: #070707;
+  box-shadow: 0 2px 5px rgb(231, 231, 231);
+  transition: all 0.5s;
+  position: fixed;
+  width: 100%;
+  z-index: 1000;
+}
+
+.navegation .logo {
+  color: #ffffff;
+  font-size: 1.7rem;
+  font-weight: 200;
+}
+
+.logo  span {
+  color: #ff4800;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.navegation ul {
+  display: flex;
+  align-items: center;
+  gap: 5rem;
+}
+
+.navegation ul li a {
+  color: #ffffff ;
+  font-size: 17px;
+  font-weight: 200;
+}
+
+.nav-item #ativo {
+  display: flex;
+  align-items: center;
+  gap: 5px; /* Espaço entre o ícone e o texto */
+  text-decoration: none;
+  padding: 10px;
+  background-color: #ff4800;
+  border-radius: 5px;
+}
+
+
+.navegation .nav-menu li a:hover {
+  border-bottom: 2px solid #ff4800 ;
+   margin-bottom: 5px;
+}
+
+.menu{
+    cursor: pointer;
+    display: none;
+}
+
+.menu .bar{
+    display: block;
+    width: 28px;
+    height: 3px;
+    border-radius: 3px;
+    background: #727272;
+    margin: 5px auto ;
+    transition: all 0.3s;
+}
+
+.menu .bar:nth-child(1), .menu .bar:nth-child(3){
+    background-color: #f75454;
+}
+
+/*=================== Main ===================*/
+/*=================== Carrossel ===================*/
+/* Estilos gerais */
+.carrossel, .parceiros {
+  width: 100%;
+  padding-top: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+/* Carrossel principal */
+.carousel-container {
+  position: relative;
+  width: 80%;
+  max-width: 900px;
+}
+
+.carousel-slide {
+  display: none;
+  width: 100%;
+  text-align: center;
+}
+
+.carousel-slide img {
+  width: 100%;
+  height: 500px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.active {
+  display: block;
+}
+
+/* Botões */
+.prev-btn, .next-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0, 0, 0, 0.6);
+  color: white;
+  border: none;
+  cursor: pointer;
+  padding: 10px 15px;
+  font-size: 18px;
+  border-radius: 45%;
+}
+
+.prev-btn { left: 10px; }
+.next-btn { right: 10px; }
+
+.prev-btn:hover, .next-btn:hover {
+  background:#ff4800;
+}
+
+/* Indicadores */
+.carousel-dots {
+  text-align: center;
+  padding: 10px;
+}
+
+.carousel-dots span {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  margin: 5px;
+  background: gray;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.carousel-dots .active-dot {
+  background: #ff4800;
+}
+
+/*=================== Patrocinadores ===================*/
+h2 {
+  text-align: center;
+  font-size: 24px;
+  color: #000000;
+  margin-bottom: 5px;
+}
+
+.traco {
+  width: 250px;
+  height: 4px;
+  background: #ff4800; /* Cor principal do projeto */
+  margin: 0 auto; /* Centraliza horizontalmente */
+  border-radius: 2px;
+  margin-bottom: 20px;
+}
+
+.parceiros {
+  width: 100%;
+  overflow: hidden;
+  background: #f9f9f9;
+  padding: 20px 0;
+  position: relative;
+  white-space: nowrap;
+  margin-bottom: 25px;
+}
+
+.parceiros-container {
+  display: flex;
+    gap: 20px;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    scrollbar-width: thin;
+    -ms-overflow-style: none;
+    cursor: grab;
+}
+
+.parceiros-container::-webkit-scrollbar {
+  height: 5px;
+}
+
+.parceiros-container::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 5px;
+}
+
+.parceiros-slide {
+  flex: 0 0 auto;
+  width: 150px;
+  scroll-snap-align: start;
+}
+
+.parceiro-slide img {
+  height: 50px;
+  margin-right: 25px;
+  margin-left: 25px;
+  transition:ease .8s;
+  filter: grayscale(100%);
+}
+
+.parceiro-slide img:hover {
+  filter: grayscale(0%);
+  transform: scale(1.1);
+}
+
+@keyframes scrollParceiros {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); } /* Apenas metade para parecer contínuo */
+}
+
+/*=================== Serviços ===================*/
+
+
+/*=================== Responsividade ===================*/ 
+@media (max-width: 900px) {
+  .navegation .logo {
+    font-size: 18px;
+  }
+
+  .navegation span {
+    font-size: 10px;
+  }
+
+  .navegation {
+    padding: 18px 20px;
+  }
+
+  .menu {
+    display: block;
+    cursor: pointer;
+  }
+
+  .menu.ativo .bar:nth-child(1) {
+    transform: translateY(8px) rotate(45deg);
+  }
+
+  .menu.ativo .bar:nth-child(2) {
+    opacity: 0;
+  }
+
+  .menu.ativo .bar:nth-child(3) {
+    transform: translateY(-8px) rotate(-45deg);
+  }
+
+  .nav-menu {
+    position: fixed;
+    right: -100%;
+    top: 60px;
+    width: 100%;
+    height: 100%;
+    flex-direction: column;
+    background-color: rgb(0, 0, 0);
+    gap: -10px;
+    transition: 0.3s;
+    z-index: 1;
+  }
+
+  .nav-menu.ativo {
+    right: 0;
+  }
+
+  .nav-item {
+    margin: -7px 0;
+  }
+}
