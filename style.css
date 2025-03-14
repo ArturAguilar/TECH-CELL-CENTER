@@ -53,7 +53,7 @@ body {
   font-weight: 200;
 }
 
-.nav-item #ativo {
+.nav-item > #ativo {
   display: flex;
   align-items: center;
   gap: 5px; /* Espaço entre o ícone e o texto */
@@ -93,18 +93,19 @@ body {
 /* Estilos gerais */
 .carrossel, .parceiros {
   width: 100%;
-  padding-top: 100px;
+  padding-top: 15px;
   display: flex;
   justify-content: center;
   align-items: center;
   overflow: hidden;
+  margin-bottom: 15px;
 }
 
 /* Carrossel principal */
 .carousel-container {
   position: relative;
   width: 80%;
-  max-width: 900px;
+  max-width: 1000px;
 }
 
 .carousel-slide {
@@ -116,66 +117,50 @@ body {
 .carousel-slide img {
   width: 100%;
   height: 500px;
-  border-radius: 10px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 }
 
 .active {
   display: block;
 }
 
-/* Botões */
-.prev-btn, .next-btn {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  background: rgba(0, 0, 0, 0.6);
-  color: white;
-  border: none;
-  cursor: pointer;
-  padding: 10px 15px;
-  font-size: 18px;
-  border-radius: 45%;
-}
-
-.prev-btn { left: 10px; }
-.next-btn { right: 10px; }
-
-.prev-btn:hover, .next-btn:hover {
-  background:#ff4800;
-}
-
 /* Indicadores */
 .carousel-dots {
   text-align: center;
-  padding: 10px;
+  display: none;
 }
 
 .carousel-dots span {
   display: inline-block;
   width: 10px;
   height: 10px;
-  margin: 5px;
   background: gray;
   border-radius: 50%;
   cursor: pointer;
 }
 
-.carousel-dots .active-dot {
-  background: #ff4800;
-}
-
 /*=================== Patrocinadores ===================*/
-h2 {
+h1{
   text-align: center;
   font-size: 24px;
   color: #000000;
   margin-bottom: 5px;
+  padding-top:120px;
+  font-weight: 300;
+}
+
+h2{
+  text-align: center;
+  font-size: 24px;
+  color: #000000;
+  padding-top: 50px;
+  margin-bottom: 5px;
+  font-weight: 300;
 }
 
 .traco {
   width: 250px;
-  height: 4px;
+  height: 2px;
   background: #ff4800; /* Cor principal do projeto */
   margin: 0 auto; /* Centraliza horizontalmente */
   border-radius: 2px;
@@ -236,6 +221,7 @@ h2 {
 }
 
 /*=================== Serviços ===================*/
+/* =================== Produtos ===================*/
 
 
 /*=================== Responsividade ===================*/ 
