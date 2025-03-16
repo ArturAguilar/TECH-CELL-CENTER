@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="style.css" />
-    <title>Dashboard - Tech Cell Center Brasil</title>
+    <title>Orçamentos - Tech Cell Center Brasil</title>
   </head>
   <body>
     <header>
@@ -46,30 +46,66 @@
       </nav>
     </header>
     <main>
-      <section class="dashboard">
-        <h1>Dashboard de Orçamentos</h1>
+      <section class="budget-form">
+        <h2>Criar Orçamento</h2>
+        <form id="budgetForm">
+          <input type="hidden" id="budgetId" name="budgetId" />
+          <label for="client">Cliente:</label>
+          <select id="client" name="client" required>
+            <!-- Client options will be inserted here by JavaScript -->
+          </select>
+
+          <label for="product">Produto:</label>
+          <select id="product" name="product">
+            <!-- Product options will be inserted here by JavaScript -->
+          </select>
+
+          <label for="quantity">Quantidade:</label>
+          <input type="number" id="quantity" name="quantity" min="1" value="1" required />
+
+          <label for="service">Serviço:</label>
+          <select id="service" name="service">
+            <!-- Service options will be inserted here by JavaScript -->
+          </select>
+
+          <label for="price">Preço:</label>
+          <input type="number" id="price" name="price" step="0.01" required readonly />
+
+          <label for="status">Status:</label>
+          <select id="status" name="status" required>
+            <option value="Pendente">Pendente</option>
+            <option value="Aprovado">Aprovado</option>
+            <option value="Rejeitado">Rejeitado</option>
+          </select>
+
+          <label for="observations">Observações:</label>
+          <textarea id="observations" name="observations"></textarea>
+
+          <button type="button" id="addItemButton">Adicionar Item</button>
+          <button type="button" id="saveBudgetButton">Salvar Orçamento</button>
+        </form>
+      </section>
+      <section class="budget-table">
+        <h2>Itens do Orçamento</h2>
         <div class="table-responsive">
-          <table class="styled-table">
+          <table>
             <thead>
               <tr>
-                <th>Cliente</th>
                 <th>Produto</th>
                 <th>Quantidade</th>
                 <th>Serviço</th>
                 <th>Preço</th>
-                <th>Status</th>
-                <th>Observações</th>
                 <th>Ações</th>
               </tr>
             </thead>
-            <tbody id="budgetTableBody">
-              <!-- Budget data will be inserted here by JavaScript -->
+            <tbody id="budgetItemsTableBody">
+              <!-- Budget items will be inserted here by JavaScript -->
             </tbody>
           </table>
         </div>
+        <h3>Total: <span id="totalPrice">R$ 0,00</span></h3>
       </section>
     </main>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
     <script src="script.js"></script>
     <script>
       document.addEventListener('DOMContentLoaded', function() {
@@ -81,8 +117,6 @@
           navMenu.classList.toggle('ativo');
           menuToggle.classList.toggle('ativo');
         });
-
-        loadBudgets();
       });
 
       function fecharMenu() {

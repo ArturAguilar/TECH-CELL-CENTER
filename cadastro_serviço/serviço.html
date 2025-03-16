@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="style.css" />
-    <title>Dashboard - Tech Cell Center Brasil</title>
+    <title>Serviços - Tech Cell Center Brasil</title>
   </head>
   <body>
     <header>
@@ -27,7 +27,7 @@
             >
           </li>
           <li class="nav-item">
-            <a href="../cadastro_serviço/serviço.html" onclick="fecharMenu()" title="serviços">
+            <a href="../cadastro_serviço/servico.html" onclick="fecharMenu()" title="serviços">
               Serviços</a
             >
           </li>
@@ -46,30 +46,48 @@
       </nav>
     </header>
     <main>
-      <section class="dashboard">
-        <h1>Dashboard de Orçamentos</h1>
-        <div class="table-responsive">
-          <table class="styled-table">
+      <button id="showFormButton" class="show-form-button">Adicionar Serviço</button>
+      <section class="service-form" id="serviceFormSection" style="display: none;">
+        <h2>Adicionar Serviço</h2>
+        <form id="serviceForm">
+          <input type="hidden" id="serviceId" name="serviceId" />
+          <label for="serviceName">Nome do Serviço:</label>
+          <input type="text" id="serviceName" name="serviceName" required />
+
+          <label for="description">Descrição:</label>
+          <input type="text" id="description" name="description" required />
+
+          <label for="price">Preço:</label>
+          <input type="number" id="price" name="price" step="0.01" required />
+
+          <label for="baseTime">Tempo Base (em Dias):</label>
+          <input type="number" id="baseTime" name="baseTime" step="0.1" required />
+
+          <button type="submit">Adicionar</button>
+        </form>
+      </section>
+      <section class="service-table">
+        <h2>Serviços Cadastrados</h2>
+        <input type="text" id="searchInput" placeholder="Buscar por nome ou descrição..." />
+        <div class="table-container">
+          <table>
             <thead>
               <tr>
-                <th>Cliente</th>
-                <th>Produto</th>
-                <th>Quantidade</th>
-                <th>Serviço</th>
+                <th>ID</th>
+                <th>Nome do Serviço</th>
+                <th>Descrição</th>
                 <th>Preço</th>
-                <th>Status</th>
-                <th>Observações</th>
+                <th>Tempo Base (Dias)</th>
                 <th>Ações</th>
               </tr>
             </thead>
-            <tbody id="budgetTableBody">
-              <!-- Budget data will be inserted here by JavaScript -->
+            <tbody id="serviceTableBody">
+              <!-- Service data will be inserted here by JavaScript -->
             </tbody>
           </table>
         </div>
       </section>
     </main>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
     <script src="script.js"></script>
     <script>
       document.addEventListener('DOMContentLoaded', function() {
@@ -81,8 +99,6 @@
           navMenu.classList.toggle('ativo');
           menuToggle.classList.toggle('ativo');
         });
-
-        loadBudgets();
       });
 
       function fecharMenu() {
