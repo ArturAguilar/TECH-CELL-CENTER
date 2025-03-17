@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <title>Orçamentos - Tech Cell Center Brasil</title>
+  </head>
+  <body>
+    <header>
+      <nav class="navegation">
+        <a href="../index.html" class="logo" title="logo">
+          Tech Cell Center <span>Brasil</span></a
+        >
+        <ul class="nav-menu">
+          <li class="nav-item">
+            <a href="../index.html" onclick="fecharMenu()" title="dashboard"> Dashboard</a>
+          </li>
+          <li class="nav-item">
+            <a href="../cadastro_cliente/cliente.html" onclick="fecharMenu()" title="clientes">
+              Clientes
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="../cadastro_produto/produto.html" onclick="fecharMenu()" title="produtos">
+              Produtos</a
+            >
+          </li>
+          <li class="nav-item">
+            <a href="../cadastro_serviço/servico.html" onclick="fecharMenu()" title="serviços">
+              Serviços</a
+            >
+          </li>
+          <li class="nav-item">
+            <a href="../cadastro_orçamento/orcamentos.html" onclick="fecharMenu()" title="orçamento"
+              >Solicitar Orçamento</a
+            >
+          </li>
+        </ul>
+
+        <div class="menu" id="menuToggle">
+          <span class="bar"></span>
+          <span class="bar"></span>
+          <span class="bar"></span>
+        </div>
+      </nav>
+    </header>
+    <main>
+      <section class="budget-form" id="budgetFormSection">
+        <h2>Adicionar Orçamento</h2>
+        <form id="budgetForm">
+          <input type="hidden" id="budgetId" name="budgetId" />
+          
+          <label for="clientSearch">Pesquisar Cliente:</label>
+          <input type="text" id="clientSearch" name="clientSearch" placeholder="Digite o nome do cliente..." />
+
+          <label for="client">Cliente:</label>
+          <select id="client" name="client" required>
+            <option value="">Selecione um cliente</option>
+          </select>
+
+          <label for="status">Status:</label>
+          <select id="status" name="status" required>
+            <option value="Pendente">Pendente</option>
+            <option value="Aprovado">Aprovado</option>
+            <option value="Rejeitado">Rejeitado</option>
+          </select>
+
+          <label for="observations">Observações:</label>
+          <textarea id="observations" name="observations"></textarea>
+
+          <h3>Itens do Orçamento</h3>
+          
+          <label for="productSearch">Pesquisar Produto:</label>
+          <input type="text" id="productSearch" name="productSearch" placeholder="Digite o nome do produto..." />
+
+          <label for="product">Produto:</label>
+          <select id="product" name="product">
+            <option value="">Selecione um produto</option>
+          </select>
+
+          <label for="quantity">Quantidade:</label>
+          <input type="number" id="quantity" name="quantity" min="1" value="1" />
+
+          <label for="serviceSearch">Pesquisar Serviço:</label>
+          <input type="text" id="serviceSearch" name="serviceSearch" placeholder="Digite o nome do serviço..." />
+
+          <label for="service">Serviço:</label>
+          <select id="service" name="service">
+            <option value="">Selecione um serviço</option>
+          </select>
+
+          <label for="price">Preço:</label>
+          <input type="number" id="price" name="price" step="0.01" readonly />
+
+          <button type="button" id="addItemButton">Adicionar Item</button>
+
+          <div class="table-container">
+            <table>
+              <thead>
+                <tr>
+                  <th>Produto</th>
+                  <th>Quantidade</th>
+                  <th>Serviço</th>
+                  <th>Preço</th>
+                  <th>Ações</th>
+                </tr>
+              </thead>
+              <tbody id="budgetItemsTableBody">
+                <!-- Items will be added here by JavaScript -->
+              </tbody>
+            </table>
+          </div>
+
+          <h3>Total: <span id="totalPrice">R$ 0.00</span></h3>
+
+          <button type="button" id="saveBudgetButton">Salvar Orçamento</button>
+        </form>
+      </section>
+    </main>
+    <script src="script.js"></script>
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        // Menu toggle
+        const menuToggle = document.getElementById('menuToggle');
+        const navMenu = document.querySelector('.nav-menu');
+
+        menuToggle.addEventListener('click', function() {
+          navMenu.classList.toggle('ativo');
+          menuToggle.classList.toggle('ativo');
+        });
+
+        loadClients();
+        loadProducts();
+        loadServices();
+        setupEventListeners();
+      });
+
+      function fecharMenu() {
+        const navMenu = document.querySelector('.nav-menu');
+        const menuToggle = document.getElementById('menuToggle');
+        navMenu.classList.remove('ativo');
+        menuToggle.classList.remove('ativo');
+      }
+    </script>
+  </body>
+</html>

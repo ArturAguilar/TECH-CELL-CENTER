@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <title>Produtos - Tech Cell Center Brasil</title>
+  </head>
+  <body>
+    <header>
+      <nav class="navegation">
+        <a href="../index.html" class="logo" title="logo">
+          Tech Cell Center <span>Brasil</span></a
+        >
+        <ul class="nav-menu">
+          <li class="nav-item">
+            <a href="../index.html" onclick="fecharMenu()" title="dashboard"> Dashboard</a>
+          </li>
+          <li class="nav-item">
+            <a href="../cadastro_cliente/cliente.html" onclick="fecharMenu()" title="clientes">
+              Clientes
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="../cadastro_produto/produto.html" onclick="fecharMenu()" title="produtos">
+              Produtos</a
+            >
+          </li>
+          <li class="nav-item">
+            <a href="../cadastro_serviço/serviço.html" onclick="fecharMenu()" title="serviços">
+              Serviços</a
+            >
+          </li>
+          <li class="nav-item">
+            <a href="../cadastro_orçamento/orcamentos.html" onclick="fecharMenu()" title="orçamento"
+              >Solicitar Orçamento</a
+            >
+          </li>
+        </ul>
+
+        <div class="menu" id="menuToggle">
+          <span class="bar"></span>
+          <span class="bar"></span>
+          <span class="bar"></span>
+        </div>
+      </nav>
+    </header>
+    <main>
+      <button id="showFormButton" class="show-form-button">Adicionar Produto</button>
+      <section class="product-form" id="productFormSection" style="display: none;">
+        <h2>Adicionar Produto</h2>
+        <form id="productForm">
+          <input type="hidden" id="productId" name="productId" />
+          <label for="name">Nome:</label>
+          <input type="text" id="name" name="name" required />
+
+          <label for="brand">Marca:</label>
+          <input type="text" id="brand" name="brand" required />
+
+          <label for="model">Modelo:</label>
+          <input type="text" id="model" name="model" required />
+
+          <label for="price">Preço:</label>
+          <input type="number" id="price" name="price" step="0.01" required />
+
+          <label for="category">Categoria:</label>
+          <select id="category" name="category" required>
+            <option value="Celulares e Acessórios">Celulares e Acessórios</option>
+            <option value="PC Gamer e Acessórios">PC Gamer e Acessórios</option>
+            <option value="Notebooks e Computadores">Notebooks e Computadores</option>
+          </select>
+
+          <button type="submit">Adicionar</button>
+        </form>
+      </section>
+      <section class="product-table">
+        <h2>Produtos Cadastrados</h2>
+        <input type="text" id="searchInput" placeholder="Buscar por nome..." />
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Nome</th>
+                <th>Marca</th>
+                <th>Modelo</th>
+                <th>Preço</th>
+                <th>Categoria</th>
+                <th>Ações</th>
+              </tr>
+            </thead>
+            <tbody id="productTableBody">
+              <!-- Product data will be inserted here by JavaScript -->
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+    <script src="script.js"></script>
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        // Menu toggle
+        const menuToggle = document.getElementById('menuToggle');
+        const navMenu = document.querySelector('.nav-menu');
+
+        menuToggle.addEventListener('click', function() {
+          navMenu.classList.toggle('ativo');
+          menuToggle.classList.toggle('ativo');
+        });
+
+        loadProducts();
+        setupEventListeners();
+      });
+
+      function fecharMenu() {
+        const navMenu = document.querySelector('.nav-menu');
+        const menuToggle = document.getElementById('menuToggle');
+        navMenu.classList.remove('ativo');
+        menuToggle.classList.remove('ativo');
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <title>Serviços - Tech Cell Center Brasil</title>
+  </head>
+  <body>
+    <header>
+      <nav class="navegation">
+        <a href="../index.html" class="logo" title="logo">
+          Tech Cell Center <span>Brasil</span></a
+        >
+        <ul class="nav-menu">
+          <li class="nav-item">
+            <a href="../index.html" onclick="fecharMenu()" title="dashboard"> Dashboard</a>
+          </li>
+          <li class="nav-item">
+            <a href="../cadastro_cliente/cliente.html" onclick="fecharMenu()" title="clientes">
+              Clientes
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="../cadastro_produto/produto.html" onclick="fecharMenu()" title="produtos">
+              Produtos</a
+            >
+          </li>
+          <li class="nav-item">
+            <a href="../cadastro_serviço/servico.html" onclick="fecharMenu()" title="serviços">
+              Serviços</a
+            >
+          </li>
+          <li class="nav-item">
+            <a href="../cadastro_orçamento/orcamentos.html" onclick="fecharMenu()" title="orçamento"
+              >Solicitar Orçamento</a
+            >
+          </li>
+        </ul>
+
+        <div class="menu" id="menuToggle">
+          <span class="bar"></span>
+          <span class="bar"></span>
+          <span class="bar"></span>
+        </div>
+      </nav>
+    </header>
+    <main>
+      <button id="showFormButton" class="show-form-button">Adicionar Serviço</button>
+      <section class="service-form" id="serviceFormSection" style="display: none;">
+        <h2>Adicionar Serviço</h2>
+        <form id="serviceForm">
+          <input type="hidden" id="serviceId" name="serviceId" />
+          <label for="serviceName">Nome do Serviço:</label>
+          <input type="text" id="serviceName" name="serviceName" required />
+
+          <label for="description">Descrição:</label>
+          <input type="text" id="description" name="description" required />
+
+          <label for="price">Preço:</label>
+          <input type="number" id="price" name="price" step="0.01" required />
+
+          <label for="baseTime">Tempo Base (em Dias):</label>
+          <input type="number" id="baseTime" name="baseTime" step="0.1" required />
+
+          <label for="category">Categoria:</label>
+          <select id="category" name="category" required>
+            <option value="Serviços de Celulares">Serviços de Celulares</option>
+            <option value="Serviços para PC Gamer">Serviços para PC Gamer</option>
+            <option value="Notebooks e Computadores">Notebooks e Computadores</option>
+          </select>
+
+          <button type="submit">Adicionar</button>
+        </form>
+      </section>
+      <section class="service-table">
+        <h2>Serviços Cadastrados</h2>
+        <input type="text" id="searchInput" placeholder="Buscar por nome ou descrição..." />
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Nome do Serviço</th>
+                <th>Descrição</th>
+                <th>Preço</th>
+                <th>Tempo Base (Dias)</th>
+                <th>Categoria</th>
+                <th>Ações</th>
+              </tr>
+            </thead>
+            <tbody id="serviceTableBody">
+              <!-- Service data will be inserted here by JavaScript -->
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+    <script src="script.js"></script>
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        // Menu toggle
+        const menuToggle = document.getElementById('menuToggle');
+        const navMenu = document.querySelector('.nav-menu');
+
+        menuToggle.addEventListener('click', function() {
+          navMenu.classList.toggle('ativo');
+          menuToggle.classList.toggle('ativo');
+        });
+
+        loadServices();
+        setupEventListeners();
+      });
+
+      function fecharMenu() {
+        const navMenu = document.querySelector('.nav-menu');
+        const menuToggle = document.getElementById('menuToggle');
+        navMenu.classList.remove('ativo');
+        menuToggle.classList.remove('ativo');
+      }
+    </script>
+  </body>
+</html>
