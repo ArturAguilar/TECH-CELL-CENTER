@@ -10,10 +10,10 @@ function setupEventListeners() {
         document.getElementById('showFormButton').style.display = 'none';
     });
 
-    document.getElementById('productForm').addEventListener('submit', function(event) {
-        event.preventDefault();
-        saveProduct();
-    });
+    // Remova qualquer evento de submissão existente antes de adicionar um novo
+    const productForm = document.getElementById('productForm');
+    productForm.removeEventListener('submit', handleFormSubmit);
+    productForm.addEventListener('submit', handleFormSubmit);
 
     document.getElementById('searchInput').addEventListener('input', function() {
         const searchTerm = this.value.toLowerCase();
@@ -29,8 +29,9 @@ function setupEventListeners() {
                     <td>${product.name}</td>
                     <td>${product.brand}</td>
                     <td>${product.model}</td>
-                    <td>R$ ${product.price}</td>
-                    <td>
+                    <td>${product.price}</td>
+                    <td>${product.category}</td>
+                    <td class="actions">
                         <button class="edit" onclick="editProduct(${product.id})">Editar</button>
                         <button class="delete" onclick="deleteProduct(${product.id})">Deletar</button>
                     </td>
@@ -41,19 +42,26 @@ function setupEventListeners() {
     });
 }
 
+function handleFormSubmit(event) {
+    event.preventDefault();
+    saveProduct();
+}
+
 function saveProduct() {
     const productId = document.getElementById('productId').value;
     const name = document.getElementById('name').value;
     const brand = document.getElementById('brand').value;
     const model = document.getElementById('model').value;
-    const price = parseFloat(document.getElementById('price').value).toFixed(2);
+    const price = document.getElementById('price').value;
+    const category = document.getElementById('category').value;
 
     const productData = {
-        id: productId ? productId : new Date().getTime(),
+        id: productId || new Date().getTime(),
         name: name,
         brand: brand,
         model: model,
-        price: price
+        price: price,
+        category: category
     };
 
     let products = JSON.parse(localStorage.getItem('products')) || [];
@@ -67,7 +75,7 @@ function saveProduct() {
 
     localStorage.setItem('products', JSON.stringify(products));
 
-    alert('Produto cadastrado com sucesso!');
+    alert('Produto salvo com sucesso!');
 
     document.getElementById('productForm').reset();
     document.getElementById('productFormSection').style.display = 'none';
@@ -89,8 +97,9 @@ function loadProducts() {
             <td>${product.name}</td>
             <td>${product.brand}</td>
             <td>${product.model}</td>
-            <td>R$ ${product.price}</td>
-            <td>
+            <td>${product.price}</td>
+            <td>${product.category}</td>
+            <td class="actions">
                 <button class="edit" onclick="editProduct(${product.id})">Editar</button>
                 <button class="delete" onclick="deleteProduct(${product.id})">Deletar</button>
             </td>
@@ -108,6 +117,7 @@ function editProduct(id) {
     document.getElementById('brand').value = product.brand;
     document.getElementById('model').value = product.model;
     document.getElementById('price').value = product.price;
+    document.getElementById('category').value = product.category;
 
     document.getElementById('productFormSection').style.display = 'block';
     document.querySelector('.product-table').style.display = 'none';
@@ -116,7 +126,7 @@ function editProduct(id) {
 
 function deleteProduct(id) {
     let products = JSON.parse(localStorage.getItem('products')) || [];
-    if (confirm('Tem certeza que deseja deletar este produto?')) {
+    if (confirm('Você tem certeza que deseja excluir esse produto?')) {
         products = products.filter(product => product.id != id);
         localStorage.setItem('products', JSON.stringify(products));
         alert('Produto deletado com sucesso!');

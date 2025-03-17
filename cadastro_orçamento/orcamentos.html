@@ -27,7 +27,7 @@
             >
           </li>
           <li class="nav-item">
-            <a href="../cadastro_serviço/serviço.html" onclick="fecharMenu()" title="serviços">
+            <a href="../cadastro_serviço/servico.html" onclick="fecharMenu()" title="serviços">
               Serviços</a
             >
           </li>
@@ -46,30 +46,18 @@
       </nav>
     </header>
     <main>
-      <section class="budget-form">
-        <h2>Criar Orçamento</h2>
+      <section class="budget-form" id="budgetFormSection">
+        <h2>Adicionar Orçamento</h2>
         <form id="budgetForm">
           <input type="hidden" id="budgetId" name="budgetId" />
+          
+          <label for="clientSearch">Pesquisar Cliente:</label>
+          <input type="text" id="clientSearch" name="clientSearch" placeholder="Digite o nome do cliente..." />
+
           <label for="client">Cliente:</label>
           <select id="client" name="client" required>
-            <!-- Client options will be inserted here by JavaScript -->
+            <option value="">Selecione um cliente</option>
           </select>
-
-          <label for="product">Produto:</label>
-          <select id="product" name="product">
-            <!-- Product options will be inserted here by JavaScript -->
-          </select>
-
-          <label for="quantity">Quantidade:</label>
-          <input type="number" id="quantity" name="quantity" min="1" value="1" required />
-
-          <label for="service">Serviço:</label>
-          <select id="service" name="service">
-            <!-- Service options will be inserted here by JavaScript -->
-          </select>
-
-          <label for="price">Preço:</label>
-          <input type="number" id="price" name="price" step="0.01" required readonly />
 
           <label for="status">Status:</label>
           <select id="status" name="status" required>
@@ -81,29 +69,53 @@
           <label for="observations">Observações:</label>
           <textarea id="observations" name="observations"></textarea>
 
+          <h3>Itens do Orçamento</h3>
+          
+          <label for="productSearch">Pesquisar Produto:</label>
+          <input type="text" id="productSearch" name="productSearch" placeholder="Digite o nome do produto..." />
+
+          <label for="product">Produto:</label>
+          <select id="product" name="product">
+            <option value="">Selecione um produto</option>
+          </select>
+
+          <label for="quantity">Quantidade:</label>
+          <input type="number" id="quantity" name="quantity" min="1" value="1" />
+
+          <label for="serviceSearch">Pesquisar Serviço:</label>
+          <input type="text" id="serviceSearch" name="serviceSearch" placeholder="Digite o nome do serviço..." />
+
+          <label for="service">Serviço:</label>
+          <select id="service" name="service">
+            <option value="">Selecione um serviço</option>
+          </select>
+
+          <label for="price">Preço:</label>
+          <input type="number" id="price" name="price" step="0.01" readonly />
+
           <button type="button" id="addItemButton">Adicionar Item</button>
+
+          <div class="table-container">
+            <table>
+              <thead>
+                <tr>
+                  <th>Produto</th>
+                  <th>Quantidade</th>
+                  <th>Serviço</th>
+                  <th>Preço</th>
+                  <th>Ações</th>
+                </tr>
+              </thead>
+              <tbody id="budgetItemsTableBody">
+                <!-- Items will be added here by JavaScript -->
+              </tbody>
+            </table>
+          </div>
+
+          <h3>Total: <span id="totalPrice">R$ 0.00</span></h3>
+
           <button type="button" id="saveBudgetButton">Salvar Orçamento</button>
         </form>
-      </section>
-      <section class="budget-table">
-        <h2>Itens do Orçamento</h2>
-        <div class="table-responsive">
-          <table>
-            <thead>
-              <tr>
-                <th>Produto</th>
-                <th>Quantidade</th>
-                <th>Serviço</th>
-                <th>Preço</th>
-                <th>Ações</th>
-              </tr>
-            </thead>
-            <tbody id="budgetItemsTableBody">
-              <!-- Budget items will be inserted here by JavaScript -->
-            </tbody>
-          </table>
-        </div>
-        <h3>Total: <span id="totalPrice">R$ 0,00</span></h3>
       </section>
     </main>
     <script src="script.js"></script>
@@ -117,6 +129,11 @@
           navMenu.classList.toggle('ativo');
           menuToggle.classList.toggle('ativo');
         });
+
+        loadClients();
+        loadProducts();
+        loadServices();
+        setupEventListeners();
       });
 
       function fecharMenu() {

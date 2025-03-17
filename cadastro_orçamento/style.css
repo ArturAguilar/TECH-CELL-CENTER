@@ -148,18 +148,18 @@ main {
   padding: 80px 20px 20px;
 }
 
-.budget-form, .budget-table, .dashboard {
-  max-width: 1200px;
-  margin: 20px auto;
+.budget-form {
+  margin: 20px;
   padding: 20px;
   background-color: #fff;
   border-radius: 5px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
-.budget-form h2, .budget-table h2, .dashboard h1 {
+.budget-form h2 {
   margin-top: 0;
-  font-size: 2rem;
+  margin-bottom: 20px;
+  font-size: 1.5rem;
   color: #333;
 }
 
@@ -167,6 +167,7 @@ main {
   display: block;
   margin-bottom: 5px;
   font-weight: 500;
+  color: #333;
 }
 
 .budget-form input, .budget-form select, .budget-form textarea {
@@ -177,7 +178,41 @@ main {
   border-radius: 4px;
 }
 
-.budget-form button, #saveBudgetButton {
+.budget-form {
+  margin: 20px;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 5px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.budget-form h2 {
+  margin-top: 0;
+  margin-bottom: 20px;
+  font-size: 1.5rem;
+  color: #333;
+}
+
+.budget-form label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: 500;
+  color: #333;
+}
+
+.budget-form input, .budget-form select, .budget-form textarea {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.budget-form textarea {
+  resize: vertical;
+}
+
+.budget-form button {
   padding: 10px 20px;
   background-color: #ff4800;
   color: #fff;
@@ -187,37 +222,35 @@ main {
   transition: background-color 0.3s;
 }
 
-.budget-form button:hover, #saveBudgetButton:hover {
- background-color: #ff4800dc;
+.budget-form button:hover {
+  background-color: #ff4800;
 }
 
-.budget-table table, .dashboard table {
-  width: 100%;
-  border-collapse: collapse;
+.budget-form .table-container {
+  overflow-x: auto;
   margin-top: 20px;
 }
 
-.budget-table th, .budget-table td, .dashboard th, .dashboard td {
-  padding: 12px 15px;
-  border: 1px solid #ddd;
-  text-align: left;
+.budget-form table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 600px; /* Ensure the table has a minimum width */
 }
 
-.budget-table th, .dashboard th {
-  background-color: #333;
-  color: #fff;
-  text-transform: uppercase;
+.budget-form th, .budget-form td {
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
 }
 
-.budget-table tbody tr:nth-child(even), .dashboard tbody tr:nth-child(even) {
+.budget-form tr:nth-child(even) {
   background-color: #f9f9f9;
 }
 
-.budget-table tbody tr:hover, .dashboard tbody tr:hover {
+.budget-form tr:hover {
   background-color: #f1f1f1;
 }
 
-.budget-table .actions button {
+.budget-form .actions button {
   margin-right: 5px;
   padding: 5px 10px;
   border: none;
@@ -226,70 +259,31 @@ main {
   transition: background-color 0.3s;
 }
 
-.budget-table .actions .edit {
+.budget-form .actions .edit {
   background-color: #ffc107;
   color: #fff;
 }
 
-.budget-table .actions .edit:hover {
+.budget-form .actions .edit:hover {
   background-color: #e0a800;
 }
 
-.budget-table .actions .delete {
+.budget-form .actions .delete {
   background-color: #dc3545;
   color: #fff;
 }
 
-.budget-table .actions .delete:hover {
+.budget-form .actions .delete:hover {
   background-color: #c82333;
 }
 
-#generatePDFButton {
-  padding: 10px 20px;
-  background-color: #007bff;
-  color: #fff;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s;
+.budget-form h3 {
+  margin-top: 20px;
+  font-size: 1.2rem;
+  color: #333;
 }
 
-#generatePDFButton:hover {
-  background-color: #0056b3;
-}
-
-/* Responsive styles for dashboard table */
-@media (max-width: 768px) {
-  .table-responsive {
-    overflow-x: auto; /* Adiciona rolagem horizontal */
-  }
-
-  .dashboard table,
-  .budget-table table {
-    width: 100%;
-    min-width: 600px; /* Define uma largura mínima para a tabela */
-  }
-
-  .dashboard th,
-  .dashboard td,
-  .budget-table th,
-  .budget-table td {
-    text-align: left;
-  }
-
-  .dashboard th::before,
-  .dashboard td::before,
-  .budget-table th::before,
-  .budget-table td::before {
-    content: attr(data-label);
-    float: left;
-    font-weight: bold;
-  }
-
-  .dashboard th:last-child,
-  .dashboard td:last-child,
-  .budget-table th:last-child,
-  .budget-table td:last-child {
-    border-bottom: 0;
-  }
+.budget-form #totalPrice {
+  font-weight: 700;
+  color: #ff4800;
 }

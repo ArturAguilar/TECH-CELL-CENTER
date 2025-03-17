@@ -160,7 +160,7 @@ main {
 }
 
 .show-form-button:hover {
-  background-color: #0056b3;
+  background-color: #ff4800cc;
 }
 
 .service-form, .service-table {
@@ -181,7 +181,7 @@ main {
   font-weight: 500;
 }
 
-.service-form input {
+.service-form input, .service-form select {
   width: 100%;
   padding: 10px;
   margin-bottom: 10px;
@@ -189,9 +189,18 @@ main {
   border-radius: 4px;
 }
 
+.service-form select {
+  appearance: none;
+  background-color: #fff;
+  background-image: url('data:image/svg+xml;charset=US-ASCII,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 4 5"><path fill="%23333" d="M2 0L0 2h4zm0 5L0 3h4z"/></svg>');
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-size: 8px 10px;
+}
+
 .service-form button {
   padding: 10px 20px;
-  background-color: #28a745;
+  background-color: #ff4800;
   color: #fff;
   border: none;
   border-radius: 5px;
@@ -200,7 +209,7 @@ main {
 }
 
 .service-form button:hover {
-  background-color: #218838;
+  background-color: #ff4800;
 }
 
 .service-table input {
@@ -246,6 +255,7 @@ main {
 .service-table .actions .edit {
   background-color: #ffc107;
   color: #fff;
+  margin-bottom: 5px;
 }
 
 .service-table .actions .edit:hover {

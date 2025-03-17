@@ -3,36 +3,36 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="style.css">
     <title>Dashboard - Tech Cell Center Brasil</title>
   </head>
   <body>
     <header>
       <nav class="navegation">
-        <a href="../index.html" class="logo" title="logo">
+        <a href="index.html" class="logo" title="logo">
           Tech Cell Center <span>Brasil</span></a
         >
         <ul class="nav-menu">
           <li class="nav-item">
-            <a href="../index.html" onclick="fecharMenu()" title="dashboard"> Dashboard</a>
+            <a href="index.html" onclick="fecharMenu()" title="dashboard"> Dashboard</a>
           </li>
           <li class="nav-item">
-            <a href="../cadastro_cliente/cliente.html" onclick="fecharMenu()" title="clientes">
+            <a href="cadastro_cliente/cliente.html" onclick="fecharMenu()" title="clientes">
               Clientes
             </a>
           </li>
           <li class="nav-item">
-            <a href="../cadastro_produto/produto.html" onclick="fecharMenu()" title="produtos">
+            <a href="cadastro_produto/produto.html" onclick="fecharMenu()" title="produtos">
               Produtos</a
             >
           </li>
           <li class="nav-item">
-            <a href="../cadastro_serviço/serviço.html" onclick="fecharMenu()" title="serviços">
+            <a href="cadastro_serviço/servico.html" onclick="fecharMenu()" title="serviços">
               Serviços</a
             >
           </li>
           <li class="nav-item">
-            <a href="../cadastro_orçamento/orcamentos.html" onclick="fecharMenu()" title="orçamento"
+            <a href="cadastro_orçamento/orcamentos.html" onclick="fecharMenu()" title="orçamento"
               >Solicitar Orçamento</a
             >
           </li>
@@ -56,13 +56,12 @@
                 <th>Produto</th>
                 <th>Quantidade</th>
                 <th>Serviço</th>
-                <th>Preço</th>
+                <th>Total</th>
                 <th>Status</th>
-                <th>Observações</th>
                 <th>Ações</th>
               </tr>
             </thead>
-            <tbody id="budgetTableBody">
+            <tbody id="dashboardTableBody">
               <!-- Budget data will be inserted here by JavaScript -->
             </tbody>
           </table>

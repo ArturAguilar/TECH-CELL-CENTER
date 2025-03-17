@@ -10,10 +10,10 @@ function setupEventListeners() {
         document.getElementById('showFormButton').style.display = 'none';
     });
 
-    document.getElementById('clientForm').addEventListener('submit', function(event) {
-        event.preventDefault();
-        saveClient();
-    });
+    // Remova qualquer evento de submissão existente antes de adicionar um novo
+    const clientForm = document.getElementById('clientForm');
+    clientForm.removeEventListener('submit', handleFormSubmit);
+    clientForm.addEventListener('submit', handleFormSubmit);
 
     document.getElementById('searchInput').addEventListener('input', function() {
         const searchTerm = this.value.toLowerCase();
@@ -41,15 +41,25 @@ function setupEventListeners() {
     });
 }
 
+function handleFormSubmit(event) {
+    event.preventDefault();
+    saveClient();
+}
+
 function saveClient() {
     const clientId = document.getElementById('clientId').value;
     const name = document.getElementById('name').value;
     const cpfCnpj = document.getElementById('cpfCnpj').value;
     const phone = document.getElementById('phone').value;
-    const address = document.getElementById('address').value;
+    const city = document.getElementById('city').value;
+    const neighborhood = document.getElementById('neighborhood').value;
+    const street = document.getElementById('street').value;
+    const number = document.getElementById('number').value;
+
+    const address = `${street}, ${number}, ${neighborhood}, ${city}`;
 
     const clientData = {
-        id: clientId ? clientId : new Date().getTime(),
+        id: clientId || new Date().getTime(),
         name: name,
         cpfCnpj: cpfCnpj,
         phone: phone,
@@ -107,7 +117,12 @@ function editClient(id) {
     document.getElementById('name').value = client.name;
     document.getElementById('cpfCnpj').value = client.cpfCnpj;
     document.getElementById('phone').value = client.phone;
-    document.getElementById('address').value = client.address;
+
+    const addressParts = client.address.split(', ');
+    document.getElementById('street').value = addressParts[0];
+    document.getElementById('number').value = addressParts[1];
+    document.getElementById('neighborhood').value = addressParts[2];
+    document.getElementById('city').value = addressParts[3];
 
     document.getElementById('clientFormSection').style.display = 'block';
     document.querySelector('.client-table').style.display = 'none';

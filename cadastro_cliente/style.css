@@ -191,7 +191,7 @@ main {
 
 .client-form button {
   padding: 10px 20px;
-  background-color: #28a745;
+  background-color: #ff4800;
   color: #fff;
   border: none;
   border-radius: 5px;
@@ -200,7 +200,7 @@ main {
 }
 
 .client-form button:hover {
-  background-color: #218838;
+  background-color: #ff4800;
 }
 
 .client-table input {
@@ -246,6 +246,7 @@ main {
 .client-table .actions .edit {
   background-color: #ffc107;
   color: #fff;
+  margin-bottom: 5px;
 }
 
 .client-table .actions .edit:hover {

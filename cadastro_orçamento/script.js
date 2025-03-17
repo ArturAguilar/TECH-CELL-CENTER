@@ -3,6 +3,7 @@ document.addEventListener('DOMContentLoaded', function() {
     loadProducts();
     loadServices();
     setupEventListeners();
+    loadBudgets(); // Carregar orçamentos na dashboard
 });
 
 function loadClients() {
@@ -15,6 +16,19 @@ function loadClients() {
         option.textContent = client.name;
         clientSelect.appendChild(option);
     });
+
+    document.getElementById('clientSearch').addEventListener('input', function() {
+        const searchTerm = this.value.toLowerCase();
+        clientSelect.innerHTML = '<option value="">Selecione um cliente</option>';
+        clients.forEach(client => {
+            if (client.name.toLowerCase().includes(searchTerm)) {
+                const option = document.createElement('option');
+                option.value = client.id;
+                option.textContent = client.name;
+                clientSelect.appendChild(option);
+            }
+        });
+    });
 }
 
 function loadProducts() {
@@ -24,9 +38,27 @@ function loadProducts() {
     products.forEach(product => {
         const option = document.createElement('option');
         option.value = product.id;
-        option.textContent = product.name;
+        option.textContent = `${product.name} - ${product.brand} - ${product.model}`;
         option.setAttribute('data-price', product.price);
+        option.setAttribute('data-brand', product.brand);
+        option.setAttribute('data-model', product.model);
         productSelect.appendChild(option);
+    });
+
+    document.getElementById('productSearch').addEventListener('input', function() {
+        const searchTerm = this.value.toLowerCase();
+        productSelect.innerHTML = '<option value="">Selecione um produto</option>';
+        products.forEach(product => {
+            if (product.name.toLowerCase().includes(searchTerm) || product.brand.toLowerCase().includes(searchTerm) || product.model.toLowerCase().includes(searchTerm)) {
+                const option = document.createElement('option');
+                option.value = product.id;
+                option.textContent = `${product.name} - ${product.brand} - ${product.model}`;
+                option.setAttribute('data-price', product.price);
+                option.setAttribute('data-brand', product.brand);
+                option.setAttribute('data-model', product.model);
+                productSelect.appendChild(option);
+            }
+        });
     });
 }
 
@@ -37,9 +69,23 @@ function loadServices() {
     services.forEach(service => {
         const option = document.createElement('option');
         option.value = service.id;
-        option.textContent = service.name;
+        option.textContent = service.serviceName;
         option.setAttribute('data-price', service.price);
         serviceSelect.appendChild(option);
+    });
+
+    document.getElementById('serviceSearch').addEventListener('input', function() {
+        const searchTerm = this.value.toLowerCase();
+        serviceSelect.innerHTML = '<option value="">Selecione um serviço</option>';
+        services.forEach(service => {
+            if (service.serviceName.toLowerCase().includes(searchTerm)) {
+                const option = document.createElement('option');
+                option.value = service.id;
+                option.textContent = service.serviceName;
+                option.setAttribute('data-price', service.price);
+                serviceSelect.appendChild(option);
+            }
+        });
     });
 }
 
@@ -126,12 +172,15 @@ function saveBudget() {
     const status = statusSelect.value;
     const observations = observationsInput.value;
 
+    const total = budgetItems.reduce((sum, item) => sum + parseFloat(item.price) * item.quantity, 0).toFixed(2);
+
     const budgetData = {
         id: budgetId ? budgetId : new Date().getTime(),
         client: client,
         items: budgetItems,
         status: status,
-        observations: observations
+        observations: observations,
+        total: total
     };
 
     let budgets = JSON.parse(localStorage.getItem('budgets')) || [];
@@ -140,7 +189,7 @@ function saveBudget() {
         const index = budgets.findIndex(budget => budget.id == budgetId);
         budgets[index] = budgetData;
     } else {
-        budgets.push(budgetData);
+        budgets.unshift(budgetData); // Adiciona o novo orçamento no início da lista
     }
 
     localStorage.setItem('budgets', JSON.stringify(budgets));
@@ -150,6 +199,7 @@ function saveBudget() {
     document.getElementById('budgetForm').reset();
     budgetItems = [];
     updateBudgetItemsTable();
+    loadBudgets(); // Atualizar a dashboard após salvar o orçamento
 }
 
 function updateTotalPrice() {
@@ -174,4 +224,25 @@ function updatePrice() {
 
     const totalPrice = (productPrice * quantity) + servicePrice;
     priceInput.value = totalPrice.toFixed(2);
+}
+
+function loadBudgets() {
+    const budgets = JSON.parse(localStorage.getItem('budgets')) || [];
+    const dashboardTableBody = document.getElementById('dashboardTableBody');
+    dashboardTableBody.innerHTML = '';
+
+    budgets.forEach(budget => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td>${budget.client}</td>
+            <td>${budget.items.map(item => item.product).join(', ')}</td>
+            <td>${budget.items.map(item => item.quantity).join(', ')}</td>
+            <td>${budget.items.map(item => item.service).join(', ')}</td>
+            <td>${budget.items.map(item => `R$ ${item.price}`).join(', ')}</td>
+            <td>R$ ${budget.total}</td>
+            <td>${budget.status}</td>
+            <td>${budget.observations}</td>
+        `;
+        dashboardTableBody.appendChild(row);
+    });
 }
