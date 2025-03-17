@@ -9,28 +9,34 @@
   <body>
     <header>
       <nav class="navegation">
-        <a href="../index.html" class="logo" title="logo">
+        <!-- Link para a página inicial -->
+        <a href="../dashboard.html" class="logo" title="logo">
           Tech Cell Center <span>Brasil</span></a
         >
         <ul class="nav-menu">
+          <!-- Link para a página inicial -->
           <li class="nav-item">
-            <a href="../index.html" onclick="fecharMenu()" title="home">Início</a>
+            <a href="../dashboard.html" onclick="fecharMenu()" title="Dashboard"> Dashboard</a>
           </li>
+          <!-- Link para a página de clientes -->
           <li class="nav-item">
             <a href="../cadastro_cliente/cliente.html" onclick="fecharMenu()" title="clientes">
               Clientes
             </a>
           </li>
+          <!-- Link para a página de produtos -->
           <li class="nav-item">
             <a href="../cadastro_produto/produto.html" onclick="fecharMenu()" title="produtos">
               Produtos</a
             >
           </li>
+          <!-- Link para a página de serviços -->
           <li class="nav-item">
             <a href="../cadastro_serviço/serviço.html" onclick="fecharMenu()" title="serviços">
               Serviços</a
             >
           </li>
+          <!-- Link para a página de solicitação de orçamento -->
           <li class="nav-item">
             <a href="../cadastro_orçamento/orcamentos.html" onclick="fecharMenu()" title="orçamento"
               >Solicitar Orçamento</a
@@ -38,6 +44,7 @@
           </li>
         </ul>
 
+        <!-- Menu de hambúrguer para dispositivos móveis -->
         <div class="menu" id="menuToggle">
           <span class="bar"></span>
           <span class="bar"></span>
@@ -46,7 +53,9 @@
       </nav>
     </header>
     <main>
+      <!-- Botão para mostrar o formulário de registro de novo cliente -->
       <button id="showFormButton" class="show-form-button">Registrar Novo Cliente</button>
+      <!-- Seção do formulário de registro de cliente -->
       <section id="clientFormSection" class="client-form" style="display: none;">
         <h2>Registrar Cliente</h2>
         <form id="clientForm">
@@ -75,6 +84,7 @@
           <button type="submit">Registrar</button>
         </form>
       </section>
+      <!-- Seção da tabela de clientes registrados -->
       <section class="client-table">
         <h2>Clientes Registrados</h2>
         <input type="text" id="searchInput" placeholder="Buscar por nome..." />
@@ -91,7 +101,7 @@
               </tr>
             </thead>
             <tbody id="clientTableBody">
-              <!-- Client data will be inserted here by JavaScript -->
+              <!-- Os dados dos clientes serão inseridos aqui pelo JavaScript -->
             </tbody>
           </table>
         </div>

@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css">
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+    <title>Dashboard - Tech Cell Center Brasil</title>
+  </head>
+  <body>
+    <!-- NAVEGAÇÃO -->
+    <header>
+      <nav class="navegation">
+        <a href="index.html" class="logo" title="logo">
+          Tech Cell Center <span>Brasil</span></a
+        >
+        <ul class="nav-menu">
+          <li class="nav-item">
+            <a href="index.html" onclick="fecharMenu()" title="dashboard"> Dashboard</a>
+          </li>
+          <li class="nav-item">
+            <a href="cadastro_cliente/cliente.html" onclick="fecharMenu()" title="clientes">
+              Clientes
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="cadastro_produto/produto.html" onclick="fecharMenu()" title="produtos">
+              Produtos</a
+            >
+          </li>
+          <li class="nav-item">
+            <a href="cadastro_serviço/serviço.html" onclick="fecharMenu()" title="serviços">
+              Serviços</a
+            >
+          </li>
+          <li class="nav-item">
+            <a href="cadastro_orçamento/orcamentos.html" onclick="fecharMenu()" title="orçamento"
+              >Solicitar Orçamento</a
+            >
+          </li>
+        </ul>
+
+        <div class="menu" id="menuToggle">
+          <span class="bar"></span>
+          <span class="bar"></span>
+          <span class="bar"></span>
+        </div>
+      </nav>
+    </header>
+
+    <!-- CORPO PRINCIPAL -->
+    <main>
+      <!-- DASHBOARD -->
+      <section class="dashboard">
+        <h1>Dashboard de Orçamentos</h1>
+        <div class="table-responsive">
+          <table class="styled-table">
+            <thead>
+              <tr>
+                <th>Cliente</th>
+                <th>Produtos</th>
+                <th>Quantidade</th>
+                <th>Serviços</th>
+                <th>Total</th>
+                <th>Status</th>
+                <th>Forma de Pagamento</th>
+                <th>Ações</th>
+              </tr>
+            </thead>
+            <tbody id="dashboardTableBody">
+              <!-- Os itens serão adicionados aqui pelo JavaScript -->
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+
+    <!-- Janela Modal para Editar Orçamento -->
+    <div id="editBudgetModal" class="modal">
+        <div class="modal-content">
+            <span class="close" id="closeModal">&times;</span>
+            <h2>Editar Orçamento</h2>
+            <form id="editBudgetForm">
+                <input type="hidden" id="editBudgetId" name="editBudgetId">
+                
+                <!-- Seleção de status -->
+                <label for="editStatus">Status:</label>
+                <select id="editStatus" name="editStatus" required>
+                    <option value="Pendente">Pendente</option>
+                    <option value="Aprovado">Aprovado</option>
+                    <option value="Rejeitado">Rejeitado</option>
+                </select>
+
+                <!-- Campo de pesquisa de produto -->
+                <label for="editProductSearch">Pesquisar Produto:</label>
+                <input type="text" id="editProductSearch" name="editProductSearch" placeholder="Digite o nome do produto...">
+
+                <!-- Seleção de produto -->
+                <label for="editProduct">Produto:</label>
+                <select id="editProduct" name="editProduct" required>
+                    <option value="">Selecione um produto</option>
+                </select>
+
+                <!-- Campo de quantidade -->
+                <label for="editQuantity">Quantidade:</label>
+                <input type="number" id="editQuantity" name="editQuantity" min="1" value="1" required>
+
+                <!-- Campo de pesquisa de serviço -->
+                <label for="editServiceSearch">Pesquisar Serviço:</label>
+                <input type="text" id="editServiceSearch" name="editServiceSearch" placeholder="Digite o nome do serviço...">
+
+                <!-- Seleção de serviço -->
+                <label for="editService">Serviço:</label>
+                <select id="editService" name="editService" required>
+                    <option value="">Selecione um serviço</option>
+                </select>
+
+                <!-- Campo de preço total -->
+                <label for="editTotal">Total:</label>
+                <input type="number" id="editTotal" name="editTotal" step="0.01" readonly>
+
+                <!-- Botão para adicionar item -->
+                <button type="button" id="editAddItemButton">Adicionar Item</button>
+
+                <!-- Tabela de itens do orçamento -->
+                <div class="table-container">
+                    <table class="styled-table">
+                        <thead>
+                            <tr>
+                                <th>Produto</th>
+                                <th>Quantidade</th>
+                                <th>Serviço</th>
+                                <th>Total</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="editBudgetItemsTableBody">
+                            <!-- Os itens serão adicionados aqui pelo JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Botão para salvar alterações -->
+                <button type="button" id="saveEditBudgetButton">Salvar Orçamento</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script><!-- BIBLIOTECA QUE FAZ PDF'S -->
+    <script src="script.js"></script> 
+
+    <!-- SCRIPT DO MENU RESPONSIVO -->
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        // Menu toggle
+        const menuToggle = document.getElementById('menuToggle');
+        const navMenu = document.querySelector('.nav-menu');
+
+        menuToggle.addEventListener('click', function() {
+          navMenu.classList.toggle('ativo');
+          menuToggle.classList.toggle('ativo');
+        });
+
+        loadBudgets();
+      });
+
+      function fecharMenu() {
+        const navMenu = document.querySelector('.nav-menu');
+        const menuToggle = document.getElementById('menuToggle');
+        navMenu.classList.remove('ativo');
+        menuToggle.classList.remove('ativo');
+      }
+    </script>
+  </body>
+</html>

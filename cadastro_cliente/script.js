@@ -1,9 +1,12 @@
+// Adiciona um evento para carregar os dados quando o DOM estiver completamente carregado
 document.addEventListener('DOMContentLoaded', function() {
     loadClients();
     setupEventListeners();
 });
 
+// Função para configurar os ouvintes de eventos
 function setupEventListeners() {
+    // Mostra o formulário de registro de cliente e esconde a tabela de clientes
     document.getElementById('showFormButton').addEventListener('click', function() {
         document.getElementById('clientFormSection').style.display = 'block';
         document.querySelector('.client-table').style.display = 'none';
@@ -15,6 +18,7 @@ function setupEventListeners() {
     clientForm.removeEventListener('submit', handleFormSubmit);
     clientForm.addEventListener('submit', handleFormSubmit);
 
+    // Adiciona um evento para filtrar os clientes com base na entrada de pesquisa
     document.getElementById('searchInput').addEventListener('input', function() {
         const searchTerm = this.value.toLowerCase();
         const clients = JSON.parse(localStorage.getItem('clients')) || [];
@@ -41,11 +45,13 @@ function setupEventListeners() {
     });
 }
 
+// Função para lidar com a submissão do formulário
 function handleFormSubmit(event) {
     event.preventDefault();
     saveClient();
 }
 
+// Função para salvar o cliente no localStorage
 function saveClient() {
     const clientId = document.getElementById('clientId').value;
     const name = document.getElementById('name').value;
@@ -87,6 +93,7 @@ function saveClient() {
     loadClients();
 }
 
+// Função para carregar os clientes do localStorage e preencher a tabela de clientes
 function loadClients() {
     const clients = JSON.parse(localStorage.getItem('clients')) || [];
     const tableBody = document.getElementById('clientTableBody');
@@ -109,6 +116,7 @@ function loadClients() {
     });
 }
 
+// Função para editar um cliente
 function editClient(id) {
     const clients = JSON.parse(localStorage.getItem('clients')) || [];
     const client = clients.find(client => client.id == id);
@@ -129,6 +137,7 @@ function editClient(id) {
     document.getElementById('showFormButton').style.display = 'none';
 }
 
+// Função para deletar um cliente
 function deleteClient(id) {
     let clients = JSON.parse(localStorage.getItem('clients')) || [];
     if (confirm('Você tem certeza que deseja excluir esse cliente?')) {

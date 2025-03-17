@@ -1,9 +1,12 @@
+// Adiciona um evento para carregar os dados quando o DOM estiver completamente carregado
 document.addEventListener('DOMContentLoaded', function() {
     loadServices();
     setupEventListeners();
 });
 
+// Função para configurar os ouvintes de eventos
 function setupEventListeners() {
+    // Mostra o formulário de adicionar serviço e esconde a tabela de serviços
     document.getElementById('showFormButton').addEventListener('click', function() {
         document.getElementById('serviceFormSection').style.display = 'block';
         document.querySelector('.service-table').style.display = 'none';
@@ -15,6 +18,7 @@ function setupEventListeners() {
     serviceForm.removeEventListener('submit', handleFormSubmit);
     serviceForm.addEventListener('submit', handleFormSubmit);
 
+    // Adiciona um evento para filtrar os serviços com base na entrada de pesquisa
     document.getElementById('searchInput').addEventListener('input', function() {
         const searchTerm = this.value.toLowerCase();
         const services = JSON.parse(localStorage.getItem('services')) || [];
@@ -42,11 +46,13 @@ function setupEventListeners() {
     });
 }
 
+// Função para lidar com a submissão do formulário
 function handleFormSubmit(event) {
     event.preventDefault();
     saveService();
 }
 
+// Função para salvar o serviço no localStorage
 function saveService() {
     const serviceId = document.getElementById('serviceId').value;
     const serviceName = document.getElementById('serviceName').value;
@@ -87,6 +93,7 @@ function saveService() {
     loadServices();
 }
 
+// Função para carregar os serviços do localStorage e preencher a tabela de serviços
 function loadServices() {
     const services = JSON.parse(localStorage.getItem('services')) || [];
     const tableBody = document.getElementById('serviceTableBody');
@@ -112,6 +119,7 @@ function loadServices() {
     console.log('Loaded services:', services);
 }
 
+// Função para editar um serviço
 function editService(id) {
     const services = JSON.parse(localStorage.getItem('services')) || [];
     const service = services.find(service => service.id == id);
@@ -128,6 +136,7 @@ function editService(id) {
     document.getElementById('showFormButton').style.display = 'none';
 }
 
+// Função para deletar um serviço
 function deleteService(id) {
     let services = JSON.parse(localStorage.getItem('services')) || [];
     if (confirm('Você tem certeza que deseja excluir esse serviço?')) {

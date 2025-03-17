@@ -1,9 +1,12 @@
+// Adiciona um evento para carregar os dados quando o DOM estiver completamente carregado
 document.addEventListener('DOMContentLoaded', function() {
     loadProducts();
     setupEventListeners();
 });
 
+// Função para configurar os ouvintes de eventos
 function setupEventListeners() {
+    // Mostra o formulário de adicionar produto e esconde a tabela de produtos
     document.getElementById('showFormButton').addEventListener('click', function() {
         document.getElementById('productFormSection').style.display = 'block';
         document.querySelector('.product-table').style.display = 'none';
@@ -15,6 +18,7 @@ function setupEventListeners() {
     productForm.removeEventListener('submit', handleFormSubmit);
     productForm.addEventListener('submit', handleFormSubmit);
 
+    // Adiciona um evento para filtrar os produtos com base na entrada de pesquisa
     document.getElementById('searchInput').addEventListener('input', function() {
         const searchTerm = this.value.toLowerCase();
         const products = JSON.parse(localStorage.getItem('products')) || [];
@@ -42,11 +46,13 @@ function setupEventListeners() {
     });
 }
 
+// Função para lidar com a submissão do formulário
 function handleFormSubmit(event) {
     event.preventDefault();
     saveProduct();
 }
 
+// Função para salvar o produto no localStorage
 function saveProduct() {
     const productId = document.getElementById('productId').value;
     const name = document.getElementById('name').value;
@@ -85,6 +91,7 @@ function saveProduct() {
     loadProducts();
 }
 
+// Função para carregar os produtos do localStorage e preencher a tabela de produtos
 function loadProducts() {
     const products = JSON.parse(localStorage.getItem('products')) || [];
     const tableBody = document.getElementById('productTableBody');
@@ -108,6 +115,7 @@ function loadProducts() {
     });
 }
 
+// Função para editar um produto
 function editProduct(id) {
     const products = JSON.parse(localStorage.getItem('products')) || [];
     const product = products.find(product => product.id == id);
@@ -124,6 +132,7 @@ function editProduct(id) {
     document.getElementById('showFormButton').style.display = 'none';
 }
 
+// Função para deletar um produto
 function deleteProduct(id) {
     let products = JSON.parse(localStorage.getItem('products')) || [];
     if (confirm('Você tem certeza que deseja excluir esse produto?')) {

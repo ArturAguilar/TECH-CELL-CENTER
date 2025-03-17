@@ -1,5 +1,7 @@
+/* Importa a fonte Poppins do Google Fonts */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
 
+/* Define estilos globais para todos os elementos */
 * {
   margin: 0;
   padding: 0;
@@ -9,12 +11,14 @@
   text-decoration: none;
 }
 
+/* Define estilos para o corpo da página */
 body {
   background-color: #f4f4f4;
   color: #333;
 }
 
 /*=================== MENU ===================*/
+/* Estilos para a navegação */
 .navegation {
   display: flex;
   align-items: center;
@@ -27,24 +31,28 @@ body {
   z-index: 1000;
 }
 
+/* Estilos para o logo */
 .navegation .logo {
   color: #ffffff;
   font-size: 1.7rem;
   font-weight: 200;
 }
 
+/* Estilos para o span dentro do logo */
 .logo span {
   color: #ff4800;
   font-size: 1rem;
   font-weight: 500;
 }
 
+/* Estilos para a lista de navegação */
 .navegation ul {
   display: flex;
   align-items: center;
   gap: 3rem;
 }
 
+/* Estilos para os links da navegação */
 .navegation ul li a {
   color: #ffffff;
   font-size: 1rem;
@@ -53,6 +61,7 @@ body {
   transition: color 0.3s;
 }
 
+/* Estilos para o efeito hover nos links da navegação */
 .navegation ul li a::after {
   content: '';
   position: absolute;
@@ -65,12 +74,14 @@ body {
   transition: width 0.3s ease, background-color 0.3s ease;
 }
 
+/* Estilos para o efeito hover nos links da navegação */
 .navegation ul li a:hover::after {
   width: 100%;
   left: 0;
   background: #ff4800;
 }
 
+/* Estilos para o item ativo da navegação */
 .nav-item > #ativo {
   display: flex;
   align-items: center;
@@ -80,11 +91,13 @@ body {
   border-radius: 5px;
 }
 
+/* Estilos para o menu de hambúrguer */
 .menu {
   cursor: pointer;
   display: none;
 }
 
+/* Estilos para as barras do menu de hambúrguer */
 .menu .bar {
   display: block;
   width: 28px;
@@ -95,29 +108,35 @@ body {
   transition: all 0.3s;
 }
 
+/* Estilos para as barras do menu de hambúrguer */
 .menu .bar:nth-child(1), .menu .bar:nth-child(3) {
   background-color: #ff4800;
 }
 
 /*=================== Responsividade ===================*/ 
 @media (max-width: 900px) {
+  /* Estilos para o logo em telas menores */
   .navegation .logo {
     font-size: 1.5rem;
   }
 
+  /* Estilos para o span dentro do logo em telas menores */
   .navegation span {
     font-size: 0.9rem;
   }
 
+  /* Estilos para a navegação em telas menores */
   .navegation {
     padding: 18px 20px;
   }
 
+  /* Exibe o menu de hambúrguer em telas menores */
   .menu {
     display: block;
     cursor: pointer;
   }
 
+  /* Estilos para o menu de hambúrguer ativo */
   .menu.ativo .bar:nth-child(1) {
     transform: translateY(8px) rotate(45deg);
   }
@@ -130,6 +149,7 @@ body {
     transform: translateY(-8px) rotate(-45deg);
   }
 
+  /* Estilos para o menu de navegação em telas menores */
   .nav-menu {
     position: fixed;
     right: -100%;
@@ -143,19 +163,25 @@ body {
     z-index: 1;
   }
 
+  /* Estilos para o menu de navegação ativo em telas menores */
   .nav-menu.ativo {
     right: 0;
   }
 
+  /* Estilos para os itens da navegação em telas menores */
   .nav-item {
     margin: 1rem 0;
   }
 }
 
+/* CORPO PRINCIPAL */
+/* Estilos para o elemento main */
 main {
   padding: 80px 20px 20px;
 }
 
+/* DASHBOARD */
+/* Estilos para a dashboard */
 .dashboard {
   max-width: 1200px;
   margin: 20px auto;
@@ -165,16 +191,19 @@ main {
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
+/* Estilos para o título da dashboard */
 .dashboard h1 {
   margin-top: 0;
   font-size: 2rem;
   color: #333;
 }
 
+/* Estilos para a tabela responsiva */
 .table-responsive {
   overflow-x: auto; /* Adiciona rolagem horizontal */
 }
 
+/* Estilos para a tabela estilizada */
 .styled-table {
   width: 100%;
   border-collapse: collapse;
@@ -184,33 +213,44 @@ main {
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
 }
 
+/* Estilos para o cabeçalho da tabela */
 .styled-table thead tr {
   background-color: #ff4800;
   color: #ffffff;
   text-align: left;
+  font-size: 1em; /* Ajuste o tamanho da fonte para o cabeçalho */
 }
 
+/* Estilos para as células da tabela */
 .styled-table th, .styled-table td {
   padding: 12px 15px;
+  text-align: left; /* Garante que o texto esteja alinhado à esquerda */
+  vertical-align: middle; /* Garante que o texto esteja centralizado verticalmente */
 }
 
+/* Estilos para as linhas do corpo da tabela */
 .styled-table tbody tr {
   border-bottom: 1px solid #dddddd;
 }
 
+/* Estilos para as linhas pares do corpo da tabela */
 .styled-table tbody tr:nth-of-type(even) {
   background-color: #f3f3f3;
 }
 
+/* Estilos para a última linha do corpo da tabela */
 .styled-table tbody tr:last-of-type {
   border-bottom: 2px solid #ff4800;
 }
 
+/* Estilos para a linha ativa do corpo da tabela */
 .styled-table tbody tr.active-row {
   font-weight: bold;
   color: #009879;
 }
 
+/* BOTÕES DAS AÇÕES */
+/* Estilos para os botões */
 button {
   padding: 10px 20px;
   background-color: #007bff;
@@ -221,27 +261,33 @@ button {
   transition: background-color 0.3s;
 }
 
+/* Estilos para o hover dos botões */
 button:hover {
   background-color: #0056b3;
 }
 
+/* Estilos para os botões de edição */
 button.edit {
   background-color: #ffc107;
 }
 
+/* Estilos para o hover dos botões de edição */
 button.edit:hover {
   background-color: #e0a800;
 }
 
+/* Estilos para os botões de exclusão */
 button.delete {
   background-color: #dc3545;
 }
 
+/* Estilos para o hover dos botões de exclusão */
 button.delete:hover {
   background-color: #c82333;
 }
 
-/* Responsive styles for dashboard table */
+/* TABELA RESPONSIVA */
+/* Estilos para a tabela responsiva em telas menores */
 @media (max-width: 768px) {
   .table-responsive {
     overflow-x: auto; /* Adiciona rolagem horizontal */
@@ -268,4 +314,82 @@ button.delete:hover {
   .styled-table td:last-child {
     border-bottom: 0;
   }
+}
+
+/* Estilos para a janela modal */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.5);
+    padding-top: 60px;
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 5% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 600px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.modal-content h2 {
+    margin-top: 0;
+    font-size: 24px;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 10px;
+}
+
+.modal-content label {
+    display: block;
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+.modal-content input,
+.modal-content select,
+.modal-content textarea {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+.modal-content button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.modal-content button:hover {
+    background-color: #45a049;
 }
