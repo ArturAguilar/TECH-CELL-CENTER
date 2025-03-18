@@ -19,7 +19,7 @@ body {
 
 /*=================== MENU ===================*/
 /* Estilos para a navegação */
-.navegation {
+.navegacao {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -32,7 +32,7 @@ body {
 }
 
 /* Estilos para o logo */
-.navegation .logo {
+.navegacao .logo {
   color: #ffffff;
   font-size: 1.7rem;
   font-weight: 200;
@@ -46,14 +46,14 @@ body {
 }
 
 /* Estilos para a lista de navegação */
-.navegation ul {
+.navegacao ul {
   display: flex;
   align-items: center;
   gap: 3rem;
 }
 
 /* Estilos para os links da navegação */
-.navegation ul li a {
+.navegacao ul li a {
   color: #ffffff;
   font-size: 1rem;
   font-weight: 300;
@@ -62,7 +62,7 @@ body {
 }
 
 /* Estilos para o efeito hover nos links da navegação */
-.navegation ul li a::after {
+.navegacao ul li a::after {
   content: '';
   position: absolute;
   width: 0;
@@ -75,14 +75,14 @@ body {
 }
 
 /* Estilos para o efeito hover nos links da navegação */
-.navegation ul li a:hover::after {
+.navegacao ul li a:hover::after {
   width: 100%;
   left: 0;
   background: #ff4800;
 }
 
 /* Estilos para o item ativo da navegação */
-.nav-item > #ativo {
+.item-nav > #ativo {
   display: flex;
   align-items: center;
   gap: 5px;
@@ -98,7 +98,7 @@ body {
 }
 
 /* Estilos para as barras do menu de hambúrguer */
-.menu .bar {
+.menu .barra {
   display: block;
   width: 28px;
   height: 3px;
@@ -109,24 +109,24 @@ body {
 }
 
 /* Estilos para as barras do menu de hambúrguer */
-.menu .bar:nth-child(1), .menu .bar:nth-child(3) {
+.menu .barra:nth-child(1), .menu .barra:nth-child(3) {
   background-color: #ff4800;
 }
 
 /*=================== Responsividade ===================*/ 
 @media (max-width: 900px) {
   /* Estilos para o logo em telas menores */
-  .navegation .logo {
+  .navegacao .logo {
     font-size: 1.5rem;
   }
 
   /* Estilos para o span dentro do logo em telas menores */
-  .navegation span {
+  .navegacao span {
     font-size: 0.9rem;
   }
 
   /* Estilos para a navegação em telas menores */
-  .navegation {
+  .navegacao {
     padding: 18px 20px;
   }
 
@@ -137,20 +137,20 @@ body {
   }
 
   /* Estilos para o menu de hambúrguer ativo */
-  .menu.ativo .bar:nth-child(1) {
+  .menu.ativo .barra:nth-child(1) {
     transform: translateY(8px) rotate(45deg);
   }
 
-  .menu.ativo .bar:nth-child(2) {
+  .menu.ativo .barra:nth-child(2) {
     opacity: 0;
   }
 
-  .menu.ativo .bar:nth-child(3) {
+  .menu.ativo .barra:nth-child(3) {
     transform: translateY(-8px) rotate(-45deg);
   }
 
   /* Estilos para o menu de navegação em telas menores */
-  .nav-menu {
+  .menu-nav {
     position: fixed;
     right: -100%;
     top: 60px;
@@ -164,12 +164,12 @@ body {
   }
 
   /* Estilos para o menu de navegação ativo em telas menores */
-  .nav-menu.ativo {
+  .menu-nav.ativo {
     right: 0;
   }
 
   /* Estilos para os itens da navegação em telas menores */
-  .nav-item {
+  .item-nav {
     margin: 1rem 0;
   }
 }
@@ -199,12 +199,12 @@ main {
 }
 
 /* Estilos para a tabela responsiva */
-.table-responsive {
+.tabela-responsiva {
   overflow-x: auto; /* Adiciona rolagem horizontal */
 }
 
 /* Estilos para a tabela estilizada */
-.styled-table {
+.tabela-estilizada {
   width: 100%;
   border-collapse: collapse;
   margin-top: 20px;
@@ -214,7 +214,7 @@ main {
 }
 
 /* Estilos para o cabeçalho da tabela */
-.styled-table thead tr {
+.tabela-estilizada thead tr {
   background-color: #ff4800;
   color: #ffffff;
   text-align: left;
@@ -222,32 +222,35 @@ main {
 }
 
 /* Estilos para as células da tabela */
-.styled-table th, .styled-table td {
+.tabela-estilizada th, .tabela-estilizada td {
   padding: 12px 15px;
   text-align: left; /* Garante que o texto esteja alinhado à esquerda */
   vertical-align: middle; /* Garante que o texto esteja centralizado verticalmente */
 }
 
 /* Estilos para as linhas do corpo da tabela */
-.styled-table tbody tr {
+.tabela-estilizada tbody tr {
   border-bottom: 1px solid #dddddd;
 }
 
 /* Estilos para as linhas pares do corpo da tabela */
-.styled-table tbody tr:nth-of-type(even) {
+.tabela-estilizada tbody tr:nth-of-type(even) {
   background-color: #f3f3f3;
 }
 
 /* Estilos para a última linha do corpo da tabela */
-.styled-table tbody tr:last-of-type {
+.tabela-estilizada tbody tr:last-of-type {
   border-bottom: 2px solid #ff4800;
 }
 
 /* Estilos para a linha ativa do corpo da tabela */
-.styled-table tbody tr.active-row {
+.tabela-estilizada tbody tr.active-row {
   font-weight: bold;
   color: #009879;
 }
+
+/* Remova as estilizações relacionadas aos botões de ações */
+
 
 /* BOTÕES DAS AÇÕES */
 /* Estilos para os botões */
@@ -289,29 +292,29 @@ button.delete:hover {
 /* TABELA RESPONSIVA */
 /* Estilos para a tabela responsiva em telas menores */
 @media (max-width: 768px) {
-  .table-responsive {
+  .tabela-responsiva {
     overflow-x: auto; /* Adiciona rolagem horizontal */
   }
 
-  .styled-table {
+  .tabela-estilizada {
     width: 100%;
     min-width: 600px; /* Define uma largura mínima para a tabela */
   }
 
-  .styled-table th,
-  .styled-table td {
+  .tabela-estilizada th,
+  .tabela-estilizada td {
     text-align: left;
   }
 
-  .styled-table th::before,
-  .styled-table td::before {
+  .tabela-estilizada th::before,
+  .tabela-estilizada td::before {
     content: attr(data-label);
     float: left;
     font-weight: bold;
   }
 
-  .styled-table th:last-child,
-  .styled-table td:last-child {
+  .tabela-estilizada th:last-child,
+  .tabela-estilizada td:last-child {
     border-bottom: 0;
   }
 }

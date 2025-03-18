@@ -1,542 +1,296 @@
-// Adiciona um evento para carregar os dados quando o DOM estiver completamente carregado
 document.addEventListener('DOMContentLoaded', function() {
-    loadClients();
-    loadProducts();
-    loadServices();
-    setupEventListeners();
-    loadBudgets(); // Carregar orçamentos na dashboard
-    loadEditBudget(); // Carregar dados do orçamento para edição, se houver
+    carregarClientes();
+    carregarProdutos();
+    carregarServicos();
+    configurarOuvintesEventos();
+    carregarOrcamentoEdicao(); // Carregar dados do orçamento para edição, se houver
 });
 
 // Função para carregar os clientes do localStorage e preencher o select de clientes
-function loadClients() {
-    const clients = JSON.parse(localStorage.getItem('clients')) || [];
-    const clientSelect = document.getElementById('client');
-    clientSelect.innerHTML = '<option value="">Selecione um cliente</option>';
-    clients.forEach(client => {
+function carregarClientes() {
+    const clientes = JSON.parse(localStorage.getItem('clientes')) || [];
+    const selectCliente = document.getElementById('cliente');
+    selectCliente.innerHTML = '<option value="">Selecione um cliente</option>';
+    clientes.forEach(cliente => {
         const option = document.createElement('option');
-        option.value = client.id;
-        option.textContent = client.name;
-        option.setAttribute('data-phone', client.phone); // Adiciona o número de telefone ao atributo data-phone
-        clientSelect.appendChild(option);
+        option.value = cliente.id;
+        option.textContent = cliente.nome;
+        option.setAttribute('data-telefone', cliente.telefone); // Adiciona o número de telefone ao atributo data-telefone
+        selectCliente.appendChild(option);
     });
 
     // Adiciona um evento para filtrar os clientes com base na entrada de pesquisa
-    document.getElementById('clientSearch').addEventListener('input', function() {
-        const searchTerm = this.value.toLowerCase();
-        clientSelect.innerHTML = '<option value="">Selecione um cliente</option>';
-        clients.forEach(client => {
-            if (client.name.toLowerCase().includes(searchTerm)) {
+    document.getElementById('pesquisaCliente').addEventListener('input', function() {
+        const termoPesquisa = this.value.toLowerCase();
+        selectCliente.innerHTML = '<option value="">Selecione um cliente</option>';
+        clientes.forEach(cliente => {
+            if (cliente.nome.toLowerCase().includes(termoPesquisa)) {
                 const option = document.createElement('option');
-                option.value = client.id;
-                option.textContent = client.name;
-                option.setAttribute('data-phone', client.phone); // Adiciona o número de telefone ao atributo data-phone
-                clientSelect.appendChild(option);
+                option.value = cliente.id;
+                option.textContent = cliente.nome;
+                option.setAttribute('data-telefone', cliente.telefone); // Adiciona o número de telefone ao atributo data-telefone
+                selectCliente.appendChild(option);
             }
         });
     });
 }
 
 // Função para carregar os produtos do localStorage e preencher o select de produtos
-function loadProducts() {
-    const products = JSON.parse(localStorage.getItem('products')) || [];
-    const productSelect = document.getElementById('product');
-    productSelect.innerHTML = '<option value="">Selecione um produto</option>';
-    products.forEach(product => {
+function carregarProdutos() {
+    const produtos = JSON.parse(localStorage.getItem('produtos')) || [];
+    const selectProduto = document.getElementById('produto');
+    selectProduto.innerHTML = '<option value="">Selecione um produto</option>';
+    produtos.forEach(produto => {
         const option = document.createElement('option');
-        option.value = product.id;
-        option.textContent = `${product.name} - ${product.brand} - ${product.model}`;
-        option.setAttribute('data-price', product.price);
-        option.setAttribute('data-brand', product.brand);
-        option.setAttribute('data-model', product.model);
-        productSelect.appendChild(option);
+        option.value = produto.id;
+        option.textContent = `${produto.nome} - ${produto.marca} - ${produto.modelo}`;
+        option.setAttribute('data-preco', produto.preco);
+        option.setAttribute('data-marca', produto.marca);
+        option.setAttribute('data-modelo', produto.modelo);
+        selectProduto.appendChild(option);
     });
 
     // Adiciona um evento para filtrar os produtos com base na entrada de pesquisa
-    document.getElementById('productSearch').addEventListener('input', function() {
-        const searchTerm = this.value.toLowerCase();
-        productSelect.innerHTML = '<option value="">Selecione um produto</option>';
-        products.forEach(product => {
-            if (product.name.toLowerCase().includes(searchTerm) || product.brand.toLowerCase().includes(searchTerm) || product.model.toLowerCase().includes(searchTerm)) {
+    document.getElementById('pesquisaProduto').addEventListener('input', function() {
+        const termoPesquisa = this.value.toLowerCase();
+        selectProduto.innerHTML = '<option value="">Selecione um produto</option>';
+        produtos.forEach(produto => {
+            if (produto.nome.toLowerCase().includes(termoPesquisa) || produto.marca.toLowerCase().includes(termoPesquisa) || produto.modelo.toLowerCase().includes(termoPesquisa)) {
                 const option = document.createElement('option');
-                option.value = product.id;
-                option.textContent = `${product.name} - ${product.brand} - ${product.model}`;
-                option.setAttribute('data-price', product.price);
-                option.setAttribute('data-brand', product.brand);
-                option.setAttribute('data-model', product.model);
-                productSelect.appendChild(option);
+                option.value = produto.id;
+                option.textContent = `${produto.nome} - ${produto.marca} - ${produto.modelo}`;
+                option.setAttribute('data-preco', produto.preco);
+                option.setAttribute('data-marca', produto.marca);
+                option.setAttribute('data-modelo', produto.modelo);
+                selectProduto.appendChild(option);
             }
         });
     });
 }
 
 // Função para carregar os serviços do localStorage e preencher o select de serviços
-function loadServices() {
-    const services = JSON.parse(localStorage.getItem('services')) || [];
-    const serviceSelect = document.getElementById('service');
-    serviceSelect.innerHTML = '<option value="">Selecione um serviço</option>';
-    services.forEach(service => {
+function carregarServicos() {
+    const servicos = JSON.parse(localStorage.getItem('servicos')) || [];
+    const selectServico = document.getElementById('servico');
+    selectServico.innerHTML = '<option value="">Selecione um serviço</option>';
+    servicos.forEach(servico => {
         const option = document.createElement('option');
-        option.value = service.id;
-        option.textContent = service.serviceName;
-        option.setAttribute('data-price', service.price);
-        serviceSelect.appendChild(option);
+        option.value = servico.id;
+        option.textContent = servico.nomeServico;
+        option.setAttribute('data-preco', servico.preco);
+        selectServico.appendChild(option);
     });
 
     // Adiciona um evento para filtrar os serviços com base na entrada de pesquisa
-    document.getElementById('serviceSearch').addEventListener('input', function() {
-        const searchTerm = this.value.toLowerCase();
-        serviceSelect.innerHTML = '<option value="">Selecione um serviço</option>';
-        services.forEach(service => {
-            if (service.serviceName.toLowerCase().includes(searchTerm)) {
+    document.getElementById('pesquisaServico').addEventListener('input', function() {
+        const termoPesquisa = this.value.toLowerCase();
+        selectServico.innerHTML = '<option value="">Selecione um serviço</option>';
+        servicos.forEach(servico => {
+            if (servico.nomeServico.toLowerCase().includes(termoPesquisa)) {
                 const option = document.createElement('option');
-                option.value = service.id;
-                option.textContent = service.serviceName;
-                option.setAttribute('data-price', service.price);
-                serviceSelect.appendChild(option);
+                option.value = servico.id;
+                option.textContent = servico.nomeServico;
+                option.setAttribute('data-preco', servico.preco);
+                selectServico.appendChild(option);
             }
         });
     });
 }
 
 // Função para configurar os ouvintes de eventos
-function setupEventListeners() {
-    document.getElementById('addItemButton').addEventListener('click', addItem);
-    document.getElementById('saveBudgetButton').addEventListener('click', saveBudget);
-    document.getElementById('product').addEventListener('change', updatePrice);
-    document.getElementById('service').addEventListener('change', updatePrice);
-    document.getElementById('quantity').addEventListener('input', updatePrice);
-
-    document.getElementById('editAddItemButton').addEventListener('click', addEditItem);
+function configurarOuvintesEventos() {
+    document.getElementById('botaoAdicionarItem').addEventListener('click', adicionarItem);
+    document.getElementById('botaoSalvarOrcamento').addEventListener('click', salvarOrcamento);
+    document.getElementById('produto').addEventListener('change', atualizarPreco);
+    document.getElementById('servico').addEventListener('change', atualizarPreco);
+    document.getElementById('quantidade').addEventListener('input', atualizarPreco);
 }
 
-let budgetItems = [];
-let editItemIndex = -1;
+let itensOrcamento = [];
+let indiceItemEdicao = -1;
 
 // Função para adicionar um item ao orçamento
-function addItem() {
-    const productSelect = document.getElementById('product');
-    const quantityInput = document.getElementById('quantity');
-    const serviceSelect = document.getElementById('service');
-    const priceInput = document.getElementById('price');
+function adicionarItem() {
+    const selectProduto = document.getElementById('produto');
+    const inputQuantidade = document.getElementById('quantidade');
+    const selectServico = document.getElementById('servico');
+    const inputPreco = document.getElementById('preco');
 
-    const product = productSelect.options[productSelect.selectedIndex].text;
-    const quantity = parseInt(quantityInput.value);
-    const service = serviceSelect.options[serviceSelect.selectedIndex].text;
-    const price = parseFloat(priceInput.value).toFixed(2);
+    const produto = selectProduto.options[selectProduto.selectedIndex].text;
+    const quantidade = parseInt(inputQuantidade.value);
+    const servico = selectServico.options[selectServico.selectedIndex].text;
+    const preco = parseFloat(inputPreco.value).toFixed(2);
 
-    if (product && quantity && service && price) {
-        if (editItemIndex === -1) {
-            budgetItems.push({ product, quantity, service, price });
+    if (produto && quantidade && servico && preco) {
+        if (indiceItemEdicao === -1) {
+            itensOrcamento.push({ produto, quantidade, servico, preco });
         } else {
-            budgetItems[editItemIndex] = { product, quantity, service, price };
-            editItemIndex = -1;
+            itensOrcamento[indiceItemEdicao] = { produto, quantidade, servico, preco };
+            indiceItemEdicao = -1;
         }
-        updateBudgetItemsTable();
+        atualizarTabelaItensOrcamento();
         alert('Item adicionado ao orçamento!');
-        document.getElementById('budgetForm').reset();
+        document.getElementById('formularioOrcamento').reset();
     } else {
         alert('Por favor, selecione um produto, uma quantidade, um serviço e um preço válido.');
     }
 }
 
 // Função para atualizar a tabela de itens do orçamento
-function updateBudgetItemsTable() {
-    const budgetItemsTableBody = document.getElementById('budgetItemsTableBody');
-    budgetItemsTableBody.innerHTML = '';
+function atualizarTabelaItensOrcamento() {
+    const corpoTabelaItensOrcamento = document.getElementById('corpoTabelaItensOrcamento');
+    corpoTabelaItensOrcamento.innerHTML = '';
 
-    budgetItems.forEach((item, index) => {
-        const row = document.createElement('tr');
-        row.innerHTML = `
-            <td>${item.product}</td>
-            <td>${item.quantity}</td>
-            <td>${item.service}</td>
-            <td>R$ ${item.price}</td>
+    itensOrcamento.forEach((item, index) => {
+        const linha = document.createElement('tr');
+        linha.innerHTML = `
+            <td>${item.produto}</td>
+            <td>${item.quantidade}</td>
+            <td>${item.servico}</td>
+            <td>R$ ${item.preco}</td>
             <td>
-                <button onclick="editItem(${index})">Editar</button>
-                <button onclick="deleteItem(${index})">Deletar</button>
+                <button onclick="editarItem(${index})">Editar</button>
+                <button onclick="deletarItem(${index})">Deletar</button>
             </td>
         `;
-        budgetItemsTableBody.appendChild(row);
+        corpoTabelaItensOrcamento.appendChild(linha);
     });
 
-    updateTotalPrice();
+    atualizarPrecoTotal();
 }
 
 // Função para editar um item do orçamento
-function editItem(index) {
-    const item = budgetItems[index];
-    document.getElementById('product').value = item.product;
-    document.getElementById('quantity').value = item.quantity;
-    document.getElementById('service').value = item.service;
-    document.getElementById('price').value = item.price;
-    editItemIndex = index;
+function editarItem(index) {
+    const item = itensOrcamento[index];
+    document.getElementById('produto').value = item.produto;
+    document.getElementById('quantidade').value = item.quantidade;
+    document.getElementById('servico').value = item.servico;
+    document.getElementById('preco').value = item.preco;
+    indiceItemEdicao = index;
 }
 
 // Função para deletar um item do orçamento
-function deleteItem(index) {
-    budgetItems.splice(index, 1);
-    updateBudgetItemsTable();
+function deletarItem(index) {
+    itensOrcamento.splice(index, 1);
+    atualizarTabelaItensOrcamento();
 }
 
 // Função para salvar o orçamento
-function saveBudget() {
-    const budgetId = document.getElementById('budgetId').value;
-    const clientSelect = document.getElementById('client');
-    const statusSelect = document.getElementById('status');
-    const observationsInput = document.getElementById('observations');
+function salvarOrcamento() {
+    const orcamentoId = document.getElementById('orcamentoId').value;
+    const selectCliente = document.getElementById('cliente');
+    const selectStatus = document.getElementById('status');
+    const inputObservacoes = document.getElementById('observacoes');
 
-    const client = clientSelect.options[clientSelect.selectedIndex].text;
-    const status = statusSelect.value;
-    const observations = observationsInput.value;
+    const cliente = selectCliente.options[selectCliente.selectedIndex].text;
+    const status = selectStatus.value;
+    const observacoes = inputObservacoes.value;
 
-    const total = budgetItems.reduce((sum, item) => sum + parseFloat(item.price) * item.quantity, 0).toFixed(2);
+    const total = itensOrcamento.reduce((sum, item) => sum + parseFloat(item.preco) * item.quantidade, 0).toFixed(2);
 
-    const budgetData = {
-        id: budgetId ? budgetId : new Date().getTime(),
-        client: client,
-        items: budgetItems,
+    const dadosOrcamento = {
+        id: orcamentoId ? orcamentoId : new Date().getTime(),
+        cliente: cliente,
+        itens: itensOrcamento,
         status: status,
-        observations: observations,
+        observacoes: observacoes,
         total: total
     };
 
-    let budgets = JSON.parse(localStorage.getItem('budgets')) || [];
+    let orcamentos = JSON.parse(localStorage.getItem('orcamentos')) || [];
 
-    if (budgetId) {
-        const index = budgets.findIndex(budget => budget.id == budgetId);
-        budgets[index] = budgetData;
+    if (orcamentoId) {
+        const index = orcamentos.findIndex(orcamento => orcamento.id == orcamentoId);
+        orcamentos[index] = dadosOrcamento;
     } else {
-        budgets.unshift(budgetData); // Adiciona o novo orçamento no início da lista
+        orcamentos.unshift(dadosOrcamento); // Adiciona o novo orçamento no início da lista
     }
 
-    localStorage.setItem('budgets', JSON.stringify(budgets));
+    localStorage.setItem('orcamentos', JSON.stringify(orcamentos));
 
     alert('Orçamento salvo com sucesso!');
 
-    document.getElementById('budgetForm').reset();
-    budgetItems = [];
-    updateBudgetItemsTable();
-    loadBudgets(); // Atualizar a dashboard após salvar o orçamento
+    document.getElementById('formularioOrcamento').reset();
+    itensOrcamento = [];
+    atualizarTabelaItensOrcamento();
+    carregarOrcamentos(); // Atualizar a dashboard após salvar o orçamento
 }
 
 // Função para atualizar o preço total do orçamento
-function updateTotalPrice() {
-    let totalPrice = 0;
+function atualizarPrecoTotal() {
+    let precoTotal = 0;
 
-    budgetItems.forEach(item => {
-        totalPrice += parseFloat(item.price) * item.quantity;
+    itensOrcamento.forEach(item => {
+        precoTotal += parseFloat(item.preco) * item.quantidade;
     });
 
-    document.getElementById('totalPrice').textContent = `R$ ${totalPrice.toFixed(2)}`;
+    document.getElementById('precoTotal').textContent = `R$ ${precoTotal.toFixed(2)}`;
 }
 
 // Função para atualizar o preço com base no produto, serviço e quantidade selecionados
-function updatePrice() {
-    const productSelect = document.getElementById('product');
-    const serviceSelect = document.getElementById('service');
-    const quantityInput = document.getElementById('quantity');
-    const priceInput = document.getElementById('price');
+function atualizarPreco() {
+    const selectProduto = document.getElementById('produto');
+    const selectServico = document.getElementById('servico');
+    const inputQuantidade = document.getElementById('quantidade');
+    const inputPreco = document.getElementById('preco');
 
-    const productPrice = parseFloat(productSelect.options[productSelect.selectedIndex].getAttribute('data-price')) || 0;
-    const servicePrice = parseFloat(serviceSelect.options[serviceSelect.selectedIndex].getAttribute('data-price')) || 0;
-    const quantity = parseInt(quantityInput.value) || 1;
+    const precoProduto = parseFloat(selectProduto.options[selectProduto.selectedIndex].getAttribute('data-preco')) || 0;
+    const precoServico = parseFloat(selectServico.options[selectServico.selectedIndex].getAttribute('data-preco')) || 0;
+    const quantidade = parseInt(inputQuantidade.value) || 1;
 
-    const totalPrice = (productPrice * quantity) + servicePrice;
-    priceInput.value = totalPrice.toFixed(2);
+    const precoTotal = (precoProduto * quantidade) + precoServico;
+    inputPreco.value = precoTotal.toFixed(2);
 }
 
 // Função para carregar os orçamentos do localStorage e preencher a tabela da dashboard
-function loadBudgets() {
-    const budgets = JSON.parse(localStorage.getItem('budgets')) || [];
-    const dashboardTableBody = document.getElementById('dashboardTableBody');
-    dashboardTableBody.innerHTML = '';
+function carregarOrcamentos() {
+    const orcamentos = JSON.parse(localStorage.getItem('orcamentos')) || [];
+    const corpoTabelaDashboard = document.getElementById('corpoTabelaDashboard');
+    corpoTabelaDashboard.innerHTML = '';
 
-    budgets.forEach(budget => {
-        const row = document.createElement('tr');
-        row.innerHTML = `
-            <td>${budget.client}</td>
-            <td>${budget.items.map(item => item.product).join(', ')}</td>
-            <td>${budget.items.map(item => item.quantity).join(', ')}</td>
-            <td>${budget.items.map(item => item.service).join(', ')}</td>
-            <td>R$ ${budget.total}</td>
-            <td>${budget.status}</td>
-            <td>${budget.paymentMethod}</td>
+    orcamentos.forEach(orcamento => {
+        const linha = document.createElement('tr');
+        linha.innerHTML = `
+            <td>${orcamento.cliente}</td>
+            <td>${orcamento.itens.map(item => item.produto).join(', ')}</td>
+            <td>${orcamento.itens.map(item => item.quantidade).join(', ')}</td>
+            <td>${orcamento.itens.map(item => item.servico).join(', ')}</td>
+            <td>R$ ${orcamento.total}</td>
+            <td>${orcamento.status}</td>
+            <td>${orcamento.formaPagamento}</td>
             <td>
-                <button onclick="openEditBudgetModal(${budget.id})">Editar</button>
-                <button onclick="deleteBudget(${budget.id})">Deletar</button>
-                <button onclick="sendWhatsApp(${budget.id})">WhatsApp</button>
-                <button onclick="printBudget(${budget.id})">Imprimir</button>
+                <button onclick="deletarOrcamento(${orcamento.id})">Deletar</button>
             </td>
         `;
-        dashboardTableBody.appendChild(row);
+        corpoTabelaDashboard.appendChild(linha);
     });
-}
-
-// Função para abrir a janela modal de edição de orçamento
-function openEditBudgetModal(id) {
-    const modal = document.getElementById('editBudgetModal');
-    const closeModal = document.getElementById('closeModal');
-    const saveEditBudgetButton = document.getElementById('saveEditBudgetButton');
-
-    // Carregar os dados do orçamento para edição
-    const budgets = JSON.parse(localStorage.getItem('budgets')) || [];
-    const budget = budgets.find(budget => budget.id === id);
-
-    if (budget) {
-        document.getElementById('editBudgetId').value = budget.id;
-        document.getElementById('editStatus').value = budget.status;
-        document.getElementById('editTotal').value = budget.total;
-        editBudgetItems = budget.items;
-        updateEditBudgetItemsTable();
-    }
-
-    // Carregar os produtos e serviços para edição
-    loadEditProducts();
-    loadEditServices();
-
-    // Abrir a janela modal
-    modal.style.display = 'block';
-
-    // Fechar a janela modal ao clicar no botão de fechar
-    closeModal.onclick = function() {
-        modal.style.display = 'none';
-    }
-
-    // Fechar a janela modal ao clicar fora do conteúdo da modal
-    window.onclick = function(event) {
-        if (event.target == modal) {
-            modal.style.display = 'none';
-        }
-    }
-
-    // Salvar as alterações do orçamento
-    saveEditBudgetButton.onclick = function() {
-        const budgetId = document.getElementById('editBudgetId').value;
-        const status = document.getElementById('editStatus').value;
-        const total = document.getElementById('editTotal').value;
-
-        const updatedBudget = {
-            id: budgetId,
-            status: status,
-            items: editBudgetItems,
-            total: total
-        };
-
-        const index = budgets.findIndex(budget => budget.id == budgetId);
-        budgets[index] = updatedBudget;
-
-        localStorage.setItem('budgets', JSON.stringify(budgets));
-        alert('Orçamento atualizado com sucesso!');
-        modal.style.display = 'none';
-        loadBudgets();
-    }
-}
-
-// Função para carregar os produtos para edição
-function loadEditProducts() {
-    const products = JSON.parse(localStorage.getItem('products')) || [];
-    const productSelect = document.getElementById('editProduct');
-    productSelect.innerHTML = '<option value="">Selecione um produto</option>';
-    products.forEach(product => {
-        const option = document.createElement('option');
-        option.value = product.id;
-        option.textContent = `${product.name} - ${product.brand} - ${product.model}`;
-        option.setAttribute('data-price', product.price);
-        productSelect.appendChild(option);
-    });
-
-    // Adiciona um evento para filtrar os produtos com base na entrada de pesquisa
-    document.getElementById('editProductSearch').addEventListener('input', function() {
-        const searchTerm = this.value.toLowerCase();
-        productSelect.innerHTML = '<option value="">Selecione um produto</option>';
-        products.forEach(product => {
-            if (product.name.toLowerCase().includes(searchTerm) || product.brand.toLowerCase().includes(searchTerm) || product.model.toLowerCase().includes(searchTerm)) {
-                const option = document.createElement('option');
-                option.value = product.id;
-                option.textContent = `${product.name} - ${product.brand} - ${product.model}`;
-                option.setAttribute('data-price', product.price);
-                productSelect.appendChild(option);
-            }
-        });
-    });
-}
-
-// Função para carregar os serviços para edição
-function loadEditServices() {
-    const services = JSON.parse(localStorage.getItem('services')) || [];
-    const serviceSelect = document.getElementById('editService');
-    serviceSelect.innerHTML = '<option value="">Selecione um serviço</option>';
-    services.forEach(service => {
-        const option = document.createElement('option');
-        option.value = service.id;
-        option.textContent = service.serviceName;
-        option.setAttribute('data-price', service.price);
-        serviceSelect.appendChild(option);
-    });
-
-    // Adiciona um evento para filtrar os serviços com base na entrada de pesquisa
-    document.getElementById('editServiceSearch').addEventListener('input', function() {
-        const searchTerm = this.value.toLowerCase();
-        serviceSelect.innerHTML = '<option value="">Selecione um serviço</option>';
-        services.forEach(service => {
-            if (service.serviceName.toLowerCase().includes(searchTerm)) {
-                const option = document.createElement('option');
-                option.value = service.id;
-                option.textContent = service.serviceName;
-                option.setAttribute('data-price', service.price);
-                serviceSelect.appendChild(option);
-            }
-        });
-    });
-}
-
-let editBudgetItems = [];
-
-// Função para adicionar um item ao orçamento em edição
-function addEditItem() {
-    const productSelect = document.getElementById('editProduct');
-    const quantityInput = document.getElementById('editQuantity');
-    const serviceSelect = document.getElementById('editService');
-    const totalInput = document.getElementById('editTotal');
-
-    const product = productSelect.options[productSelect.selectedIndex].text;
-    const quantity = parseInt(quantityInput.value);
-    const service = serviceSelect.options[serviceSelect.selectedIndex].text;
-    const productPrice = parseFloat(productSelect.options[productSelect.selectedIndex].getAttribute('data-price'));
-    const servicePrice = parseFloat(serviceSelect.options[serviceSelect.selectedIndex].getAttribute('data-price'));
-    const totalPrice = (productPrice * quantity + servicePrice).toFixed(2);
-
-    if (product && quantity && service && totalPrice) {
-        editBudgetItems.push({ product, quantity, service, totalPrice });
-        updateEditBudgetItemsTable();
-        alert('Item adicionado ao orçamento!');
-        document.getElementById('editBudgetForm').reset();
-    } else {
-        alert('Por favor, selecione um produto, uma quantidade, um serviço e um preço válido.');
-    }
-}
-
-// Função para atualizar a tabela de itens do orçamento em edição
-function updateEditBudgetItemsTable() {
-    const budgetItemsTableBody = document.getElementById('editBudgetItemsTableBody');
-    budgetItemsTableBody.innerHTML = '';
-
-    editBudgetItems.forEach((item, index) => {
-        const row = document.createElement('tr');
-        row.innerHTML = `
-            <td>${item.product}</td>
-            <td>${item.quantity}</td>
-            <td>${item.service}</td>
-            <td>R$ ${item.totalPrice}</td>
-            <td>
-                <button onclick="editEditItem(${index})">Editar</button>
-                <button onclick="deleteEditItem(${index})">Deletar</button>
-            </td>
-        `;
-        budgetItemsTableBody.appendChild(row);
-    });
-
-    updateEditTotalPrice();
-}
-
-// Função para atualizar o preço total do orçamento em edição
-function updateEditTotalPrice() {
-    let totalPrice = 0;
-
-    editBudgetItems.forEach(item => {
-        totalPrice += parseFloat(item.totalPrice);
-    });
-
-    document.getElementById('editTotal').value = totalPrice.toFixed(2);
-}
-
-// Função para editar um item do orçamento em edição
-function editEditItem(index) {
-    const item = editBudgetItems[index];
-    document.getElementById('editProduct').value = item.product;
-    document.getElementById('editQuantity').value = item.quantity;
-    document.getElementById('editService').value = item.service;
-    document.getElementById('editTotal').value = item.totalPrice;
-    editItemIndex = index;
-}
-
-// Função para deletar um item do orçamento em edição
-function deleteEditItem(index) {
-    editBudgetItems.splice(index, 1);
-    updateEditBudgetItemsTable();
-}
-
-// Função para editar um orçamento
-function editBudget(id) {
-    localStorage.setItem('editBudgetId', id);
-    window.location.href = '../cadastro_orçamento/orcamentos.html';
-}
-
-// Função para carregar os dados do orçamento para edição
-function loadEditBudget() {
-    const budgetId = localStorage.getItem('editBudgetId');
-    if (budgetId) {
-        const budgets = JSON.parse(localStorage.getItem('budgets')) || [];
-        const budget = budgets.find(budget => budget.id == budgetId);
-
-        if (budget) {
-            document.getElementById('budgetId').value = budget.id;
-            document.getElementById('client').value = budget.client;
-            document.getElementById('status').value = budget.status;
-            document.getElementById('observations').value = budget.observations;
-            document.getElementById('paymentMethod').value = budget.paymentMethod;
-            budgetItems = budget.items;
-            updateBudgetItemsTable();
-        }
-
-        localStorage.removeItem('editBudgetId');
-    }
 }
 
 // Função para deletar um orçamento
-function deleteBudget(id) {
-    let budgets = JSON.parse(localStorage.getItem('budgets')) || [];
-    budgets = budgets.filter(budget => budget.id !== id);
-    localStorage.setItem('budgets', JSON.stringify(budgets));
-    loadBudgets();
+function deletarOrcamento(id) {
+    let orcamentos = JSON.parse(localStorage.getItem('orcamentos')) || [];
+    orcamentos = orcamentos.filter(orcamento => orcamento.id !== id);
+    localStorage.setItem('orcamentos', JSON.stringify(orcamentos));
+    carregarOrcamentos(); // Atualizar a dashboard após deletar o orçamento
 }
 
-// Função para enviar o orçamento via WhatsApp
-function sendWhatsApp(id) {
-    const budgets = JSON.parse(localStorage.getItem('budgets')) || [];
-    const budget = budgets.find(budget => budget.id === id);
+// Função para carregar os dados do orçamento para edição
+function carregarOrcamentoEdicao() {
+    const orcamentoId = localStorage.getItem('orcamentoEdicaoId');
+    if (orcamentoId) {
+        const orcamentos = JSON.parse(localStorage.getItem('orcamentos')) || [];
+        const orcamento = orcamentos.find(orcamento => orcamento.id == orcamentoId);
 
-    if (budget) {
-        const clientSelect = document.getElementById('client');
-        const clientOption = Array.from(clientSelect.options).find(option => option.text === budget.client);
-        const phone = clientOption ? clientOption.getAttribute('data-phone') : '';
+        if (orcamento) {
+            document.getElementById('orcamentoId').value = orcamento.id;
+            document.getElementById('cliente').value = orcamento.cliente;
+            document.getElementById('status').value = orcamento.status;
+            document.getElementById('observacoes').value = orcamento.observacoes;
+            document.getElementById('formaPagamento').value = orcamento.formaPagamento;
+            itensOrcamento = orcamento.itens;
+            atualizarTabelaItensOrcamento();
+        }
 
-        const message = `Orçamento para ${budget.client}:\n\n` +
-            budget.items.map(item => `${item.quantity}x ${item.product} (${item.service}) - R$ ${item.price}`).join('\n') +
-            `\n\nTotal: R$ ${budget.total}\nStatus: ${budget.status}\nObservações: ${budget.observations}`;
-
-        const whatsappUrl = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
-        window.open(whatsappUrl, '_blank');
-    }
-}
-
-// Função para imprimir o orçamento
-function printBudget(id) {
-    const budgets = JSON.parse(localStorage.getItem('budgets')) || [];
-    const budget = budgets.find(budget => budget.id === id);
-
-    if (budget) {
-        const doc = new jsPDF();
-        doc.text(`Orçamento para ${budget.client}`, 10, 10);
-        let y = 20;
-        budget.items.forEach(item => {
-            doc.text(`${item.quantity}x ${item.product} (${item.service}) - R$ ${item.price}`, 10, y);
-            y += 10;
-        });
-        doc.text(`Total: R$ ${budget.total}`, 10, y + 10);
-        doc.text(`Status: ${budget.status}`, 10, y + 20);
-        doc.text(`Observações: ${budget.observations}`, 10, y + 30);
-        doc.save(`Orçamento_${budget.client}.pdf`);
+        localStorage.removeItem('orcamentoEdicaoId');
     }
 }
