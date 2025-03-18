@@ -1,79 +1,75 @@
 <!DOCTYPE html>
 <html lang="pt-br">
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="style.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
     <title>Serviços - Tech Cell Center Brasil</title>
   </head>
   <body>
     <header>
-      <nav class="navegation">
+      <nav class="navegacao">
         <!-- Link para a página inicial -->
         <a href="../dashboard.html" class="logo" title="logo">
-          Tech Cell Center <span>Brasil</span></a
-        >
-        <ul class="nav-menu">
+          Tech Cell Center <span>Brasil</span></a>
+        <ul class="menu-navegacao">
           <!-- Link para a página inicial -->
-          <li class="nav-item">
+          <li class="item-navegacao">
             <a href="../dashboard.html" onclick="fecharMenu()" title="dashboard"> Dashboard</a>
           </li>
           <!-- Link para a página de clientes -->
-          <li class="nav-item">
+          <li class="item-navegacao">
             <a href="../cadastro_cliente/cliente.html" onclick="fecharMenu()" title="clientes">
               Clientes
             </a>
           </li>
           <!-- Link para a página de produtos -->
-          <li class="nav-item">
+          <li class="item-navegacao">
             <a href="../cadastro_produto/produto.html" onclick="fecharMenu()" title="produtos">
-              Produtos</a
-            >
+              Produtos</a>
           </li>
           <!-- Link para a página de serviços -->
-          <li class="nav-item">
-            <a href="../cadastro_serviço/servico.html" onclick="fecharMenu()" title="serviços">
-              Serviços</a
-            >
+          <li class="item-navegacao">
+            <a href="serviço.html" onclick="fecharMenu()" title="serviços">
+              Serviços</a>
           </li>
           <!-- Link para a página de solicitação de orçamento -->
-          <li class="nav-item">
-            <a href="../cadastro_orçamento/orcamentos.html" onclick="fecharMenu()" title="orçamento"
-              >Solicitar Orçamento</a
-            >
+          <li class="item-navegacao">
+            <a href="../cadastro_orçamento/orcamentos.html" onclick="fecharMenu()" title="orçamento">
+              Solicitar Orçamento</a>
           </li>
         </ul>
 
         <!-- Menu de hambúrguer para dispositivos móveis -->
         <div class="menu" id="menuToggle">
-          <span class="bar"></span>
-          <span class="bar"></span>
-          <span class="bar"></span>
+          <span class="barra"></span>
+          <span class="barra"></span>
+          <span class="barra"></span>
         </div>
       </nav>
     </header>
-    <main>
+    <main class="principal">
       <!-- Botão para mostrar o formulário de adicionar serviço -->
-      <button id="showFormButton" class="show-form-button">Adicionar Serviço</button>
+      <button id="botaoMostrarFormulario" class="botao-mostrar-formulario">Adicionar Serviço</button>
       <!-- Seção do formulário de adicionar serviço -->
-      <section class="service-form" id="serviceFormSection" style="display: none;">
+      <section class="formulario-servico" id="secaoFormularioServico" style="display: none;">
         <h2>Adicionar Serviço</h2>
-        <form id="serviceForm">
-          <input type="hidden" id="serviceId" name="serviceId" />
-          <label for="serviceName">Nome do Serviço:</label>
-          <input type="text" id="serviceName" name="serviceName" required />
+        <form id="formularioServico">
+          <input type="hidden" id="idServico" name="idServico" />
+          <label for="nomeServico">Nome do Serviço:</label>
+          <input type="text" id="nomeServico" name="nomeServico" required />
 
-          <label for="description">Descrição:</label>
-          <input type="text" id="description" name="description" required />
+          <label for="descricao">Descrição:</label>
+          <input type="text" id="descricao" name="descricao" required />
 
-          <label for="price">Preço:</label>
-          <input type="number" id="price" name="price" step="0.01" required />
+          <label for="preco">Preço:</label>
+          <input type="number" id="preco" name="preco" step="0.01" required />
 
-          <label for="baseTime">Tempo Base (em Dias):</label>
-          <input type="number" id="baseTime" name="baseTime" step="0.1" required />
+          <label for="tempoBase">Tempo Base (em Dias):</label>
+          <input type="number" id="tempoBase" name="tempoBase" step="0.1" required />
 
-          <label for="category">Categoria:</label>
-          <select id="category" name="category" required>
+          <label for="categoria">Categoria:</label>
+          <select id="categoria" name="categoria" required>
             <option value="Serviços de Celulares">Serviços de Celulares</option>
             <option value="Serviços para PC Gamer">Serviços para PC Gamer</option>
             <option value="Notebooks e Computadores">Notebooks e Computadores</option>
@@ -83,10 +79,10 @@
         </form>
       </section>
       <!-- Seção da tabela de serviços cadastrados -->
-      <section class="service-table">
+      <section class="tabela-servico">
         <h2>Serviços Cadastrados</h2>
-        <input type="text" id="searchInput" placeholder="Buscar por nome ou descrição..." />
-        <div class="table-container">
+        <input type="text" id="inputBusca" placeholder="Buscar por nome ou descrição..." />
+        <div class="contêiner-tabela">
           <table>
             <thead>
               <tr>
@@ -99,7 +95,7 @@
                 <th>Ações</th>
               </tr>
             </thead>
-            <tbody id="serviceTableBody">
+            <tbody id="corpoTabelaServicos">
               <!-- Os dados dos serviços serão inseridos aqui pelo JavaScript -->
             </tbody>
           </table>
@@ -111,19 +107,19 @@
       document.addEventListener('DOMContentLoaded', function() {
         // Menu toggle
         const menuToggle = document.getElementById('menuToggle');
-        const navMenu = document.querySelector('.nav-menu');
+        const navMenu = document.querySelector('.menu-navegacao');
 
         menuToggle.addEventListener('click', function() {
           navMenu.classList.toggle('ativo');
           menuToggle.classList.toggle('ativo');
         });
 
-        loadServices();
-        setupEventListeners();
+        carregarServicos();
+        configurarOuvintesEventos();
       });
 
       function fecharMenu() {
-        const navMenu = document.querySelector('.nav-menu');
+        const navMenu = document.querySelector('.menu-navegacao');
         const menuToggle = document.getElementById('menuToggle');
         navMenu.classList.remove('ativo');
         menuToggle.classList.remove('ativo');

@@ -19,7 +19,7 @@ body {
 
 /*=================== MENU ===================*/
 /* Estilos para a navegação */
-.navegation {
+.navegacao {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -32,7 +32,7 @@ body {
 }
 
 /* Estilos para o logo */
-.navegation .logo {
+.navegacao .logo {
   color: #ffffff;
   font-size: 1.7rem;
   font-weight: 200;
@@ -46,14 +46,14 @@ body {
 }
 
 /* Estilos para a lista de navegação */
-.navegation ul {
+.menu-navegacao {
   display: flex;
   align-items: center;
   gap: 4rem;
 }
 
 /* Estilos para os links da navegação */
-.navegation ul li a {
+.menu-navegacao .item-navegacao a {
   color: #ffffff;
   font-size: 1rem;
   font-weight: 300;
@@ -62,7 +62,7 @@ body {
 }
 
 /* Estilos para o efeito hover nos links da navegação */
-.navegation ul li a::after {
+.menu-navegacao .item-navegacao a::after {
   content: '';
   position: absolute;
   width: 0;
@@ -76,7 +76,7 @@ body {
 }
 
 /* Estilos para o efeito hover nos links da navegação */
-.navegation ul li a:hover::after {
+.menu-navegacao .item-navegacao a:hover::after {
   width: 100%;
   left: 0;
   background: #ff4800;
@@ -89,7 +89,7 @@ body {
 }
 
 /* Estilos para as barras do menu de hambúrguer */
-.menu .bar {
+.menu .barra {
   display: block;
   width: 28px;
   height: 3px;
@@ -100,24 +100,24 @@ body {
 }
 
 /* Estilos para as barras do menu de hambúrguer */
-.menu .bar:nth-child(1), .menu .bar:nth-child(3) {
+.menu .barra:nth-child(1), .menu .barra:nth-child(3) {
   background-color: #ff4800;
 }
 
 /*=================== Responsividade ===================*/ 
 @media (max-width: 900px) {
   /* Estilos para o logo em telas menores */
-  .navegation .logo {
+  .navegacao .logo {
     font-size: 1.5rem;
   }
 
   /* Estilos para o span dentro do logo em telas menores */
-  .navegation span {
+  .navegacao span {
     font-size: 0.9rem;
   }
 
   /* Estilos para a navegação em telas menores */
-  .navegation {
+  .navegacao {
     padding: 18px 20px;
   }
 
@@ -128,20 +128,20 @@ body {
   }
 
   /* Estilos para o menu de hambúrguer ativo */
-  .menu.ativo .bar:nth-child(1) {
+  .menu.ativo .barra:nth-child(1) {
     transform: translateY(8px) rotate(45deg);
   }
 
-  .menu.ativo .bar:nth-child(2) {
+  .menu.ativo .barra:nth-child(2) {
     opacity: 0;
   }
 
-  .menu.ativo .bar:nth-child(3) {
+  .menu.ativo .barra:nth-child(3) {
     transform: translateY(-8px) rotate(-45deg);
   }
 
   /* Estilos para o menu de navegação em telas menores */
-  .nav-menu {
+  .menu-navegacao {
     position: fixed;
     right: -100%;
     top: 60px;
@@ -155,23 +155,23 @@ body {
   }
 
   /* Estilos para o menu de navegação ativo em telas menores */
-  .nav-menu.ativo {
+  .menu-navegacao.ativo {
     right: 0;
   }
 
   /* Estilos para os itens da navegação em telas menores */
-  .nav-item {
+  .item-navegacao {
     margin: 1rem 0;
   }
 }
 
 /* Estilos para o elemento main */
-main {
-  padding:80px 0px 16px;
+.principal {
+  padding: 80px 0px 16px;
 }
 
 /* Estilos para o botão de mostrar formulário */
-.show-form-button {
+.botao-mostrar-formulario {
   margin: 20px;
   padding: 10px 20px;
   background-color: #ff4800;
@@ -183,12 +183,12 @@ main {
 }
 
 /* Estilos para o hover do botão de mostrar formulário */
-.show-form-button:hover {
+.botao-mostrar-formulario:hover {
   background-color: #ff4800cc;
 }
 
 /* Estilos para o formulário de serviço e a tabela de serviços */
-.service-form, .service-table {
+.formulario-servico, .tabela-servico {
   margin: 20px;
   padding: 20px;
   background-color: #fff;
@@ -197,19 +197,19 @@ main {
 }
 
 /* Estilos para os títulos das seções de formulário e tabela de serviços */
-.service-form h2, .service-table h2 {
+.formulario-servico h2, .tabela-servico h2 {
   margin-top: 0;
 }
 
 /* Estilos para os labels do formulário de serviço */
-.service-form label {
+.formulario-servico label {
   display: block;
   margin-bottom: 5px;
   font-weight: 500;
 }
 
 /* Estilos para os inputs e selects do formulário de serviço */
-.service-form input, .service-form select {
+.formulario-servico input, .formulario-servico select {
   width: 100%;
   padding: 10px;
   margin-bottom: 10px;
@@ -218,7 +218,7 @@ main {
 }
 
 /* Estilos adicionais para o select do formulário de serviço */
-.service-form select {
+.formulario-servico select {
   appearance: none;
   background-color: #fff;
   background-image: url('data:image/svg+xml;charset=US-ASCII,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 4 5"><path fill="%23333" d="M2 0L0 2h4zm0 5L0 3h4z"/></svg>');
@@ -228,7 +228,7 @@ main {
 }
 
 /* Estilos para o botão do formulário de serviço */
-.service-form button {
+.formulario-servico button {
   padding: 10px 20px;
   background-color: #ff4800;
   color: #fff;
@@ -239,12 +239,12 @@ main {
 }
 
 /* Estilos para o hover do botão do formulário de serviço */
-.service-form button:hover {
+.formulario-servico button:hover {
   background-color: #ff4800;
 }
 
 /* Estilos para o input de busca da tabela de serviços */
-.service-table input {
+.tabela-servico input {
   width: 100%;
   padding: 10px;
   margin-bottom: 10px;
@@ -253,35 +253,35 @@ main {
 }
 
 /* Estilos para o contêiner da tabela */
-.table-container {
+.contêiner-tabela {
   overflow-x: auto;
 }
 
 /* Estilos para a tabela de serviços */
-.service-table table {
+.tabela-servico table {
   width: 100%;
   border-collapse: collapse;
   min-width: 600px; /* Define uma largura mínima para a tabela */
 }
 
 /* Estilos para as células da tabela de serviços */
-.service-table th, .service-table td {
+.tabela-servico th, .tabela-servico td {
   padding: 10px;
   border-bottom: 1px solid #ddd;
 }
 
 /* Estilos para as linhas pares da tabela de serviços */
-.service-table tr:nth-child(even) {
+.tabela-servico tr:nth-child(even) {
   background-color: #f9f9f9;
 }
 
 /* Estilos para o hover das linhas da tabela de serviços */
-.service-table tr:hover {
+.tabela-servico tr:hover {
   background-color: #f1f1f1;
 }
 
 /* Estilos para os botões de ações na tabela de serviços */
-.service-table .actions button {
+.tabela-servico .acoes button {
   margin-right: 5px;
   padding: 5px 10px;
   border: none;
@@ -291,24 +291,24 @@ main {
 }
 
 /* Estilos para os botões de edição na tabela de serviços */
-.service-table .actions .edit {
+.tabela-servico .acoes .editar {
   background-color: #ffc107;
   color: #fff;
   margin-bottom: 5px;
 }
 
 /* Estilos para o hover dos botões de edição na tabela de serviços */
-.service-table .actions .edit:hover {
+.tabela-servico .acoes .editar:hover {
   background-color: #e0a800;
 }
 
 /* Estilos para os botões de exclusão na tabela de serviços */
-.service-table .actions .delete {
+.tabela-servico .acoes .deletar {
   background-color: #dc3545;
   color: #fff;
 }
 
 /* Estilos para o hover dos botões de exclusão na tabela de serviços */
-.service-table .actions .delete:hover {
+.tabela-servico .acoes .deletar:hover {
   background-color: #c82333;
 }
