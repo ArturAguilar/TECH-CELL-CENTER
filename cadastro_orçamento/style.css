@@ -141,7 +141,7 @@ body {
   }
 
   /* Estilos para o menu de navegação em telas menores */
-  .menu-navegacao {
+  .menu-nav {
     position: fixed;
     right: -100%;
     top: 60px;
@@ -155,25 +155,25 @@ body {
   }
 
   /* Estilos para o menu de navegação ativo em telas menores */
-  .menu-navegacao.ativo {
+  .menu-nav.ativo {
     right: 0;
   }
 
   /* Estilos para os itens da navegação em telas menores */
-  .item-navegacao {
+  .item-nav {
     margin: 1rem 0;
   }
 }
 
 /* Estilos para o elemento main */
 main {
-  padding: 80px 0px 16px;
+  padding: 5rem 0rem 1rem; /* 80px 0px 16px */
 }
 
-/* Estilos para o botão de adicionar orçamento */
-.botao-mostrar-formulario {
-  margin: 20px;
-  padding: 10px 20px;
+/* Estilos para o botão de mostrar formulário */
+.mostrar-formulario-botao {
+  margin: 1.25rem; /* 20px */
+  padding: 0.625rem 1.25rem; /* 10px 20px */
   background-color: #ff4800;
   color: #fff;
   border: none;
@@ -182,41 +182,37 @@ main {
   transition: background-color 0.3s;
 }
 
-/* Estilos para o hover do botão de adicionar orçamento */
-.botao-mostrar-formulario:hover {
+/* Estilos para o hover do botão de mostrar formulário */
+.mostrar-formulario-botao:hover {
   background-color: #ff4800cc;
 }
 
-/* Estilos para o formulário de orçamento */
-.formulario-orcamento {
-  margin: 20px;
-  padding: 20px;
+/* Estilos para o formulário de orçamento e a tabela de orçamentos */
+.formulario-orcamento, .tabela-orcamento {
+  margin: 1.25rem; /* 20px */
+  padding: 1.25rem; /* 20px */
   background-color: #fff;
   border-radius: 5px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
-/* Estilos para o título do formulário de orçamento */
-.formulario-orcamento h2 {
+/* Estilos para os títulos das seções de formulário e tabela de orçamentos */
+.formulario-orcamento h2, .tabela-orcamento h2 {
   margin-top: 0;
-  margin-bottom: 20px;
-  font-size: 1.5rem;
-  color: #333;
 }
 
 /* Estilos para os labels do formulário de orçamento */
 .formulario-orcamento label {
   display: block;
-  margin-bottom: 5px;
+  margin-bottom: 0.3125rem; /* 5px */
   font-weight: 500;
-  color: #333;
 }
 
-/* Estilos para os inputs, selects e textarea do formulário de orçamento */
+/* Estilos para os inputs do formulário de orçamento */
 .formulario-orcamento input, .formulario-orcamento select, .formulario-orcamento textarea {
   width: 100%;
-  padding: 10px;
-  margin-bottom: 10px;
+  padding: 0.625rem; /* 10px */
+  margin-bottom: 0.625rem; /* 10px */
   border: 1px solid #ccc;
   border-radius: 4px;
 }
@@ -228,7 +224,7 @@ main {
 
 /* Estilos para os botões do formulário de orçamento */
 .formulario-orcamento button {
-  padding: 10px 20px;
+  padding: 0.625rem 1.25rem; /* 10px 20px */
   background-color: #ff4800;
   color: #fff;
   border: none;
@@ -239,13 +235,13 @@ main {
 
 /* Estilos para o hover dos botões do formulário de orçamento */
 .formulario-orcamento button:hover {
-  background-color: #ff4800;
+  background-color: #ff4800cc;
 }
 
 /* Estilos para o contêiner da tabela de itens do orçamento */
-.formulario-orcamento .contêiner-tabela {
+.formulario-orcamento .tabela-container {
   overflow-x: auto;
-  margin-top: 20px;
+  margin-top: 1.25rem; /* 20px */
 }
 
 /* Estilos para a tabela de itens do orçamento */
@@ -257,7 +253,7 @@ main {
 
 /* Estilos para as células da tabela de itens do orçamento */
 .formulario-orcamento th, .formulario-orcamento td {
-  padding: 10px;
+  padding: 0.625rem; /* 10px */
   border-bottom: 1px solid #ddd;
 }
 
@@ -273,8 +269,8 @@ main {
 
 /* Estilos para os botões de ações na tabela de itens do orçamento */
 .formulario-orcamento .acoes button {
-  margin-right: 5px;
-  padding: 5px 10px;
+  margin-right: 0.3125rem; /* 5px */
+  padding: 0.3125rem 0.625rem; /* 5px 10px */
   border: none;
   border-radius: 5px;
   cursor: pointer;
@@ -285,6 +281,7 @@ main {
 .formulario-orcamento .acoes .editar {
   background-color: #ffc107;
   color: #fff;
+  margin-bottom: 0.3125rem; /* 5px */
 }
 
 /* Estilos para o hover dos botões de edição na tabela de itens do orçamento */
@@ -293,19 +290,19 @@ main {
 }
 
 /* Estilos para os botões de exclusão na tabela de itens do orçamento */
-.formulario-orcamento .acoes .excluir {
+.formulario-orcamento .acoes .deletar {
   background-color: #dc3545;
   color: #fff;
 }
 
 /* Estilos para o hover dos botões de exclusão na tabela de itens do orçamento */
-.formulario-orcamento .acoes .excluir:hover {
+.formulario-orcamento .acoes .deletar:hover {
   background-color: #c82333;
 }
 
 /* Estilos para o título do total do orçamento */
 .formulario-orcamento h3 {
-  margin-top: 20px;
+  margin-top: 1.25rem; /* 20px */
   font-size: 1.2rem;
   color: #333;
 }
@@ -318,85 +315,43 @@ main {
 
 /* Estilos para a tabela de orçamentos */
 .tabela-orcamento {
-  margin: 20px;
-  padding: 20px;
-  background-color: #fff;
-  border-radius: 5px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  margin-top: 1.25rem; /* 20px */
 }
 
-/* Estilos para o título da tabela de orçamentos */
 .tabela-orcamento h2 {
-  margin-top: 0;
+  margin-bottom: 0.625rem; /* 10px */
   font-size: 1.5rem;
   color: #333;
 }
 
-/* Estilos para o input de busca da tabela de orçamentos */
-.tabela-orcamento input {
-  width: 100%;
-  padding: 10px;
-  margin-bottom: 20px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-}
-
-/* Estilos para o contêiner da tabela de orçamentos */
-.tabela-orcamento .contêiner-tabela {
+.container-tabela {
   overflow-x: auto;
 }
 
-/* Estilos para a tabela de orçamentos */
-.tabela-orcamento table {
+.container-tabela table {
   width: 100%;
   border-collapse: collapse;
-  min-width: 600px; /* Define uma largura mínima para a tabela */
+  margin-top: 0.625rem; /* 10px */
+  font-size: 0.9em;
+  font-family: 'Poppins', sans-serif;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
 }
 
-/* Estilos para as células da tabela de orçamentos */
-.tabela-orcamento th, .tabela-orcamento td {
-  padding: 10px;
+.container-tabela th, .container-tabela td {
+  padding: 0.625rem; /* 10px */
+  text-align: left;
   border-bottom: 1px solid #ddd;
 }
 
-/* Estilos para as linhas pares da tabela de orçamentos */
-.tabela-orcamento tr:nth-child(even) {
-  background-color: #f9f9f9;
+.container-tabela th {
+  background-color: #ff4800;
+  color: #ffffff;
 }
 
-/* Estilos para o hover das linhas da tabela de orçamentos */
-.tabela-orcamento tr:hover {
+.container-tabela tr:nth-child(even) {
+  background-color: #f3f3f3;
+}
+
+.container-tabela tr:hover {
   background-color: #f1f1f1;
-}
-
-/* Estilos para os botões de ações na tabela de orçamentos */
-.tabela-orcamento .acoes button {
-  margin-right: 5px;
-  padding: 5px 10px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s;
-}
-
-/* Estilos para os botões de edição na tabela de orçamentos */
-.tabela-orcamento .acoes .editar {
-  background-color: #ffc107;
-  color: #fff;
-}
-
-/* Estilos para o hover dos botões de edição na tabela de orçamentos */
-.tabela-orcamento .acoes .editar:hover {
-  background-color: #e0a800;
-}
-
-/* Estilos para os botões de exclusão na tabela de orçamentos */
-.tabela-orcamento .acoes .deletar {
-  background-color: #dc3545;
-  color: #fff;
-}
-
-/* Estilos para o hover dos botões de exclusão na tabela de orçamentos */
-.tabela-orcamento .acoes .deletar:hover {
-  background-color: #c82333;
 }
