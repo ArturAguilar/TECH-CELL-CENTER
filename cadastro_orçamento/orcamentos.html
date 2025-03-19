@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <title>Orçamentos - Tech Cell Center Brasil</title>
+  </head>
+  <body>
+    <header>
+      <nav class="navegacao">
+        <!-- Link para a página inicial -->
+        <a href="../index.html" class="logo" title="logo">
+          Tech Cell Center <span>Brasil</span></a
+        >
+        <ul class="menu-navegacao">
+          <!-- Link para a página inicial -->
+          <li class="item-navegacao">
+            <a href="../index.html" onclick="fecharMenu()" title="dashboard"> Dashboard</a>
+          </li>
+          <!-- Link para a página de clientes -->
+          <li class="item-navegacao">
+            <a href="../cadastro_cliente/cliente.html" onclick="fecharMenu()" title="clientes">
+              Clientes
+            </a>
+          </li>
+          <!-- Link para a página de produtos -->
+          <li class="item-navegacao">
+            <a href="../cadastro_produto/produto.html" onclick="fecharMenu()" title="produtos">
+              Produtos</a>
+          </li>
+          <!-- Link para a página de serviços -->
+          <li class="item-navegacao">
+            <a href="../cadastro_serviço/serviço.html" onclick="fecharMenu()" title="serviços">
+              Serviços</a>
+          </li>
+          <!-- Link para a página de solicitação de orçamento -->
+          <li class="item-navegacao">
+            <a href="../cadastro_orçamento/orcamentos.html" onclick="fecharMenu()" title="orçamento"
+              >Solicitar Orçamento</a
+            >
+          </li>
+        </ul>
+
+        <!-- Menu de hambúrguer para dispositivos móveis -->
+        <div class="menu" id="menuToggle">
+          <span class="barra"></span>
+          <span class="barra"></span>
+          <span class="barra"></span>
+        </div>
+      </nav>
+    </header>
+    <main>
+      <!-- Botão para mostrar o formulário de adicionar orçamento -->
+      <button id="botaoMostrarFormularioOrcamento" class="botao-mostrar-formulario">Adicionar Orçamento</button>
+      <!-- Seção do formulário de adicionar orçamento -->
+      <section class="formulario-orcamento" id="secaoFormularioOrcamento" style="display: none;">
+        <h2>Adicionar Orçamento</h2>
+        <form id="formularioOrcamento">
+          <input type="hidden" id="idOrcamento" name="idOrcamento" />
+          
+          <!-- Campo de pesquisa de cliente -->
+          <label for="pesquisaCliente">Pesquisar Cliente:</label>
+          <input type="text" id="pesquisaCliente" name="pesquisaCliente" placeholder="Digite o nome do cliente..." />
+
+          <!-- Seleção de cliente -->
+          <label for="cliente">Cliente:</label>
+          <select id="cliente" name="cliente" required>
+            <option value="">Selecione um cliente</option>
+          </select>
+
+          <!-- Seleção de status -->
+          <label for="status">Status:</label>
+          <select id="status" name="status" required>
+            <option value="Pendente">Pendente</option>
+            <option value="Aprovado">Aprovado</option>
+            <option value="Rejeitado">Rejeitado</option>
+          </select>
+
+          <!-- Campo de observações -->
+          <label for="observacoes">Observações:</label>
+          <textarea id="observacoes" name="observacoes"></textarea>
+
+          <h3>Itens do Orçamento</h3>
+          
+          <!-- Campo de pesquisa de produto -->
+          <label for="pesquisaProduto">Pesquisar Produto:</label>
+          <input type="text" id="pesquisaProduto" name="pesquisaProduto" placeholder="Digite o nome do produto..." />
+
+          <!-- Seleção de produto -->
+          <label for="produto">Produto:</label>
+          <select id="produto" name="produto">
+            <option value="">Selecione um produto</option>
+          </select>
+
+          <!-- Campo de quantidade -->
+          <label for="quantidade">Quantidade:</label>
+          <input type="number" id="quantidade" name="quantidade" min="1" value="1" />
+
+          <!-- Campo de pesquisa de serviço -->
+          <label for="pesquisaServico">Pesquisar Serviço:</label>
+          <input type="text" id="pesquisaServico" name="pesquisaServico" placeholder="Digite o nome do serviço..." />
+
+          <!-- Seleção de serviço -->
+          <label for="servico">Serviço:</label>
+          <select id="servico" name="servico">
+            <option value="">Selecione um serviço</option>
+          </select>
+
+          <!-- Seleção de forma de pagamento -->
+          <label for="formaPagamento">Forma de Pagamento:</label>
+          <select id="formaPagamento" name="formaPagamento" required>
+            <option value="Dinheiro">Dinheiro</option>
+            <option value="Cartão de Crédito">Cartão de Crédito</option>
+            <option value="Cartão de Débito">Cartão de Débito</option>
+            <option value="Pix">Pix</option>
+            <option value="Boleto">Boleto</option>
+          </select>
+
+          <!-- Campo de preço -->
+          <label for="total">Total:</label>
+          <input type="number" id="total" name="preco" step="0.01" readonly />
+
+          <!-- Botão para adicionar item -->
+          <button type="button" id="botaoAdicionarItem">Adicionar Item</button>
+
+          <!-- Tabela de itens do orçamento -->
+          <div class="contêiner-tabela">
+            <table>
+              <thead>
+                <tr>
+                  <th>Produto</th>
+                  <th>Quantidade</th>
+                  <th>Serviço</th>
+                  <th>Total</th>
+                  <th>Ações</th>
+                </tr>
+              </thead>
+              <tbody id="corpoTabelaItensOrcamento">
+                <!-- Os itens serão adicionados aqui pelo JavaScript -->
+              </tbody>
+            </table>
+          </div>
+
+          <h3>Total: <span id="precoTotal">R$ 0.00</span></h3>
+
+          <!-- Botão para salvar orçamento -->
+          <button type="button" id="botaoSalvarOrcamento">Salvar Orçamento</button>
+        </form>
+      </section>
+      <!-- Seção da tabela de orçamentos cadastrados -->
+      <section class="tabela-orcamento">
+        <h2>Orçamentos Cadastrados</h2>
+        <input type="text" id="inputBuscaOrcamento" placeholder="Buscar por cliente ou status..." />
+        <div class="contêiner-tabela">
+          <table>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Cliente</th>
+                <th>Status</th>
+                <th>Observações</th>
+                <th>Total</th>
+                <th>Ações</th>
+              </tr>
+            </thead>
+            <tbody id="corpoTabelaOrcamentos">
+              <!-- Os dados dos orçamentos serão inseridos aqui pelo JavaScript -->
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+    <script src="script.js"></script>
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        // Menu toggle
+        const menuToggle = document.getElementById('menuToggle');
+        const navMenu = document.querySelector('.menu-navegacao');
+
+        menuToggle.addEventListener('click', function() {
+          navMenu.classList.toggle('ativo');
+          menuToggle.classList.toggle('ativo');
+        });
+
+        carregarClientes();
+    carregarProdutos();
+    carregarServicos();
+    carregarOrcamentos();
+    configurarOuvintesEventos();
+      });
+
+      function fecharMenu() {
+        const navMenu = document.querySelector('.menu-navegacao');
+        const menuToggle = document.getElementById('menuToggle');
+        navMenu.classList.remove('ativo');
+        menuToggle.classList.remove('ativo');
+      }
+    </script>
+  </body>
+</html>

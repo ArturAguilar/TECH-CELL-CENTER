@@ -46,14 +46,14 @@ body {
 }
 
 /* Estilos para a lista de navegação */
-.menu-navegacao {
+.navegacao ul {
   display: flex;
   align-items: center;
   gap: 4rem;
 }
 
 /* Estilos para os links da navegação */
-.menu-navegacao .item-navegacao a {
+.navegacao ul li a {
   color: #ffffff;
   font-size: 1rem;
   font-weight: 300;
@@ -62,7 +62,7 @@ body {
 }
 
 /* Estilos para o efeito hover nos links da navegação */
-.menu-navegacao .item-navegacao a::after {
+.navegacao ul li a::after {
   content: '';
   position: absolute;
   width: 0;
@@ -76,7 +76,7 @@ body {
 }
 
 /* Estilos para o efeito hover nos links da navegação */
-.menu-navegacao .item-navegacao a:hover::after {
+.navegacao ul li a:hover::after {
   width: 100%;
   left: 0;
   background: #ff4800;
@@ -149,7 +149,7 @@ body {
     height: 100%;
     flex-direction: column;
     background-color: #000;
-    gap: 3rem;
+    gap: 1rem;
     transition: 0.3s;
     z-index: 1;
   }
@@ -166,11 +166,11 @@ body {
 }
 
 /* Estilos para o elemento main */
-.principal {
+main {
   padding: 80px 0px 16px;
 }
 
-/* Estilos para o botão de mostrar formulário */
+/* Estilos para o botão de adicionar orçamento */
 .botao-mostrar-formulario {
   margin: 20px;
   padding: 10px 20px;
@@ -182,13 +182,13 @@ body {
   transition: background-color 0.3s;
 }
 
-/* Estilos para o hover do botão de mostrar formulário */
+/* Estilos para o hover do botão de adicionar orçamento */
 .botao-mostrar-formulario:hover {
   background-color: #ff4800cc;
 }
 
-/* Estilos para o formulário de serviço e a tabela de serviços */
-.formulario-servico, .tabela-servico {
+/* Estilos para o formulário de orçamento */
+.formulario-orcamento {
   margin: 20px;
   padding: 20px;
   background-color: #fff;
@@ -196,20 +196,24 @@ body {
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
-/* Estilos para os títulos das seções de formulário e tabela de serviços */
-.formulario-servico h2, .tabela-servico h2 {
+/* Estilos para o título do formulário de orçamento */
+.formulario-orcamento h2 {
   margin-top: 0;
+  margin-bottom: 20px;
+  font-size: 1.5rem;
+  color: #333;
 }
 
-/* Estilos para os labels do formulário de serviço */
-.formulario-servico label {
+/* Estilos para os labels do formulário de orçamento */
+.formulario-orcamento label {
   display: block;
   margin-bottom: 5px;
   font-weight: 500;
+  color: #333;
 }
 
-/* Estilos para os inputs e selects do formulário de serviço */
-.formulario-servico input, .formulario-servico select {
+/* Estilos para os inputs, selects e textarea do formulário de orçamento */
+.formulario-orcamento input, .formulario-orcamento select, .formulario-orcamento textarea {
   width: 100%;
   padding: 10px;
   margin-bottom: 10px;
@@ -217,18 +221,13 @@ body {
   border-radius: 4px;
 }
 
-/* Estilos adicionais para o select do formulário de serviço */
-.formulario-servico select {
-  appearance: none;
-  background-color: #fff;
-  background-image: url('data:image/svg+xml;charset=US-ASCII,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 4 5"><path fill="%23333" d="M2 0L0 2h4zm0 5L0 3h4z"/></svg>');
-  background-repeat: no-repeat;
-  background-position: right 10px center;
-  background-size: 8px 10px;
+/* Estilos para o textarea do formulário de orçamento */
+.formulario-orcamento textarea {
+  resize: vertical;
 }
 
-/* Estilos para o botão do formulário de serviço */
-.formulario-servico button {
+/* Estilos para os botões do formulário de orçamento */
+.formulario-orcamento button {
   padding: 10px 20px;
   background-color: #ff4800;
   color: #fff;
@@ -238,50 +237,42 @@ body {
   transition: background-color 0.3s;
 }
 
-/* Estilos para o hover do botão do formulário de serviço */
-.formulario-servico button:hover {
+/* Estilos para o hover dos botões do formulário de orçamento */
+.formulario-orcamento button:hover {
   background-color: #ff4800;
 }
 
-/* Estilos para o input de busca da tabela de serviços */
-.tabela-servico input {
-  width: 100%;
-  padding: 10px;
-  margin-bottom: 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-}
-
-/* Estilos para o contêiner da tabela */
-.contêiner-tabela {
+/* Estilos para o contêiner da tabela de itens do orçamento */
+.formulario-orcamento .contêiner-tabela {
   overflow-x: auto;
+  margin-top: 20px;
 }
 
-/* Estilos para a tabela de serviços */
-.tabela-servico table {
+/* Estilos para a tabela de itens do orçamento */
+.formulario-orcamento table {
   width: 100%;
   border-collapse: collapse;
   min-width: 600px; /* Define uma largura mínima para a tabela */
 }
 
-/* Estilos para as células da tabela de serviços */
-.tabela-servico th, .tabela-servico td {
+/* Estilos para as células da tabela de itens do orçamento */
+.formulario-orcamento th, .formulario-orcamento td {
   padding: 10px;
   border-bottom: 1px solid #ddd;
 }
 
-/* Estilos para as linhas pares da tabela de serviços */
-.tabela-servico tr:nth-child(even) {
+/* Estilos para as linhas pares da tabela de itens do orçamento */
+.formulario-orcamento tr:nth-child(even) {
   background-color: #f9f9f9;
 }
 
-/* Estilos para o hover das linhas da tabela de serviços */
-.tabela-servico tr:hover {
+/* Estilos para o hover das linhas da tabela de itens do orçamento */
+.formulario-orcamento tr:hover {
   background-color: #f1f1f1;
 }
 
-/* Estilos para os botões de ações na tabela de serviços */
-.tabela-servico .acoes button {
+/* Estilos para os botões de ações na tabela de itens do orçamento */
+.formulario-orcamento .acoes button {
   margin-right: 5px;
   padding: 5px 10px;
   border: none;
@@ -290,25 +281,122 @@ body {
   transition: background-color 0.3s;
 }
 
-/* Estilos para os botões de edição na tabela de serviços */
-.tabela-servico .acoes .editar {
+/* Estilos para os botões de edição na tabela de itens do orçamento */
+.formulario-orcamento .acoes .editar {
   background-color: #ffc107;
   color: #fff;
-  margin-bottom: 5px;
 }
 
-/* Estilos para o hover dos botões de edição na tabela de serviços */
-.tabela-servico .acoes .editar:hover {
+/* Estilos para o hover dos botões de edição na tabela de itens do orçamento */
+.formulario-orcamento .acoes .editar:hover {
   background-color: #e0a800;
 }
 
-/* Estilos para os botões de exclusão na tabela de serviços */
-.tabela-servico .acoes .deletar {
+/* Estilos para os botões de exclusão na tabela de itens do orçamento */
+.formulario-orcamento .acoes .excluir {
   background-color: #dc3545;
   color: #fff;
 }
 
-/* Estilos para o hover dos botões de exclusão na tabela de serviços */
-.tabela-servico .acoes .deletar:hover {
+/* Estilos para o hover dos botões de exclusão na tabela de itens do orçamento */
+.formulario-orcamento .acoes .excluir:hover {
+  background-color: #c82333;
+}
+
+/* Estilos para o título do total do orçamento */
+.formulario-orcamento h3 {
+  margin-top: 20px;
+  font-size: 1.2rem;
+  color: #333;
+}
+
+/* Estilos para o valor total do orçamento */
+.formulario-orcamento #precoTotal {
+  font-weight: 700;
+  color: #ff4800;
+}
+
+/* Estilos para a tabela de orçamentos */
+.tabela-orcamento {
+  margin: 20px;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 5px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Estilos para o título da tabela de orçamentos */
+.tabela-orcamento h2 {
+  margin-top: 0;
+  font-size: 1.5rem;
+  color: #333;
+}
+
+/* Estilos para o input de busca da tabela de orçamentos */
+.tabela-orcamento input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+/* Estilos para o contêiner da tabela de orçamentos */
+.tabela-orcamento .contêiner-tabela {
+  overflow-x: auto;
+}
+
+/* Estilos para a tabela de orçamentos */
+.tabela-orcamento table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 600px; /* Define uma largura mínima para a tabela */
+}
+
+/* Estilos para as células da tabela de orçamentos */
+.tabela-orcamento th, .tabela-orcamento td {
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+}
+
+/* Estilos para as linhas pares da tabela de orçamentos */
+.tabela-orcamento tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+/* Estilos para o hover das linhas da tabela de orçamentos */
+.tabela-orcamento tr:hover {
+  background-color: #f1f1f1;
+}
+
+/* Estilos para os botões de ações na tabela de orçamentos */
+.tabela-orcamento .acoes button {
+  margin-right: 5px;
+  padding: 5px 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+/* Estilos para os botões de edição na tabela de orçamentos */
+.tabela-orcamento .acoes .editar {
+  background-color: #ffc107;
+  color: #fff;
+}
+
+/* Estilos para o hover dos botões de edição na tabela de orçamentos */
+.tabela-orcamento .acoes .editar:hover {
+  background-color: #e0a800;
+}
+
+/* Estilos para os botões de exclusão na tabela de orçamentos */
+.tabela-orcamento .acoes .deletar {
+  background-color: #dc3545;
+  color: #fff;
+}
+
+/* Estilos para o hover dos botões de exclusão na tabela de orçamentos */
+.tabela-orcamento .acoes .deletar:hover {
   background-color: #c82333;
 }

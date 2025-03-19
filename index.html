@@ -11,12 +11,12 @@
     <!-- NAVEGAÇÃO -->
     <header>
       <nav class="navegacao">
-        <a href="dashboard.html" class="logo" title="logo">
+        <a href="index.html" class="logo" title="logo">
           Tech Cell Center <span>Brasil</span></a
         >
         <ul class="menu-nav">
           <li class="item-nav">
-            <a href="dashboard.html" onclick="fecharMenu()" title="dashboard"> Dashboard</a>
+            <a href="index.html" onclick="fecharMenu()" title="dashboard"> Dashboard</a>
           </li>
           <li class="item-nav">
             <a href="cadastro_cliente/cliente.html" onclick="fecharMenu()" title="clientes">
@@ -29,7 +29,7 @@
             >
           </li>
           <li class="item-nav">
-            <a href="cadastro_serviço/servico.html" onclick="fecharMenu()" title="serviços">
+            <a href="cadastro_serviço/serviço.html" onclick="fecharMenu()" title="serviços">
               Serviços</a
             >
           </li>
@@ -48,32 +48,7 @@
       </nav>
     </header>
 
-    <!-- CORPO PRINCIPAL -->
-    <main>
-      <!-- DASHBOARD -->
-      <section class="dashboard">
-        <h1>Dashboard de Orçamentos</h1>
-        <div class="tabela-responsiva">
-          <table class="tabela-estilizada">
-            <thead>
-              <tr>
-                <th>Cliente</th>
-                <th>Produtos</th>
-                <th>Quantidade</th>
-                <th>Serviços</th>
-                <th>Total</th>
-                <th>Status</th>
-                <th>Forma de Pagamento</th>
-                <th>Ações</th>
-              </tr>
-            </thead>
-            <tbody id="corpoTabelaDashboard">
-              <!-- Os itens serão adicionados aqui pelo JavaScript -->
-            </tbody>
-          </table>
-        </div>
-      </section>
-    </main>
+    
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script><!-- BIBLIOTECA QUE FAZ PDF'S -->
     <script src="script.js"></script> 

@@ -1,133 +1,117 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="style.css" />
-    <title>Produtos - Tech Cell Center Brasil</title>
-  </head>
-  <body>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Cadastro de Produtos - Tech Cell Center Brasil</title>
+</head>
+<body>
     <header>
-      <nav class="navegation">
-        <!-- Link para a página inicial -->
-        <a href="../dashboard.html" class="logo" title="logo">
-          Tech Cell Center <span>Brasil</span></a
-        >
-        <ul class="nav-menu">
-          <!-- Link para a página inicial -->
-          <li class="nav-item">
-            <a href="../dashboard.html" onclick="fecharMenu()" title="dashboard"> Dashboard</a>
-          </li>
-          <!-- Link para a página de clientes -->
-          <li class="nav-item">
-            <a href="../cadastro_cliente/cliente.html" onclick="fecharMenu()" title="clientes">
-              Clientes
+        <nav class="navegacao">
+            <a href="../index.html" class="logo" title="logo">
+                Tech Cell Center <span>Brasil</span>
             </a>
-          </li>
-          <!-- Link para a página de produtos -->
-          <li class="nav-item">
-            <a href="../cadastro_produto/produto.html" onclick="fecharMenu()" title="produtos">
-              Produtos</a
-            >
-          </li>
-          <!-- Link para a página de serviços -->
-          <li class="nav-item">
-            <a href="../cadastro_serviço/serviço.html" onclick="fecharMenu()" title="serviços">
-              Serviços</a
-            >
-          </li>
-          <!-- Link para a página de solicitação de orçamento -->
-          <li class="nav-item">
-            <a href="../cadastro_orçamento/orcamentos.html" onclick="fecharMenu()" title="orçamento"
-              >Solicitar Orçamento</a
-            >
-          </li>
-        </ul>
-
-        <!-- Menu de hambúrguer para dispositivos móveis -->
-        <div class="menu" id="menuToggle">
-          <span class="bar"></span>
-          <span class="bar"></span>
-          <span class="bar"></span>
-        </div>
-      </nav>
+            <ul class="menu-nav">
+                <li class="item-nav">
+                    <a href="../index.html" onclick="fecharMenu()" title="Dashboard">Dashboard</a>
+                </li>
+                <li class="item-nav">
+                    <a href="../cadastro_cliente/cliente.html" onclick="fecharMenu()" title="Clientes">Clientes</a>
+                </li>
+                <li class="item-nav">
+                    <a href="../cadastro_produto/produto.html" onclick="fecharMenu()" title="Produtos">Produtos</a>
+                </li>
+                <li class="item-nav">
+                    <a href="../cadastro_serviço/serviço.html" onclick="fecharMenu()" title="Serviços">Serviços</a>
+                </li>
+                <li class="item-nav">
+                    <a href="../cadastro_orçamento/orcamentos.html" onclick="fecharMenu()" title="Orçamento">Solicitar Orçamento</a>
+                </li>
+            </ul>
+            <div class="menu" id="menuToggle">
+                <span class="barra"></span>
+                <span class="barra"></span>
+                <span class="barra"></span>
+            </div>
+        </nav>
     </header>
     <main>
-      <!-- Botão para mostrar o formulário de adicionar produto -->
-      <button id="showFormButton" class="show-form-button">Adicionar Produto</button>
-      <!-- Seção do formulário de adicionar produto -->
-      <section class="product-form" id="productFormSection" style="display: none;">
-        <h2>Adicionar Produto</h2>
-        <form id="productForm">
-          <input type="hidden" id="productId" name="productId" />
-          <label for="name">Nome:</label>
-          <input type="text" id="name" name="name" required />
+        <!-- Botão para mostrar o formulário de registro de novo produto -->
+        <button id="mostrarFormularioBotao" class="mostrar-formulario-botao">Registrar Novo Produto</button>
+        <!-- Seção do formulário de registro de produto -->
+        <section id="secaoFormularioProduto" class="formulario-produto" style="display: none;">
+            <h2>Registrar Produto</h2>
+            <form id="formularioProduto">
+                <input type="hidden" id="produtoId" name="produtoId" />
+                <label for="nome">Nome:</label>
+                <input type="text" id="nome" name="nome" required />
 
-          <label for="brand">Marca:</label>
-          <input type="text" id="brand" name="brand" required />
+                <label for="marca">Marca:</label>
+                <input type="text" id="marca" name="marca" required />
 
-          <label for="model">Modelo:</label>
-          <input type="text" id="model" name="model" required />
+                <label for="modelo">Modelo:</label>
+                <input type="text" id="modelo" name="modelo" required />
 
-          <label for="price">Preço:</label>
-          <input type="number" id="price" name="price" step="0.01" required />
+                <label for="preco">Preço:</label>
+                <input type="number" id="preco" name="preco" step="0.01" required />
 
-          <label for="category">Categoria:</label>
-          <select id="category" name="category" required>
-            <option value="Celulares e Acessórios">Celulares e Acessórios</option>
-            <option value="PC Gamer e Acessórios">PC Gamer e Acessórios</option>
-            <option value="Notebooks e Computadores">Notebooks e Computadores</option>
-          </select>
+                <label for="categoria">Categoria:</label>
+                <select id="categoria" name="categoria" required>
+                    <option value="Celulares e Tablets">Celulares e Tablets</option>
+                    <option value="Notebooks e Computadores">Notebooks e Computadores</option>
+                    <option value="PC Gamer e Acessórios">PC Gamer e Acessórios</option>
+                </select>
 
-          <button type="submit">Adicionar</button>
-        </form>
-      </section>
-      <!-- Seção da tabela de produtos cadastrados -->
-      <section class="product-table">
-        <h2>Produtos Cadastrados</h2>
-        <input type="text" id="searchInput" placeholder="Buscar por nome..." />
-        <div class="table-container">
-          <table>
-            <thead>
-              <tr>
-                <th>ID</th>
-                <th>Nome</th>
-                <th>Marca</th>
-                <th>Modelo</th>
-                <th>Preço</th>
-                <th>Categoria</th>
-                <th>Ações</th>
-              </tr>
-            </thead>
-            <tbody id="productTableBody">
-              <!-- Os dados dos produtos serão inseridos aqui pelo JavaScript -->
-            </tbody>
-          </table>
-        </div>
-      </section>
+                <button type="submit">Registrar</button>
+            </form>
+        </section>
+        <!-- Seção da tabela de produtos registrados -->
+        <section class="tabela-produto">
+            <h2>Produtos Registrados</h2>
+            <input type="text" id="entradaPesquisa" placeholder="Buscar por nome..." />
+            <div class="container-tabela">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nome</th>
+                            <th>Marca</th>
+                            <th>Modelo</th>
+                            <th>Preço</th>
+                            <th>Categoria</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="corpoTabelaProdutos">
+                        <!-- Os dados dos produtos serão inseridos aqui pelo JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
     </main>
     <script src="script.js"></script>
     <script>
-      document.addEventListener('DOMContentLoaded', function() {
-        // Menu toggle
-        const menuToggle = document.getElementById('menuToggle');
-        const navMenu = document.querySelector('.nav-menu');
+        document.addEventListener('DOMContentLoaded', function() {
+            // Menu toggle
+            const menuToggle = document.getElementById('menuToggle');
+            const navMenu = document.querySelector('.menu-nav');
 
-        menuToggle.addEventListener('click', function() {
-          navMenu.classList.toggle('ativo');
-          menuToggle.classList.toggle('ativo');
+            menuToggle.addEventListener('click', function() {
+                navMenu.classList.toggle('ativo');
+                menuToggle.classList.toggle('ativo');
+            });
+
+            carregarProdutos();
+            configurarOuvintesDeEventos();
         });
 
-        loadProducts();
-        setupEventListeners();
-      });
-
-      function fecharMenu() {
-        const navMenu = document.querySelector('.nav-menu');
-        const menuToggle = document.getElementById('menuToggle');
-        navMenu.classList.remove('ativo');
-        menuToggle.classList.remove('ativo');
-      }
+        function fecharMenu() {
+            const navMenu = document.querySelector('.menu-nav');
+            const menuToggle = document.getElementById('menuToggle');
+            navMenu.classList.remove('ativo');
+            menuToggle.classList.remove('ativo');
+        }
     </script>
-  </body>
+</body>
 </html>
