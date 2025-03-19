@@ -149,7 +149,7 @@ body {
     height: 100%;
     flex-direction: column;
     background-color: #000;
-    gap: 1rem;
+    gap: 3rem;
     transition: 0.3s;
     z-index: 1;
   }

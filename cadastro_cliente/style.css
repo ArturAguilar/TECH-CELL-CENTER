@@ -36,21 +36,21 @@ body {
 .navegacao .logo {
   color: #ffffff;
   font-size: 1.7rem;
-  font-weight: 200;
+  font-weight:100;
 }
 
 /* Estilos para o span dentro do logo */
 .logo span {
   color: #ff4800;
   font-size: 1rem;
-  font-weight: 500;
+  font-weight: 100;
 }
 
 /* Estilos para a lista de navegação */
 .navegacao ul {
   display: flex;
   align-items: center;
-  gap: 3rem;
+  gap: 4rem;
 }
 
 /* Estilos para os links da navegação */
