@@ -379,14 +379,14 @@ main {
 
 /* Estilos para os botões de edição na tabela de orçamentos */
 .tabela-orcamento .acoes .editar {
-  background-color: #ffc107;
+  background-color: #f0b70e;
   color: #fff;
   margin-bottom: 0.3125rem; /* 5px */
 }
 
 /* Estilos para o hover dos botões de edição na tabela de orçamentos */
 .tabela-orcamento .acoes .editar:hover {
-  background-color: #e0a800;
+  background-color: #f0b70e;
 }
 
 /* Estilos para os botões de exclusão na tabela de orçamentos */
@@ -398,4 +398,15 @@ main {
 /* Estilos para o hover dos botões de exclusão na tabela de orçamentos */
 .tabela-orcamento .acoes .deletar:hover {
   background-color: #c82333;
+}
+
+/* Estilos para os botões de exclusão na tabela de orçamentos */
+.tabela-orcamento .acoes .enviar {
+  background-color: #08ca28;
+  color: #fff;
+}
+
+/* Estilos para o hover dos botões de exclusão na tabela de orçamentos */
+.tabela-orcamento .acoes .enviar:hover {
+  background-color: #08ca28;
 }

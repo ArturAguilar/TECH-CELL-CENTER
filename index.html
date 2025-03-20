@@ -48,32 +48,36 @@
       </nav>
     </header>
 
-    
+    <!-- Formulário para selecionar mês e ano -->
+    <section class="filtro-orcamentos">
+      <form id="filtroOrcamentosForm">
+        <label for="mes">Mês:</label>
+        <select id="mes" name="mes">
+          <option value="01">Janeiro</option>
+          <option value="02">Fevereiro</option>
+          <option value="03">Março</option>
+          <option value="04">Abril</option>
+          <option value="05">Maio</option>
+          <option value="06">Junho</option>
+          <option value="07">Julho</option>
+          <option value="08">Agosto</option>
+          <option value="09">Setembro</option>
+          <option value="10">Outubro</option>
+          <option value="11">Novembro</option>
+          <option value="12">Dezembro</option>
+        </select>
+
+        <label for="ano">Ano:</label>
+        <select id="ano" name="ano">
+          <option value="2025">2025</option>
+          <!-- Adicione mais anos conforme necessário -->
+        </select>
+
+        <button type="button" onclick="filtrarOrcamentos()">Filtrar</button>
+      </form>
+    </section>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script><!-- BIBLIOTECA QUE FAZ PDF'S -->
-    <script src="script.js"></script> 
-
-    <!-- SCRIPT DO MENU RESPONSIVO -->
-    <script>
-      document.addEventListener('DOMContentLoaded', function() {
-        // Menu toggle
-        const menuToggle = document.getElementById('menuToggle');
-        const menuNav = document.querySelector('.menu-nav');
-
-        menuToggle.addEventListener('click', function() {
-          menuNav.classList.toggle('ativo');
-          menuToggle.classList.toggle('ativo');
-        });
-
-        carregarOrcamentos();
-      });
-
-      function fecharMenu() {
-        const menuNav = document.querySelector('.menu-nav');
-        const menuToggle = document.getElementById('menuToggle');
-        menuNav.classList.remove('ativo');
-        menuToggle.classList.remove('ativo');
-      }
-    </script>
+    <script src="script.js"></script>
   </body>
 </html>
