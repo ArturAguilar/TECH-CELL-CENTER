@@ -48,14 +48,14 @@ body {
 }
 
 /* Estilos para a lista de navegação */
-.navegacao ul {
+.menu-navegacao {
   display: flex;
   align-items: center;
   gap: 4rem;
 }
 
 /* Estilos para os links da navegação */
-.navegacao ul li a {
+.menu-navegacao li a {
   color: #ffffff;
   font-size: 1rem;
   font-weight: 300;
@@ -64,7 +64,7 @@ body {
 }
 
 /* Estilos para o efeito hover nos links da navegação */
-.navegacao ul li a::after {
+.menu-navegacao li a::after {
   content: '';
   position: absolute;
   width: 0;
@@ -77,7 +77,7 @@ body {
 }
 
 /* Estilos para o efeito hover nos links da navegação */
-.navegacao ul li a:hover::after {
+.menu-navegacao li a:hover::after {
   width: 100%;
   left: 0;
   background: #ff4800;
@@ -105,7 +105,7 @@ body {
   background-color: #ff4800;
 }
 
-.home{
+.casa {
   width: 100%;
   height: 100vh;
   display: flex;
@@ -114,94 +114,94 @@ body {
   padding: 0px 2%;
 }
 
-.home-text{
+.casa-texto {
   max-width: 37rem;
 }
 
-.home-text .text-h4{
+.casa-texto .texto-h4 {
   font-size: 1.5rem;
   color: #ff4800;
   margin-bottom: 1rem;
 }
 
-.home-text .text-h1{
+.casa-texto .texto-h1 {
   font-size: 4rem;
   margin-bottom: 1rem;
   line-height: 4rem;
 }
 
-.home-text p{
+.casa-texto p {
   margin-bottom: 4rem;
 }
 
-.home-img img{
+.casa-img img {
   width: 100%;
 }
 
-@media (max-width : 900px){
-  .navegation{
-      padding: 18px 20px;
+@media (max-width: 900px) {
+  .navegacao {
+    padding: 18px 20px;
   }
 
-  .menu{
-      display: block;
-      cursor: pointer;
+  .menu {
+    display: block;
+    cursor: pointer;
   }
 
-  .menu.ativo .bar:nth-child(1){
-      transform: translateY(8px) rotate(45deg);
+  .menu.ativo .barra:nth-child(1) {
+    transform: translateY(8px) rotate(45deg);
   }
 
-  .menu.ativo .bar:nth-child(2){
-      opacity: 0;
+  .menu.ativo .barra:nth-child(2) {
+    opacity: 0;
   }
 
-  .menu.ativo .bar:nth-child(3){
-      transform: translateY(-8px) rotate(-45deg);
+  .menu.ativo .barra:nth-child(3) {
+    transform: translateY(-8px) rotate(-45deg);
   }
 
-  .nav-menu{
-      position: fixed;
-      right: -100%;
-      top: 70px;
-      width: 100%;
-      height: 100%;
-      flex-direction: column;
-      background-color: white;
-      gap: -10px;
-      transition: 0.3s;
+  .menu-navegacao {
+    position: fixed;
+    right: -100%;
+    top: 70px;
+    width: 100%;
+    height: 100%;
+    flex-direction: column;
+    background-color: white;
+    gap: 10px;
+    transition: 0.3s;
   }
 
-  .nav-menu.ativo{
-      right: 0;
+  .menu-navegacao.ativo {
+    right: 0;
   }
 
-  .nav-item{
-      margin: 8px 0;
+  .item-navegacao {
+    margin: 8px 0;
   }
 
-  .home{
-      padding: 100px 2%;
-      flex-direction: column;
-      overflow: hidden;
-      text-align: center;
-      gap: 2rem;
+  .casa {
+    padding: 100px 2%;
+    flex-direction: column;
+    overflow: hidden;
+    text-align: center;
+    gap: 2rem;
   }
 
-  .home .text-h4{
-      font-size: 15px;
+  .casa .texto-h4 {
+    font-size: 15px;
   }
 
-  .home .text-h1{
-      font-size: 2.5rem;
-      line-height: 3rem;
+  .casa .texto-h1 {
+    font-size: 2.5rem;
+    line-height: 3rem;
   }
 
-  .home p{
-      font-size: 15px;
+  .casa p {
+    font-size: 15px;
   }
 
-  .home-img{
-      width: 100%;
+  .casa-img {
+    width: 100%;
   }
 }
