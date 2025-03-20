@@ -64,6 +64,10 @@
                     <option value="Rejeitado">Rejeitado</option>
                 </select>
 
+                <!-- Campo de observações -->
+                <label for="observacoes">Observações:</label>
+                <textarea id="observacoes" name="observacoes"></textarea>
+
                 <h3>Itens do Orçamento</h3>
                 
                 <!-- Campo de pesquisa de produto -->
@@ -101,7 +105,7 @@
                 </select>
 
                 <!-- Campo de preço -->
-                <label for="preco">Total:</label>
+                <label for="total">Total:</label>
                 <input type="number" id="preco" name="preco" step="0.01" readonly />
 
                 <!-- Botão para adicionar item -->
@@ -135,6 +139,7 @@
         <!-- Seção da tabela de orçamentos registrados -->
         <section class="tabela-orcamento" id="secaoTabelaOrcamentos" style="display: none;">
             <h2>Orçamentos Registrados</h2>
+            <input type="text" id="entradaPesquisaOrcamento" placeholder="Buscar por nome do cliente..." />
             <div class="container-tabela">
                 <table>
                     <thead>

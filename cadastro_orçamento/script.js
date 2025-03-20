@@ -1,4 +1,3 @@
-// Adiciona um evento para carregar os dados quando o DOM estiver completamente carregado
 document.addEventListener('DOMContentLoaded', function() {
     carregarClientes();
     carregarProdutos();
@@ -24,6 +23,21 @@ document.addEventListener('DOMContentLoaded', function() {
         secaoFormularioOrcamento.style.display = 'block';
         mostrarFormularioBotao.style.display = 'none';
         secaoTabelaOrcamentos.style.display = 'none';
+    });
+
+    // Função para filtrar orçamentos pelo nome do cliente
+    const entradaPesquisaOrcamento = document.getElementById('entradaPesquisaOrcamento');
+    entradaPesquisaOrcamento.addEventListener('input', function() {
+        const termoPesquisa = entradaPesquisaOrcamento.value.toLowerCase();
+        const linhas = document.querySelectorAll('#corpoTabelaOrcamentos tr');
+        linhas.forEach(linha => {
+            const cliente = linha.querySelector('td:nth-child(2)').textContent.toLowerCase();
+            if (cliente.includes(termoPesquisa)) {
+                linha.style.display = '';
+            } else {
+                linha.style.display = 'none';
+            }
+        });
     });
 });
 
@@ -150,12 +164,7 @@ function adicionarItem() {
     const precoTotal = parseFloat(inputPreco.value).toFixed(2);
 
     if (produto && quantidade && servico && precoTotal) {
-        if (indiceItemEdicao === -1) {
-            itensOrcamento.push({ produto, quantidade, servico, precoProduto, precoServico, precoTotal });
-        } else {
-            itensOrcamento[indiceItemEdicao] = { produto, quantidade, servico, precoProduto, precoServico, precoTotal };
-            indiceItemEdicao = -1;
-        }
+        itensOrcamento.push({ produto, quantidade, servico, precoProduto, precoServico, precoTotal });
         atualizarTabelaItensOrcamento();
         alert('Item adicionado ao orçamento!');
         document.getElementById('formularioOrcamento').reset();
@@ -177,7 +186,6 @@ function atualizarTabelaItensOrcamento() {
             <td>${item.servico}</td>
             <td>R$ ${item.precoTotal}</td>
             <td>
-                <button onclick="editarItem(${index})">Editar</button>
                 <button onclick="deletarItem(${index})">Deletar</button>
             </td>
         `;
@@ -185,16 +193,6 @@ function atualizarTabelaItensOrcamento() {
     });
 
     atualizarPrecoTotal();
-}
-
-// Função para editar um item do orçamento
-function editarItem(index) {
-    const item = itensOrcamento[index];
-    document.getElementById('produto').value = item.produto;
-    document.getElementById('quantidade').value = item.quantidade;
-    document.getElementById('servico').value = item.servico;
-    document.getElementById('preco').value = item.precoTotal;
-    indiceItemEdicao = index;
 }
 
 // Função para deletar um item do orçamento
@@ -208,12 +206,10 @@ function salvarOrcamento() {
     const orcamentoId = document.getElementById('orcamentoId').value;
     const selectCliente = document.getElementById('cliente');
     const selectStatus = document.getElementById('status');
-    const inputObservacoes = document.getElementById('observacoes');
     const selectFormaPagamento = document.getElementById('formaPagamento');
 
     const cliente = selectCliente.options[selectCliente.selectedIndex].text;
     const status = selectStatus.value;
-    const observacoes = inputObservacoes.value;
     const formaPagamento = selectFormaPagamento.value;
 
     const total = itensOrcamento.reduce((sum, item) => sum + parseFloat(item.precoTotal) * item.quantidade, 0).toFixed(2);
@@ -223,7 +219,6 @@ function salvarOrcamento() {
         cliente: cliente,
         itens: itensOrcamento,
         status: status,
-        observacoes: observacoes,
         formaPagamento: formaPagamento,
         total: total
     };
@@ -292,9 +287,9 @@ function carregarOrcamentos() {
             <td>R$ ${orcamento.total}</td>
             <td>${orcamento.status}</td>
             <td>${orcamento.formaPagamento}</td>
-            <td>
-                <button onclick="editarOrcamento(${index})">Editar</button>
-                <button onclick="deletarOrcamento(${index})">Deletar</button>
+            <td class="acoes">
+                <button class="editar" onclick="editarOrcamento(${index})">Editar</button>
+                <button class="deletar" onclick="deletarOrcamento(${index})">Deletar</button>
             </td>
         `;
         corpoTabelaOrcamentos.appendChild(linha);
@@ -312,7 +307,6 @@ function editarOrcamento(index) {
     document.getElementById('orcamentoId').value = orcamento.id;
     document.getElementById('cliente').value = orcamento.cliente;
     document.getElementById('status').value = orcamento.status;
-    document.getElementById('observacoes').value = orcamento.observacoes;
     document.getElementById('formaPagamento').value = orcamento.formaPagamento;
 
     itensOrcamento = orcamento.itens;
