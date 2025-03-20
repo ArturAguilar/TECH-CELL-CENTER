@@ -59,6 +59,9 @@ function carregarClientes() {
         const option = document.createElement('option');
         option.value = cliente.id;
         option.textContent = cliente.nome;
+        option.setAttribute('data-telefone', cliente.telefone); // Adiciona o telefone como um atributo de dados
+        option.setAttribute('data-endereco', cliente.endereco); // Adiciona o endereço como um atributo de dados
+        option.setAttribute('data-cpf', cliente.cpf); // Adiciona o CPF como um atributo de dados
         selectCliente.appendChild(option);
     });
 
@@ -71,6 +74,9 @@ function carregarClientes() {
                 const option = document.createElement('option');
                 option.value = cliente.id;
                 option.textContent = cliente.nome;
+                option.setAttribute('data-telefone', cliente.telefone); // Adiciona o telefone como um atributo de dados
+                option.setAttribute('data-endereco', cliente.endereco); // Adiciona o endereço como um atributo de dados
+                option.setAttribute('data-cpf', cliente.cpf); // Adiciona o CPF como um atributo de dados
                 selectCliente.appendChild(option);
             }
         });
@@ -118,7 +124,7 @@ function carregarServicos() {
     servicos.forEach(servico => {
         const option = document.createElement('option');
         option.value = servico.id;
-        option.textContent = `${servico.nomeServico} - R$ ${servico.preco}`; // Certifique-se de que a propriedade correta está sendo usada
+        option.textContent = `${servico.nomeServico} - ${servico.tempoBase} dias - R$ ${servico.preco}`; // Certifique-se de que a propriedade correta está sendo usada
         option.setAttribute('data-preco', servico.preco);
         selectServico.appendChild(option);
     });
@@ -131,7 +137,7 @@ function carregarServicos() {
             if (servico.nomeServico.toLowerCase().includes(termoPesquisa)) {
                 const option = document.createElement('option');
                 option.value = servico.id;
-                option.textContent = `${servico.nomeServico} - R$ ${servico.preco}`; // Certifique-se de que a propriedade correta está sendo usada
+                option.textContent = `${servico.nomeServico} - R$ ${servico.preco} - ${servico.tempoBase} dias `; // Certifique-se de que a propriedade correta está sendo usada
                 option.setAttribute('data-preco', servico.preco);
                 selectServico.appendChild(option);
             }
@@ -146,18 +152,7 @@ function configurarOuvintesEventos() {
     document.getElementById('produto').addEventListener('change', atualizarPreco);
     document.getElementById('servico').addEventListener('change', atualizarPreco);
     document.getElementById('quantidade').addEventListener('input', atualizarPreco);
-    document.getElementById('botaoWhatsApp').addEventListener('click', function() {
-        const selectCliente = document.getElementById('cliente');
-        const clienteNome = selectCliente.options[selectCliente.selectedIndex].text;
-        const clienteId = selectCliente.value;
-        const total = document.getElementById('precoTotal').textContent;
-        const itens = itensOrcamento.map(item => `${item.produto} (${item.quantidade}) - Serviço: ${item.servico} - Preço: R$ ${item.precoTotal}`).join('\n');
-        const mensagem = `Olá ${clienteNome},\n\nAqui estão os detalhes do seu orçamento:\n\n${itens}\n\nValor Total: ${total}\n\nObrigado!`;
-
-        const url = `https://wa.me/?text=${encodeURIComponent(mensagem)}`;
-        window.open(url, '_blank');
-    });
-}
+    }
 
 let itensOrcamento = [];
 let indiceItemEdicao = -1;
@@ -172,18 +167,18 @@ function adicionarItem() {
     const produto = selectProduto.options[selectProduto.selectedIndex].text;
     const quantidade = parseInt(inputQuantidade.value);
     const servico = selectServico.options[selectServico.selectedIndex].text;
-    const precoProduto = parseFloat(selectProduto.options[selectProduto.selectedIndex].getAttribute('data-preco'));
-    const precoServico = parseFloat(selectServico.options[selectServico.selectedIndex].getAttribute('data-preco'));
+    const precoProduto = parseFloat(selectProduto.options[selectProduto.selectedIndex].getAttribute('data-preco')) || 0;
+    const precoServico = parseFloat(selectServico.options[selectServico.selectedIndex].getAttribute('data-preco')) || 0;
+    const tempoServico = parseFloat(selectServico.options[selectServico.selectedIndex].getAttribute('data-tempo')) || 0; // Obtém o tempo de conclusão do serviço
     const precoTotal = (precoProduto * quantidade + precoServico).toFixed(2);
 
-    if (produto && quantidade && servico && !isNaN(precoProduto) && !isNaN(precoServico)) { // Verifica se os campos foram preenchidos corretamente e se os preços são válidos
-        itensOrcamento.push({ produto, quantidade, servico, precoProduto, precoServico, precoTotal });
+    if ((produto && quantidade && !isNaN(precoProduto)) || (servico && !isNaN(precoServico) && !isNaN(tempoServico))) { // Verifica se pelo menos um produto ou serviço foi selecionado
+        itensOrcamento.push({ produto, quantidade, servico, precoProduto, precoServico, precoTotal, tempoServico });
         atualizarTabelaItensOrcamento();
-        alert('Item adicionado ao orçamento!');
         document.getElementById('formularioOrcamento').reset();
         atualizarPrecoTotal(); // Atualizar o preço total
     } else {
-        alert('Por favor, selecione um produto, uma quantidade, um serviço e um preço válido.');
+        alert('Por favor, selecione um produto ou um serviço válido.');
     }
 }
 
@@ -221,15 +216,21 @@ function salvarOrcamento() {
 
     const clienteId = selectCliente.value;
     const clienteNome = selectCliente.options[selectCliente.selectedIndex].text;
+    const clienteTelefone = selectCliente.options[selectCliente.selectedIndex].getAttribute('data-telefone'); // Obtém o telefone do cliente
+    const clienteEndereco = selectCliente.options[selectCliente.selectedIndex].getAttribute('data-endereco'); // Obtém o endereço do cliente
+    const clienteCPF = selectCliente.options[selectCliente.selectedIndex].getAttribute('data-cpf'); // Obtém o CPF do cliente
     const status = selectStatus.value;
     const formaPagamento = selectFormaPagamento.value;
 
-    const total = itensOrcamento.reduce((sum, item) => sum + (parseFloat(item.precoProduto) * item.quantidade) + parseFloat(item.precoServico), 0).toFixed(2);
+    const total = itensOrcamento.reduce((sum, item) => sum + parseFloat(item.precoTotal), 0).toFixed(2);
 
     const dadosOrcamento = {
         id: orcamentoId ? orcamentoId : new Date().getTime(), // Se o ID já existir, usá-lo; caso contrário, gerar um novo
         clienteId: clienteId,
         clienteNome: clienteNome,
+        clienteTelefone: clienteTelefone, // Inclui o telefone do cliente
+        clienteEndereco: clienteEndereco, // Inclui o endereço do cliente
+        clienteCPF: clienteCPF, // Inclui o CPF do cliente
         itens: itensOrcamento,
         status: status,
         formaPagamento: formaPagamento,
@@ -294,10 +295,14 @@ function carregarOrcamentos() {
 
     orcamentos.forEach((orcamento, index) => {
         const linha = document.createElement('tr');
+        const produtos = orcamento.itens.filter(item => item.produto).map(item => `${item.produto} (${item.quantidade})`).join(', ');
+        const servicos = orcamento.itens.filter(item => item.servico).map(item => `${item.servico}`).join(', ');
+
         linha.innerHTML = `
             <td>${orcamento.id}</td>
             <td>${orcamento.clienteNome}</td>
-            <td>${orcamento.itens.map(item => `${item.produto} (${item.quantidade})`).join(', ')}</td>
+            <td>${produtos}</td>
+            <td>${servicos}</td>
             <td>R$ ${orcamento.total}</td>
             <td>${orcamento.status}</td>
             <td>${orcamento.formaPagamento}</td>
@@ -340,3 +345,36 @@ function deletarOrcamento(index) {
     carregarOrcamentos();
 }
 
+// Função para enviar orçamento por WhatsApp
+function mandarWhatsApp(index) {
+    const orcamentos = JSON.parse(localStorage.getItem('orcamentos')) || [];
+    const orcamento = orcamentos[index];
+
+    const clienteId = orcamento.clienteId;
+    const clientes = JSON.parse(localStorage.getItem('clientes')) || [];
+    const cliente = clientes.find(cliente => cliente.id === clienteId);
+
+    if (!cliente) {
+        alert('Cliente não encontrado.');
+        return;
+    }
+
+    const clienteNome = cliente.nome;
+    const clienteEndereco = cliente.endereco;
+    const clienteCPF = cliente.cpfCnpj;
+    const clienteTelefone = cliente.telefone.replace(/\D/g, ''); // Remove todos os caracteres não numéricos
+
+    const produtos = orcamento.itens.filter(item => item.produto).map(item => `${item.produto} (${item.quantidade}) - R$ ${item.precoProduto}`).join('\n');
+    const servicos = orcamento.itens.filter(item => item.servico).map(item => `${item.servico} - R$ ${item.precoServico}`).join('\n');
+
+    const total = `R$ ${orcamento.total}`;
+    const status = orcamento.status;
+    const formaPagamento = orcamento.formaPagamento;
+    const tempoConclusao = orcamento.itens.reduce((total, item) => total + item.tempoServico, 0); // Soma o tempo de conclusão de cada serviço
+    const tempoConclusaoDias = tempoConclusao; // O tempo de conclusão já está em dias
+
+    const mensagem = `Olá ${clienteNome},\n\nAqui está o seu orçamento:\n\nNome do Cliente: ${clienteNome}\nCPF: ${clienteCPF}\nEndereço: ${clienteEndereco}\n\nProdutos:\n${produtos}\n\nServiços:\n${servicos}\n\nTempo de Conclusão: ${tempoConclusaoDias} dias\nTotal: ${total}\nStatus: ${status}\nForma de Pagamento: ${formaPagamento}\n\nObrigado por escolher a Tech Cell Center Brasil!`;
+
+    const url = `https://wa.me/${clienteTelefone}?text=${encodeURIComponent(mensagem)}`;
+    window.open(url, '_blank');
+}

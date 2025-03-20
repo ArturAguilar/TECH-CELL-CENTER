@@ -393,6 +393,7 @@ main {
 .tabela-orcamento .acoes .deletar {
   background-color: #dc3545;
   color: #fff;
+  margin-bottom: 0.3125rem; /* 5px */
 }
 
 /* Estilos para o hover dos botões de exclusão na tabela de orçamentos */

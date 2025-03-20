@@ -4,8 +4,8 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="style.css">
-    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
-    <title>Dashboard - Tech Cell Center Brasil</title>
+    <link rel="shortcut icon" href="logo.png" type="image/x-icon">
+    <title>Tech Cell Center Brasil</title>
   </head>
   <body>
     <!-- NAVEGAÇÃO -->
@@ -16,7 +16,7 @@
         >
         <ul class="menu-nav">
           <li class="item-nav">
-            <a href="index.html" onclick="fecharMenu()" title="dashboard"> Dashboard</a>
+            <a href="index.html" onclick="fecharMenu()" title="início"> Início</a>
           </li>
           <li class="item-nav">
             <a href="cadastro_cliente/cliente.html" onclick="fecharMenu()" title="clientes">
@@ -48,36 +48,19 @@
       </nav>
     </header>
 
-    <!-- Formulário para selecionar mês e ano -->
-    <section class="filtro-orcamentos">
-      <form id="filtroOrcamentosForm">
-        <label for="mes">Mês:</label>
-        <select id="mes" name="mes">
-          <option value="01">Janeiro</option>
-          <option value="02">Fevereiro</option>
-          <option value="03">Março</option>
-          <option value="04">Abril</option>
-          <option value="05">Maio</option>
-          <option value="06">Junho</option>
-          <option value="07">Julho</option>
-          <option value="08">Agosto</option>
-          <option value="09">Setembro</option>
-          <option value="10">Outubro</option>
-          <option value="11">Novembro</option>
-          <option value="12">Dezembro</option>
-        </select>
+    <main>
+      <section class="home">
+          <div class="home-text">
+              <h4 class="text-h4">Bem-vindo ao Tech Cell Center Brasil</h4>
+              <h1 class="text-h1">Seu Sistema Completo de Gerenciamento</h1>
+              <p>"O Tech Cell Center Brasil oferece uma solução integrada para gerenciar seus clientes, produtos e serviços de forma eficiente. Simplifique suas operações diárias e melhore a produtividade com nosso sistema fácil de usar."</p>
+          </div>
+          <div class="home-img">
+              <img src="logo1.png" alt="logo">
+          </div>
+      </section>
+  </main>
 
-        <label for="ano">Ano:</label>
-        <select id="ano" name="ano">
-          <option value="2025">2025</option>
-          <!-- Adicione mais anos conforme necessário -->
-        </select>
-
-        <button type="button" onclick="filtrarOrcamentos()">Filtrar</button>
-      </form>
-    </section>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script><!-- BIBLIOTECA QUE FAZ PDF'S -->
     <script src="script.js"></script>
   </body>
 </html>
