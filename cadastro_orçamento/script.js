@@ -2,7 +2,7 @@
 document.addEventListener('DOMContentLoaded', function() {
     carregarClientes(); // Carrega os clientes no select
     carregarProdutos(); // Carrega os produtos no select
-    carregarServicos(); // Carrega os serviços no select
+    carregarServicos(); // Carrega os serviços no selectg6-
     configurarOuvintesEventos(); // Configura os ouvintes de eventos
     carregarOrcamentos(); // Carrega os orçamentos na tabela
 
@@ -126,7 +126,7 @@ function carregarServicos() {
         option.value = servico.id;
         option.textContent = `${servico.nomeServico} - ${servico.tempoBase} dias - R$ ${servico.preco}`; // Certifique-se de que a propriedade correta está sendo usada
         option.setAttribute('data-preco', servico.preco);
-        selectServico.appendChild(option);
+        selectServico.appendChild(option); // Adicione o elemento ao select
     });
 
     // Adiciona um evento para filtrar os serviços com base na entrada de pesquisa
@@ -146,16 +146,16 @@ function carregarServicos() {
 }
 
 // Função para configurar os ouvintes de eventos
-function configurarOuvintesEventos() {
-    document.getElementById('botaoAdicionarItem').addEventListener('click', adicionarItem);
-    document.getElementById('botaoSalvarOrcamento').addEventListener('click', salvarOrcamento);
-    document.getElementById('produto').addEventListener('change', atualizarPreco);
-    document.getElementById('servico').addEventListener('change', atualizarPreco);
-    document.getElementById('quantidade').addEventListener('input', atualizarPreco);
+function configurarOuvintesEventos() { // Adiciona um ouvinte de eventos para o botão "Adicionar Item"
+    document.getElementById('botaoAdicionarItem').addEventListener('click', adicionarItem); // Adiciona um ouvinte de eventos para o botão "Salvar Orçamento"
+    document.getElementById('botaoSalvarOrcamento').addEventListener('click', salvarOrcamento); // Adiciona um ouvinte de eventos para o botão "Cancelar"
+    document.getElementById('produto').addEventListener('change', atualizarPreco); // Adiciona um ouvinte de eventos para o select de produtos
+    document.getElementById('servico').addEventListener('change', atualizarPreco); // Adiciona um ouvinte de eventos para o select de serviços
+    document.getElementById('quantidade').addEventListener('input', atualizarPreco); // Adiciona um ouvinte de eventos para o input de quantidade
     }
 
-let itensOrcamento = [];
-let indiceItemEdicao = -1;
+let itensOrcamento = []; // Armazena os itens do orçamento
+let indiceItemEdicao = -1; // Armazena o índice do item que está sendo editado
 
 // Função para adicionar um item ao orçamento
 function adicionarItem() {
@@ -164,18 +164,18 @@ function adicionarItem() {
     const selectServico = document.getElementById('servico');
     const inputPreco = document.getElementById('preco');
 
-    const produto = selectProduto.options[selectProduto.selectedIndex].text;
-    const quantidade = parseInt(inputQuantidade.value);
-    const servico = selectServico.options[selectServico.selectedIndex].text;
-    const precoProduto = parseFloat(selectProduto.options[selectProduto.selectedIndex].getAttribute('data-preco')) || 0;
-    const precoServico = parseFloat(selectServico.options[selectServico.selectedIndex].getAttribute('data-preco')) || 0;
+    const produto = selectProduto.options[selectProduto.selectedIndex].text; // Obtém o texto selecionado
+    const quantidade = parseInt(inputQuantidade.value); // Obtém a quantidade inserida
+    const servico = selectServico.options[selectServico.selectedIndex].text; // Obtém o texto selecionado
+    const precoProduto = parseFloat(selectProduto.options[selectProduto.selectedIndex].getAttribute('data-preco')) || 0; // Obtém o preço do produto
+    const precoServico = parseFloat(selectServico.options[selectServico.selectedIndex].getAttribute('data-preco')) || 0; // Obtém o preço do serviço
     const tempoServico = parseFloat(selectServico.options[selectServico.selectedIndex].getAttribute('data-tempo')) || 0; // Obtém o tempo de conclusão do serviço
-    const precoTotal = (precoProduto * quantidade + precoServico).toFixed(2);
+    const precoTotal = (precoProduto * quantidade + precoServico).toFixed(2); // Calcula o preço total
 
     if ((produto && quantidade && !isNaN(precoProduto)) || (servico && !isNaN(precoServico) && !isNaN(tempoServico))) { // Verifica se pelo menos um produto ou serviço foi selecionado
-        itensOrcamento.push({ produto, quantidade, servico, precoProduto, precoServico, precoTotal, tempoServico });
+        itensOrcamento.push({ produto, quantidade, servico, precoProduto, precoServico, precoTotal, tempoServico }); // Adiciona o item ao array
         atualizarTabelaItensOrcamento();
-        document.getElementById('formularioOrcamento').reset();
+        document.getElementById('formularioOrcamento').reset(); // Limpa o formulário
         atualizarPrecoTotal(); // Atualizar o preço total
     } else {
         alert('Por favor, selecione um produto ou um serviço válido.');
@@ -202,7 +202,7 @@ function atualizarTabelaItensOrcamento() {
 
 // Função para deletar um item do orçamento
 function deletarItem(index) {
-    itensOrcamento.splice(index, 1);
+    itensOrcamento.splice(index, 1); // Remove o item do array
     atualizarTabelaItensOrcamento();
     atualizarPrecoTotal(); // Atualizar o preço total
 }
@@ -231,13 +231,13 @@ function salvarOrcamento() {
         clienteTelefone: clienteTelefone, // Inclui o telefone do cliente
         clienteEndereco: clienteEndereco, // Inclui o endereço do cliente
         clienteCPF: clienteCPF, // Inclui o CPF do cliente
-        itens: itensOrcamento,
+        itens: itensOrcamento, // Inclui os itens do orçamento
         status: status,
         formaPagamento: formaPagamento,
         total: total
     };
 
-    let orcamentos = JSON.parse(localStorage.getItem('orcamentos')) || [];
+    let orcamentos = JSON.parse(localStorage.getItem('orcamentos')) || []; // Obtém os orçamentos do localStorage
 
     if (orcamentoId) {
         const index = orcamentos.findIndex(orcamento => orcamento.id == orcamentoId);
