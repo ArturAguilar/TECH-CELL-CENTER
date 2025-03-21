@@ -51,6 +51,10 @@ function lidarComSubmissaoFormulario(event) {
     salvarCliente(); // Chama a função para salvar o cliente
 }
 
+function carrgarClientes() {
+    return JSON.parse(localStorage.getItem('clientes')) || [];
+}
+
 // Função para salvar o cliente no localStorage
 function salvarCliente() {
     const clienteId = document.getElementById('clienteId').value;
@@ -72,7 +76,7 @@ function salvarCliente() {
         endereco: endereco
     };
 
-    let clientes = JSON.parse(localStorage.getItem('clientes')) || [];
+    let clientes = carrgarClientes();
 
     if (clienteId) { // Se o clienteId for fornecido, atualiza o cliente existente com os novos dados do cliente
         clientes = atualizarClientes(clientes, dadosCliente);
