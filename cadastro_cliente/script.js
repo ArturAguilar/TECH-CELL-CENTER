@@ -75,8 +75,7 @@ function salvarCliente() {
     let clientes = JSON.parse(localStorage.getItem('clientes')) || [];
 
     if (clienteId) { // Se o clienteId for fornecido, atualiza o cliente existente com os novos dados do cliente
-        const index = clientes.findIndex(cliente => cliente.id == clienteId); // Encontra o índice do cliente existente no array de clientes com base no clienteId
-        clientes[index] = dadosCliente; // Substitui o cliente existente com os novos dados do cliente no array de clientes
+        clientes = atualizarClientes(clientes, dadosCliente);
     } else {
         clientes.push(dadosCliente); // Adiciona o novo cliente ao array de clientes se o clienteId não for fornecido (ou seja, é um novo cliente)
     }
@@ -90,12 +89,18 @@ function salvarCliente() {
     document.querySelector('.tabela-clientes').style.display = 'block'; // Mostra a tabela de clientes após salvar o cliente para visualizar os clientes salvos
     document.getElementById('mostrarFormularioBotao').style.display = 'block'; // Mostra o botão para mostrar o formulário de registro de cliente após salvar o cliente para adicionar um novo cliente
 
-    carregarClientes(); // Carrega os clientes salvos no localStorage para atualizar a tabela de clientes
+    carregarClientes(clientes); // Carrega os clientes salvos no localStorage para atualizar a tabela de clientes
+}
+
+function atualizarClientes(clientes, dadosCliente) {
+    const index = clientes.findIndex(cliente => cliente.id == clienteId); // Encontra o índice do cliente existente no array de clientes com base no clienteId
+    clientes[index] = dadosCliente; // Substitui o cliente existente com os novos dados do cliente no array de clientes
+    return clientes;
 }
 
 // Função para carregar os clientes do localStorage e preencher a tabela de clientes
-function carregarClientes() {
-    const clientes = JSON.parse(localStorage.getItem('clientes')) || [];
+function carregarClientes(clientesEmMemoria) {
+    const clientes = clientesEmMemoria || JSON.parse(localStorage.getItem('clientes')) || [];
     const corpoTabela = document.getElementById('corpoTabelaClientes');
     corpoTabela.innerHTML = '';
 
