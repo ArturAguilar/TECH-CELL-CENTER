@@ -92,27 +92,6 @@
         </section>
     </main>
     <script src="script.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Menu toggle
-            const menuToggle = document.getElementById('menuToggle');
-            const navMenu = document.querySelector('.menu-nav');
-
-            menuToggle.addEventListener('click', function() {
-                navMenu.classList.toggle('ativo');
-                menuToggle.classList.toggle('ativo');
-            });
-
-            carregarProdutos();
-            configurarOuvintesDeEventos();
-        });
-
-        function fecharMenu() {
-            const navMenu = document.querySelector('.menu-nav');
-            const menuToggle = document.getElementById('menuToggle');
-            navMenu.classList.remove('ativo');
-            menuToggle.classList.remove('ativo');
-        }
-    </script>
+    <script src="../menu.js"></script>
 </body>
 </html>
