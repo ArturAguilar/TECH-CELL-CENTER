@@ -15,6 +15,10 @@ function configurarOuvintesDeEventos() {
     formularioProduto.addEventListener('submit', lidarComSubmissaoFormulario);
 
     document.getElementById('entradaPesquisa').addEventListener('input', filtrarProdutos);
+
+    document.getElementById('preco').addEventListener('input', function() {
+        this.value = formatarPreco(this.value);
+    });
 }
 
 // Função para alternar a exibição do formulário
@@ -50,7 +54,11 @@ function criarLinhaTabela(produto) {
         <td>${produto.categoria}</td>
         <td class="acoes">
             <button class="editar" onclick="editarProduto(${produto.id})">Editar</button>
-            <button class="deletar" onclick="deletarProduto(${produto.id})">Deletar</button>
+            ${produto.ativo ? `
+                <button class="inativar" onclick="inativarProduto(${produto.id})">Inativar</button>
+            ` : `
+                <button class="ativar" onclick="ativarProduto(${produto.id})">Ativar</button>
+            `}
         </td>
     `;
     return linha;
@@ -79,16 +87,24 @@ function salvarProduto() {
     const nome = document.getElementById('nome').value;
     const marca = document.getElementById('marca').value;
     const modelo = document.getElementById('modelo').value;
-    const preco = document.getElementById('preco').value;
+    let preco = document.getElementById('preco').value;
     const categoria = document.getElementById('categoria').value;
 
+    if (!validarPreco(preco)) {
+        alert('Por favor, insira um preço válido.');
+        return;
+    }
+
+    preco = formatarPreco(preco);
+
     const dadosProduto = {
-        id: gerarIdClienteUnico(), // Gera um ID único para o produto
+        id: produtoId ? parseInt(produtoId) : gerarIdProdutoUnico(),
         nome,
         marca,
         modelo,
         preco,
-        categoria
+        categoria,
+        ativo: true
     };
 
     let produtos = JSON.parse(localStorage.getItem('produtos')) || [];
@@ -154,4 +170,19 @@ function deletarProduto(id) {
         alert('Produto deletado com sucesso!');
         carregarProdutos();
     }
+}
+
+// Função para formatar o preço
+function formatarPreco(preco) {
+    preco = preco.replace(/\D/g, ""); // Remove caracteres não numéricos
+    preco = (preco / 100).toFixed(2) + ""; // Divide por 100 para obter o valor correto
+    preco = preco.replace(".", ","); // Substitui ponto por vírgula
+    preco = preco.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."); // Adiciona pontos como separadores de milhar
+    return "R$ " + preco;
+}
+
+// Função para validar o preço
+function validarPreco(preco) {
+    const precoNumerico = parseFloat(preco.replace(/\D/g, "")) / 100;
+    return !isNaN(precoNumerico) && precoNumerico > 0;
 }
