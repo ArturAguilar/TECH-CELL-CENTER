@@ -1,53 +1,27 @@
 // Executa quando o DOM é completamente carregado
 document.addEventListener('DOMContentLoaded', function() {
-    carregarClientes(); // Carrega os clientes no select
-    carregarProdutos(); // Carrega os produtos no select
-    carregarServicos(); // Carrega os serviços no selectg6-
-    configurarOuvintesEventos(); // Configura os ouvintes de eventos
-    carregarOrcamentos(); // Carrega os orçamentos na tabela
-
-    // Menu toggle
-    const menuToggle = document.getElementById('menuToggle');
-    const menuNav = document.querySelector('.menu-nav');
-
-    menuToggle.addEventListener('click', function() {
-        menuNav.classList.toggle('ativo');
-        menuToggle.classList.toggle('ativo');
-    });
-
-    // Mostrar formulário de adicionar orçamento
-    const mostrarFormularioBotao = document.getElementById('mostrarFormularioBotao');
-    const secaoFormularioOrcamento = document.getElementById('secaoFormularioOrcamento');
-    const secaoTabelaOrcamentos = document.getElementById('secaoTabelaOrcamentos');
-
-    mostrarFormularioBotao.addEventListener('click', function() {
-        secaoFormularioOrcamento.style.display = 'block';
-        mostrarFormularioBotao.style.display = 'none';
-        secaoTabelaOrcamentos.style.display = 'none';
-    });
-
-    // Função para filtrar orçamentos pelo nome do cliente
-    const entradaPesquisaOrcamento = document.getElementById('entradaPesquisaOrcamento');
-    entradaPesquisaOrcamento.addEventListener('input', function() { // Adiciona um evento de input para filtrar os orçamentos
-        const termoPesquisa = entradaPesquisaOrcamento.value.toLowerCase(); // Pega o valor da entrada de pesquisa e converte para letras minúsculas
-        const linhas = document.querySelectorAll('#corpoTabelaOrcamentos tr'); // Pega todas as linhas da tabela de orçamentos
-        linhas.forEach(linha => { // Percorre as linhas da tabela
-            const cliente = linha.querySelector('td:nth-child(2)').textContent.toLowerCase(); // Pega o nome do cliente da linha atual e converte para letras minúsculas para comparação
-            if (cliente.includes(termoPesquisa)) {
-                linha.style.display = '';
-            } else {
-                linha.style.display = 'none';
-            }
-        });
-    });
+    inicializarAplicacao();
 });
 
-// Função para fechar o menu
-function fecharMenu() {
-    const menuNav = document.querySelector('.menu-nav');
-    const menuToggle = document.getElementById('menuToggle');
-    menuNav.classList.remove('ativo');
-    menuToggle.classList.remove('ativo');
+function inicializarAplicacao() {
+    carregarClientes();
+    carregarProdutos();
+    carregarServicos();
+    configurarOuvintesEventos();
+    carregarOrcamentos();
+    configurarFiltroOrcamentos();
+}
+
+function configurarFiltroOrcamentos() {
+    const entradaPesquisaOrcamento = document.getElementById('entradaPesquisaOrcamento');
+    entradaPesquisaOrcamento.addEventListener('input', function() {
+        const termoPesquisa = entradaPesquisaOrcamento.value.toLowerCase();
+        const linhas = document.querySelectorAll('#corpoTabelaOrcamentos tr');
+        linhas.forEach(linha => {
+            const cliente = linha.querySelector('td:nth-child(2)').textContent.toLowerCase();
+            linha.style.display = cliente.includes(termoPesquisa) ? '' : 'none';
+        });
+    });
 }
 
 // Função para carregar os clientes do localStorage e preencher o select de clientes
@@ -59,13 +33,12 @@ function carregarClientes() {
         const option = document.createElement('option');
         option.value = cliente.id;
         option.textContent = cliente.nome;
-        option.setAttribute('data-telefone', cliente.telefone); // Adiciona o telefone como um atributo de dados
-        option.setAttribute('data-endereco', cliente.endereco); // Adiciona o endereço como um atributo de dados
-        option.setAttribute('data-cpf', cliente.cpf); // Adiciona o CPF como um atributo de dados
+        option.setAttribute('data-telefone', cliente.telefone);
+        option.setAttribute('data-endereco', cliente.endereco);
+        option.setAttribute('data-cpf', cliente.cpf);
         selectCliente.appendChild(option);
     });
 
-    // Adiciona um evento para filtrar os clientes com base na entrada de pesquisa
     document.getElementById('pesquisaCliente').addEventListener('input', function() {
         const termoPesquisa = this.value.toLowerCase();
         selectCliente.innerHTML = '<option value="">Selecione um cliente</option>';
@@ -74,9 +47,9 @@ function carregarClientes() {
                 const option = document.createElement('option');
                 option.value = cliente.id;
                 option.textContent = cliente.nome;
-                option.setAttribute('data-telefone', cliente.telefone); // Adiciona o telefone como um atributo de dados
-                option.setAttribute('data-endereco', cliente.endereco); // Adiciona o endereço como um atributo de dados
-                option.setAttribute('data-cpf', cliente.cpf); // Adiciona o CPF como um atributo de dados
+                option.setAttribute('data-telefone', cliente.telefone);
+                option.setAttribute('data-endereco', cliente.endereco);
+                option.setAttribute('data-cpf', cliente.cpf);
                 selectCliente.appendChild(option);
             }
         });
@@ -98,7 +71,6 @@ function carregarProdutos() {
         selectProduto.appendChild(option);
     });
 
-    // Adiciona um evento para filtrar os produtos com base na entrada de pesquisa
     document.getElementById('pesquisaProduto').addEventListener('input', function() {
         const termoPesquisa = this.value.toLowerCase();
         selectProduto.innerHTML = '<option value="">Selecione um produto</option>';
@@ -124,12 +96,11 @@ function carregarServicos() {
     servicos.forEach(servico => {
         const option = document.createElement('option');
         option.value = servico.id;
-        option.textContent = `${servico.nomeServico} - ${servico.tempoBase} dias - R$ ${servico.preco}`; // Certifique-se de que a propriedade correta está sendo usada
+        option.textContent = `${servico.nomeServico} - ${servico.tempoBase} dias - R$ ${servico.preco}`;
         option.setAttribute('data-preco', servico.preco);
-        selectServico.appendChild(option); // Adicione o elemento ao select
+        selectServico.appendChild(option);
     });
 
-    // Adiciona um evento para filtrar os serviços com base na entrada de pesquisa
     document.getElementById('pesquisaServico').addEventListener('input', function() {
         const termoPesquisa = this.value.toLowerCase();
         selectServico.innerHTML = '<option value="">Selecione um serviço</option>';
@@ -137,7 +108,7 @@ function carregarServicos() {
             if (servico.nomeServico.toLowerCase().includes(termoPesquisa)) {
                 const option = document.createElement('option');
                 option.value = servico.id;
-                option.textContent = `${servico.nomeServico} - R$ ${servico.preco} - ${servico.tempoBase} dias `; // Certifique-se de que a propriedade correta está sendo usada
+                option.textContent = `${servico.nomeServico} - R$ ${servico.preco} - ${servico.tempoBase} dias`;
                 option.setAttribute('data-preco', servico.preco);
                 selectServico.appendChild(option);
             }
@@ -146,16 +117,21 @@ function carregarServicos() {
 }
 
 // Função para configurar os ouvintes de eventos
-function configurarOuvintesEventos() { // Adiciona um ouvinte de eventos para o botão "Adicionar Item"
-    document.getElementById('botaoAdicionarItem').addEventListener('click', adicionarItem); // Adiciona um ouvinte de eventos para o botão "Salvar Orçamento"
-    document.getElementById('botaoSalvarOrcamento').addEventListener('click', salvarOrcamento); // Adiciona um ouvinte de eventos para o botão "Cancelar"
-    document.getElementById('produto').addEventListener('change', atualizarPreco); // Adiciona um ouvinte de eventos para o select de produtos
-    document.getElementById('servico').addEventListener('change', atualizarPreco); // Adiciona um ouvinte de eventos para o select de serviços
-    document.getElementById('quantidade').addEventListener('input', atualizarPreco); // Adiciona um ouvinte de eventos para o input de quantidade
-    }
+function configurarOuvintesEventos() {
+    document.getElementById('botaoAdicionarItem').addEventListener('click', adicionarItem);
+    document.getElementById('botaoSalvarOrcamento').addEventListener('click', salvarOrcamento);
+    document.getElementById('produto').addEventListener('change', atualizarPreco);
+    document.getElementById('servico').addEventListener('change', atualizarPreco);
+    document.getElementById('quantidade').addEventListener('input', atualizarPreco);
+    document.getElementById('botaoMostrarFormulario').addEventListener('click', function() {
+        document.getElementById('secaoFormularioOrcamento').style.display = 'block';
+        document.getElementById('botaoMostrarFormulario').style.display = 'none';
+        document.getElementById('secaoTabelaOrcamentos').style.display = 'none';
+    });
+}
 
-let itensOrcamento = []; // Armazena os itens do orçamento
-let indiceItemEdicao = -1; // Armazena o índice do item que está sendo editado
+let itensOrcamento = [];
+let indiceItemEdicao = -1;
 
 // Função para adicionar um item ao orçamento
 function adicionarItem() {
@@ -164,19 +140,19 @@ function adicionarItem() {
     const selectServico = document.getElementById('servico');
     const inputPreco = document.getElementById('preco');
 
-    const produto = selectProduto.options[selectProduto.selectedIndex].text; // Obtém o texto selecionado
-    const quantidade = parseInt(inputQuantidade.value); // Obtém a quantidade inserida
-    const servico = selectServico.options[selectServico.selectedIndex].text; // Obtém o texto selecionado
-    const precoProduto = parseFloat(selectProduto.options[selectProduto.selectedIndex].getAttribute('data-preco')) || 0; // Obtém o preço do produto
-    const precoServico = parseFloat(selectServico.options[selectServico.selectedIndex].getAttribute('data-preco')) || 0; // Obtém o preço do serviço
-    const tempoServico = parseFloat(selectServico.options[selectServico.selectedIndex].getAttribute('data-tempo')) || 0; // Obtém o tempo de conclusão do serviço
-    const precoTotal = (precoProduto * quantidade + precoServico).toFixed(2); // Calcula o preço total
+    const produto = selectProduto.options[selectProduto.selectedIndex].text;
+    const quantidade = parseInt(inputQuantidade.value);
+    const servico = selectServico.options[selectServico.selectedIndex].text;
+    const precoProduto = parseFloat(selectProduto.options[selectProduto.selectedIndex].getAttribute('data-preco')) || 0;
+    const precoServico = parseFloat(selectServico.options[selectServico.selectedIndex].getAttribute('data-preco')) || 0;
+    const tempoServico = parseFloat(selectServico.options[selectServico.selectedIndex].getAttribute('data-tempo')) || 0;
+    const precoTotal = (precoProduto * quantidade + precoServico).toFixed(2);
 
-    if ((produto && quantidade && !isNaN(precoProduto)) || (servico && !isNaN(precoServico) && !isNaN(tempoServico))) { // Verifica se pelo menos um produto ou serviço foi selecionado
-        itensOrcamento.push({ produto, quantidade, servico, precoProduto, precoServico, precoTotal, tempoServico }); // Adiciona o item ao array
+    if ((produto && quantidade && !isNaN(precoProduto)) || (servico && !isNaN(precoServico) && !isNaN(tempoServico))) {
+        itensOrcamento.push({ produto, quantidade, servico, precoProduto, precoServico, precoTotal, tempoServico });
         atualizarTabelaItensOrcamento();
-        document.getElementById('formularioOrcamento').reset(); // Limpa o formulário
-        atualizarPrecoTotal(); // Atualizar o preço total
+        document.getElementById('formularioOrcamento').reset();
+        atualizarPrecoTotal();
     } else {
         alert('Por favor, selecione um produto ou um serviço válido.');
     }
@@ -202,13 +178,14 @@ function atualizarTabelaItensOrcamento() {
 
 // Função para deletar um item do orçamento
 function deletarItem(index) {
-    itensOrcamento.splice(index, 1); // Remove o item do array
+    itensOrcamento.splice(index, 1);
     atualizarTabelaItensOrcamento();
-    atualizarPrecoTotal(); // Atualizar o preço total
+    atualizarPrecoTotal();
 }
 
 // Função para salvar o orçamento
-function salvarOrcamento() {
+function salvarOrcamento(event) {
+    event.preventDefault();
     const orcamentoId = document.getElementById('orcamentoId').value;
     const selectCliente = document.getElementById('cliente');
     const selectStatus = document.getElementById('status');
@@ -216,34 +193,34 @@ function salvarOrcamento() {
 
     const clienteId = selectCliente.value;
     const clienteNome = selectCliente.options[selectCliente.selectedIndex].text;
-    const clienteTelefone = selectCliente.options[selectCliente.selectedIndex].getAttribute('data-telefone'); // Obtém o telefone do cliente
-    const clienteEndereco = selectCliente.options[selectCliente.selectedIndex].getAttribute('data-endereco'); // Obtém o endereço do cliente
-    const clienteCPF = selectCliente.options[selectCliente.selectedIndex].getAttribute('data-cpf'); // Obtém o CPF do cliente
+    const clienteTelefone = selectCliente.options[selectCliente.selectedIndex].getAttribute('data-telefone');
+    const clienteEndereco = selectCliente.options[selectCliente.selectedIndex].getAttribute('data-endereco');
+    const clienteCPF = selectCliente.options[selectCliente.selectedIndex].getAttribute('data-cpf');
     const status = selectStatus.value;
     const formaPagamento = selectFormaPagamento.value;
 
     const total = itensOrcamento.reduce((sum, item) => sum + parseFloat(item.precoTotal), 0).toFixed(2);
 
     const dadosOrcamento = {
-        id: orcamentoId ? orcamentoId : new Date().getTime(), // Se o ID já existir, usá-lo; caso contrário, gerar um novo
-        clienteId: clienteId,
-        clienteNome: clienteNome,
-        clienteTelefone: clienteTelefone, // Inclui o telefone do cliente
-        clienteEndereco: clienteEndereco, // Inclui o endereço do cliente
-        clienteCPF: clienteCPF, // Inclui o CPF do cliente
-        itens: itensOrcamento, // Inclui os itens do orçamento
-        status: status,
-        formaPagamento: formaPagamento,
-        total: total
+        id: orcamentoId ? orcamentoId : gerarIdUnico(),
+        clienteId,
+        clienteNome,
+        clienteTelefone,
+        clienteEndereco,
+        clienteCPF,
+        itens: itensOrcamento,
+        status,
+        formaPagamento,
+        total
     };
 
-    let orcamentos = JSON.parse(localStorage.getItem('orcamentos')) || []; // Obtém os orçamentos do localStorage
+    let orcamentos = JSON.parse(localStorage.getItem('orcamentos')) || [];
 
     if (orcamentoId) {
         const index = orcamentos.findIndex(orcamento => orcamento.id == orcamentoId);
         orcamentos[index] = dadosOrcamento;
     } else {
-        orcamentos.unshift(dadosOrcamento); // Adiciona o novo orçamento no início da lista
+        orcamentos.unshift(dadosOrcamento);
     }
 
     localStorage.setItem('orcamentos', JSON.stringify(orcamentos));
@@ -253,10 +230,9 @@ function salvarOrcamento() {
     document.getElementById('formularioOrcamento').reset();
     itensOrcamento = [];
     atualizarTabelaItensOrcamento();
-    atualizarPrecoTotal(); // Atualizar o preço total
-    carregarOrcamentos(); // Atualizar a tabela de orçamentos
+    atualizarPrecoTotal();
+    carregarOrcamentos();
 
-    // Esconder o formulário e mostrar o botão "Criar Novo Orçamento"
     document.getElementById('secaoFormularioOrcamento').style.display = 'none';
     document.getElementById('mostrarFormularioBotao').style.display = 'block';
 }
@@ -315,7 +291,6 @@ function carregarOrcamentos() {
         corpoTabelaOrcamentos.appendChild(linha);
     });
 
-    // Mostrar a tabela de orçamentos registrados
     document.getElementById('secaoTabelaOrcamentos').style.display = 'block';
 }
 
@@ -362,7 +337,7 @@ function mandarWhatsApp(index) {
     const clienteNome = cliente.nome;
     const clienteEndereco = cliente.endereco;
     const clienteCPF = cliente.cpfCnpj;
-    const clienteTelefone = cliente.telefone.replace(/\D/g, ''); // Remove todos os caracteres não numéricos
+    const clienteTelefone = cliente.telefone.replace(/\D/g, '');
 
     const produtos = orcamento.itens.filter(item => item.produto).map(item => `${item.produto} (${item.quantidade}) - R$ ${item.precoProduto}`).join('\n');
     const servicos = orcamento.itens.filter(item => item.servico).map(item => `${item.servico} - R$ ${item.precoServico}`).join('\n');
@@ -370,11 +345,23 @@ function mandarWhatsApp(index) {
     const total = `R$ ${orcamento.total}`;
     const status = orcamento.status;
     const formaPagamento = orcamento.formaPagamento;
-    const tempoConclusao = orcamento.itens.reduce((total, item) => total + item.tempoServico, 0); // Soma o tempo de conclusão de cada serviço
-    const tempoConclusaoDias = tempoConclusao; // O tempo de conclusão já está em dias
+    const tempoConclusao = orcamento.itens.reduce((total, item) => total + item.tempoServico, 0);
+    const tempoConclusaoDias = tempoConclusao;
 
     const mensagem = `Olá ${clienteNome},\n\nAqui está o seu orçamento:\n\nNome do Cliente: ${clienteNome}\nCPF: ${clienteCPF}\nEndereço: ${clienteEndereco}\n\nProdutos:\n${produtos}\n\nServiços:\n${servicos}\n\nTempo de Conclusão: ${tempoConclusaoDias} dias\nTotal: ${total}\nStatus: ${status}\nForma de Pagamento: ${formaPagamento}\n\nObrigado por escolher a Tech Cell Center Brasil!`;
 
     const url = `https://wa.me/${clienteTelefone}?text=${encodeURIComponent(mensagem)}`;
     window.open(url, '_blank');
+}
+
+// Função para gerar um ID único
+function gerarIdUnico() {
+    let clientes = JSON.parse(localStorage.getItem('produtos')) || [];
+    let novoId;
+
+    do {
+        novoId = Math.floor(10000000000 + Math.random() * 90000000000).toString(); // Gera número de 11 dígitos
+    } while (clientes.some(produto => produto.id === novoId)); // Garante que o ID seja único
+
+    return novoId;
 }

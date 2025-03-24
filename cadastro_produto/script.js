@@ -6,50 +6,71 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // Função para configurar os ouvintes de eventos
 function configurarOuvintesDeEventos() {
-    // Mostra o formulário de adicionar produto e esconde a tabela de produtos
     document.getElementById('mostrarFormularioBotao').addEventListener('click', function() {
-        document.getElementById('secaoFormularioProduto').style.display = 'block';
-        document.querySelector('.tabela-produto').style.display = 'none';
-        document.getElementById('mostrarFormularioBotao').style.display = 'none';
+        toggleFormulario(true);
     });
 
-    // Remova qualquer evento de submissão existente antes de adicionar um novo
     const formularioProduto = document.getElementById('formularioProduto');
-    formularioProduto.removeEventListener('submit', lidarComSubmissaoFormulario); // Remove o evento de submissão existente para evitar a duplicação de eventos
-    formularioProduto.addEventListener('submit', lidarComSubmissaoFormulario); // Adiciona um novo evento de submissão para lidar com a submissão do formulário
+    formularioProduto.removeEventListener('submit', lidarComSubmissaoFormulario);
+    formularioProduto.addEventListener('submit', lidarComSubmissaoFormulario);
 
-    // Adiciona um evento para filtrar os produtos com base na entrada de pesquisa
-    document.getElementById('entradaPesquisa').addEventListener('input', function() {
-        const termoPesquisa = this.value.toLowerCase(); // Obtém o termo de pesquisa digitado pelo usuário em letras minúsculas para facilitar a comparação de string
-        const produtos = JSON.parse(localStorage.getItem('produtos')) || [];
-        const corpoTabela = document.getElementById('corpoTabelaProdutos');
-        corpoTabela.innerHTML = '';
+    document.getElementById('entradaPesquisa').addEventListener('input', filtrarProdutos);
+}
 
-        produtos.forEach(produto => { // Percorre cada produto armazenado no localStorage
-            if (produto.nome.toLowerCase().includes(termoPesquisa)) { // Verifica se o nome do produto contém o termo de pesquisa digitado
-                const linha = document.createElement('tr');
-                linha.innerHTML = `
-                    <td>${produto.id}</td>
-                    <td>${produto.nome}</td>
-                    <td>${produto.marca}</td>
-                    <td>${produto.modelo}</td>
-                    <td>${produto.preco}</td>
-                    <td>${produto.categoria}</td>
-                    <td class="acoes">
-                        <button class="editar" onclick="editarProduto(${produto.id})">Editar</button>
-                        <button class="deletar" onclick="deletarProduto(${produto.id})">Deletar</button>
-                    </td>
-                `;
-                corpoTabela.appendChild(linha);
-            }
-        });
+// Função para alternar a exibição do formulário
+function toggleFormulario(mostrar) {
+    document.getElementById('secaoFormularioProduto').style.display = mostrar ? 'block' : 'none';
+    document.querySelector('.tabela-produto').style.display = mostrar ? 'none' : 'block';
+    document.getElementById('mostrarFormularioBotao').style.display = mostrar ? 'none' : 'block';
+}
+
+// Função para filtrar os produtos
+function filtrarProdutos() {
+    const termoPesquisa = this.value.toLowerCase();
+    const produtos = JSON.parse(localStorage.getItem('produtos')) || [];
+    const corpoTabela = document.getElementById('corpoTabelaProdutos');
+    corpoTabela.innerHTML = '';
+
+    produtos.forEach(produto => {
+        if (produto.nome.toLowerCase().includes(termoPesquisa)) {
+            corpoTabela.appendChild(criarLinhaTabela(produto));
+        }
     });
+}
+
+// Função para adicionar um produto à tabela
+function criarLinhaTabela(produto) {
+    const linha = document.createElement('tr');
+    linha.innerHTML = `
+        <td>${produto.id}</td>
+        <td>${produto.nome}</td>
+        <td>${produto.marca}</td>
+        <td>${produto.modelo}</td>
+        <td>${produto.preco}</td>
+        <td>${produto.categoria}</td>
+        <td class="acoes">
+            <button class="editar" onclick="editarProduto(${produto.id})">Editar</button>
+            <button class="deletar" onclick="deletarProduto(${produto.id})">Deletar</button>
+        </td>
+    `;
+    return linha;
 }
 
 // Função para lidar com a submissão do formulário
 function lidarComSubmissaoFormulario(event) {
-    event.preventDefault(); // Previne a ação padrão do formulário (enviar a página)
-    salvarProduto(); // Chama a função para salvar o produto
+    event.preventDefault();
+    salvarProduto();
+}
+
+// Função para validar os campos do formulário
+function validarFormulario() {
+    const nome = document.getElementById('nome').value;
+    const marca = document.getElementById('marca').value;
+    const modelo = document.getElementById('modelo').value;
+    const preco = document.getElementById('preco').value;
+    const categoria = document.getElementById('categoria').value;
+
+    return nome && marca && modelo && preco && categoria; // Retorna true se todos os campos forem preenchidos
 }
 
 // Função para salvar o produto no localStorage
@@ -62,63 +83,57 @@ function salvarProduto() {
     const categoria = document.getElementById('categoria').value;
 
     const dadosProduto = {
-        id: produtoId || new Date().getTime(), // Gera um ID único para o produto
-        nome: nome,
-        marca: marca,
-        modelo: modelo,
-        preco: preco,
-        categoria: categoria
+        id: gerarIdClienteUnico(), // Gera um ID único para o produto
+        nome,
+        marca,
+        modelo,
+        preco,
+        categoria
     };
 
     let produtos = JSON.parse(localStorage.getItem('produtos')) || [];
 
-    if (produtoId) { // Se o ID do produto já existe, atualiza o produto existente com os novos dados do produto
+    if (produtoId) {
         const index = produtos.findIndex(produto => produto.id == produtoId);
-        produtos[index] = dadosProduto; // Atualiza o produto existente com os novos dados do produto
+        produtos[index] = dadosProduto;
     } else {
-        produtos.push(dadosProduto); // Adiciona o novo produto ao array de produtos existente no localStorage
+        produtos.push(dadosProduto);
     }
 
-    localStorage.setItem('produtos', JSON.stringify(produtos)); // Salva o array de produtos atualizado no localStorage para persistência
+    localStorage.setItem('produtos', JSON.stringify(produtos));
 
     alert('Produto salvo com sucesso!');
-
-    document.getElementById('formularioProduto').reset(); // Limpa o formulário após salvar o produto
-    document.getElementById('secaoFormularioProduto').style.display = 'none';
-    document.querySelector('.tabela-produto').style.display = 'block';
-    document.getElementById('mostrarFormularioBotao').style.display = 'block';
-
+    document.getElementById('formularioProduto').reset();
+    toggleFormulario(false);
     carregarProdutos();
 }
 
-// Função para carregar os produtos do localStorage e preencher a tabela de produtos
+function gerarIdClienteUnico() {
+    let clientes = JSON.parse(localStorage.getItem('produtos')) || [];
+    let novoId;
+
+    do {
+        novoId = Math.floor(10000000000 + Math.random() * 90000000000).toString(); // Gera número de 11 dígitos
+    } while (clientes.some(produto => produto.id === novoId)); // Garante que o ID seja único
+
+    return novoId;
+}
+
+// Função para carregar os produtos
 function carregarProdutos() {
     const produtos = JSON.parse(localStorage.getItem('produtos')) || [];
     const corpoTabela = document.getElementById('corpoTabelaProdutos');
     corpoTabela.innerHTML = '';
 
-    produtos.forEach(produto => { // Percorre cada produto armazenado no localStorage e exibe na tabela de produtos na página HTML
-        const linha = document.createElement('tr');
-        linha.innerHTML = `
-            <td>${produto.id}</td>
-            <td>${produto.nome}</td>
-            <td>${produto.marca}</td>
-            <td>${produto.modelo}</td>
-            <td>${produto.preco}</td>
-            <td>${produto.categoria}</td>
-            <td class="acoes">
-                <button class="editar" onclick="editarProduto(${produto.id})">Editar</button>
-                <button class="deletar" onclick="deletarProduto(${produto.id})">Deletar</button>
-            </td>
-        `;
-        corpoTabela.appendChild(linha);
-    });
+    produtos.forEach(produto => corpoTabela.appendChild(criarLinhaTabela(produto)));
 }
 
 // Função para editar um produto
 function editarProduto(id) {
     const produtos = JSON.parse(localStorage.getItem('produtos')) || [];
-    const produto = produtos.find(produto => produto.id == id); // Encontra o produto a ser editado no array de produtos com base no ID do produto fornecido
+    const produto = produtos.find(produto => produto.id == id);
+
+    if (!produto) return;
 
     document.getElementById('produtoId').value = produto.id;
     document.getElementById('nome').value = produto.nome;
@@ -127,16 +142,14 @@ function editarProduto(id) {
     document.getElementById('preco').value = produto.preco;
     document.getElementById('categoria').value = produto.categoria;
 
-    document.getElementById('secaoFormularioProduto').style.display = 'block';
-    document.querySelector('.tabela-produto').style.display = 'none';
-    document.getElementById('mostrarFormularioBotao').style.display = 'none';
+    toggleFormulario(true);
 }
 
 // Função para deletar um produto
 function deletarProduto(id) {
     let produtos = JSON.parse(localStorage.getItem('produtos')) || [];
     if (confirm('Você tem certeza que deseja excluir esse produto?')) {
-        produtos = produtos.filter(produto => produto.id != id); // Remove o produto a ser deletado do array de produtos com base no ID do produto fornecido
+        produtos = produtos.filter(produto => produto.id != id);
         localStorage.setItem('produtos', JSON.stringify(produtos));
         alert('Produto deletado com sucesso!');
         carregarProdutos();
