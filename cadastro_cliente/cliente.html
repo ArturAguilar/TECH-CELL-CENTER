@@ -80,51 +80,87 @@
       </button>
 
       <!-- Seção do formulário de registro de cliente -->
-      <section
-        id="secaoFormularioCliente"
-        class="formulario-cliente"
-        style="display: none"
-      >
+      <section id="secaoFormularioCliente" class="formulario-cliente" style="display: none">
         <h2>Registrar Cliente</h2>
         <form id="formularioCliente">
           <input type="hidden" id="clienteId" name="clienteId" />
-          <label for="nome">Nome:</label>
-          <input type="text" id="nome" name="nome" required />
+          
+          <div class="form-group">
+            <label for="nome">Nome:</label>
+            <input type="text" id="nome" name="nome" required />
+          </div>
+  
+          <div class="form-group">
+            <label for="cpfCnpj">CPF/CNPJ:</label>
+            <input type="text" id="cpfCnpj" name="cpfCnpj" required />
+          </div>
+  
+          <div class="form-group">
+            <label for="telefone">Telefone:</label>
+            <input type="text" id="telefone" name="telefone" required />
+          </div>
 
-          <label for="cpfCnpj">CPF/CNPJ:</label>
-          <input type="text" id="cpfCnpj" name="cpfCnpj" required />
+          <div class="form-group">
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required />
+          </div>
 
-          <label for="telefone">Telefone:</label>
-          <input type="text" id="telefone" name="telefone" required />
-
-          <label for="cidade">Cidade:</label>
-          <input type="text" id="cidade" name="cidade" required />
-
-          <label for="bairro">Bairro:</label>
-          <input type="text" id="bairro" name="bairro" required />
-
-          <label for="rua">Rua:</label>
-          <input type="text" id="rua" name="rua" required />
-
-          <label for="numero">Número:</label>
-          <input type="text" id="numero" name="numero" required />
-
-          <button type="submit">Registrar</button>
+          <div class="form-group">
+            <label for="cep">CEP:</label>
+            <input type="text" id="cep" name="cep" required />
+          </div>
+  
+          <div class="form-group">
+            <label for="cidade">Cidade:</label>
+            <input type="text" id="cidade" name="cidade" required />
+          </div>
+  
+          <div class="form-group">
+            <label for="bairro">Bairro:</label>
+            <input type="text" id="bairro" name="bairro" required />
+          </div>
+  
+          <div class="form-group">
+            <label for="rua">Rua:</label>
+            <input type="text" id="rua" name="rua" required />
+          </div>
+  
+          <div class="form-group">
+            <label for="numero">Número:</label>
+            <input type="text" id="numero" name="numero" required />
+          </div>
+  
+          <div class="form-group form-group-full">
+            <button type="submit">Registrar</button>
+          </div>
         </form>
       </section>
       <!-- Seção da tabela de clientes registrados -->
       <section class="tabela-clientes">
         <h2>Clientes Registrados</h2>
-        <input
-          type="text"
-          id="entradaPesquisa"
-          placeholder="Buscar por nome..."
-        />
+        <div class="filtros">
+          <input
+            type="text"
+            id="entradaPesquisa"
+            placeholder="Buscar por nome..."
+          />
+          <div class="filtro-status">
+
+            <label>
+              <input type="radio" name="statusCliente" value="ativos" checked />
+              Ativos
+            </label>
+            <label>
+              <input type="radio" name="statusCliente" value="inativos" />
+              Inativos
+            </label>
+          </div>
+        </div>
         <div class="container-tabela">
           <table>
             <thead>
               <tr>
-                <th>ID</th>
+                <th>Código</th>
                 <th>Nome</th>
                 <th>CPF/CNPJ</th>
                 <th>Telefone</th>
