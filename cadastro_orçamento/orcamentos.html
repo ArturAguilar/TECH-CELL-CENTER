@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="../menu.css">
     <link rel="shortcut icon" href="../logo.png" type="image/x-icon">
     <title>Orçamentos - Tech Cell Center Brasil</title>
 </head>
@@ -13,20 +14,20 @@
             <a href="../index.html" class="logo" title="logo">
                 Tech Cell Center <span>Brasil</span>
             </a>
-            <ul class="menu-nav">
-                <li class="item-nav">
+            <ul class="menu-navegacao">
+                <li class="item-navegacao">
                     <a href="../index.html" onclick="fecharMenu()" title="início"> Início</a>
                 </li>
-                <li class="item-nav">
+                <li class="item-navegacao">
                     <a href="../cadastro_cliente/cliente.html" onclick="fecharMenu()" title="Clientes">Clientes</a>
                 </li>
-                <li class="item-nav">
+                <li class="item-navegacao">
                     <a href="../cadastro_produto/produto.html" onclick="fecharMenu()" title="Produtos">Produtos</a>
                 </li>
-                <li class="item-nav">
+                <li class="item-navegacao">
                     <a href="../cadastro_serviço/serviço.html" onclick="fecharMenu()" title="Serviços">Serviços</a>
                 </li>
-                <li class="item-nav">
+                <li class="item-navegacao">
                     <a href="orcamentos.html" onclick="fecharMenu()" title="Orçamento">Solicitar Orçamento</a>
                 </li>
             </ul>
@@ -39,7 +40,7 @@
     </header>
     <main>
         <!-- Botão para mostrar o formulário de adicionar orçamento -->
-        <button id="mostrarFormularioBotao" class="mostrar-formulario-botao">Criar Novo Orçamento</button>
+        <button id="botaoMostrarFormulario" class="botao-mostrar-formulario">Criar Novo Orçamento</button>
         
         <!-- Seção do formulário de adicionar orçamento -->
         <section class="formulario-orcamento" id="secaoFormularioOrcamento" style="display: none;">
@@ -62,7 +63,7 @@
                 <select id="status" name="status" required>
                     <option value="Pendente">Pendente</option>
                     <option value="Andamento">Em Andamento</option>
-                    <option value="Concluido">Concluido</option>
+                    <option value="Concluido">Concluído</option>
                     <option value="Rejeitado">Rejeitado</option>
                 </select>
 
@@ -139,7 +140,7 @@
         </section>
 
         <!-- Seção da tabela de orçamentos registrados -->
-        <section class="tabela-orcamento" id="secaoTabelaOrcamentos" style="display: none;">
+        <section class="tabela-orcamento" id="secaoTabelaOrcamentos">
             <h2>Orçamentos Registrados</h2>
             <input type="text" id="entradaPesquisaOrcamento" placeholder="Buscar por nome do cliente..." />
             <div class="container-tabela">
