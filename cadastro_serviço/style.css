@@ -164,3 +164,44 @@ body {
 .tabela-servico .acoes .deletar:hover {
   background-color: #c82333;
 }
+
+.tabela-servico .acoes .ativar {
+  background-color: #3540dc;
+  color: #fff;
+  margin-bottom: 0.3125rem; /* 5px */
+}
+
+
+.tabela-servico .acoes .inativar {
+  background-color: #dc3545;
+  color: #fff;
+}
+
+.filtros {
+  display: flex;
+  align-items: center;
+  gap: 10px; /* Espaçamento entre os elementos */
+}
+
+.filtro-status {
+  display: flex;
+  gap: 10px; /* Espaçamento entre os rótulos */
+}
+
+.grid-form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.grid-form label {
+  grid-column: span 2;
+}
+
+.grid-form input, .grid-form select, .grid-form button {
+  grid-column: span 2;
+}
+
+.grid-form button {
+  justify-self: start;
+}

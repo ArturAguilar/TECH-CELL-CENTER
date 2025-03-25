@@ -15,6 +15,14 @@ function configurarOuvintesDeEventos() {
     formularioServico.addEventListener('submit', lidarComSubmissaoFormulario);
 
     document.getElementById('inputBusca').addEventListener('input', filtrarServicos);
+
+    document.querySelectorAll('input[name="statusServico"]').forEach(radio => {
+        radio.addEventListener('change', filtrarServicos);
+    });
+
+    document.getElementById('preco').addEventListener('input', function() {
+        this.value = formatarPreco(this.value);
+    });
 }
 
 // Função para alternar a exibição do formulário
@@ -26,13 +34,20 @@ function toggleFormulario(mostrar) {
 
 // Função para filtrar os serviços
 function filtrarServicos() {
-    const termoPesquisa = this.value.toLowerCase();
+    const termoPesquisa = document.getElementById('inputBusca').value.trim().toLowerCase();
+    const statusFiltro = document.querySelector('input[name="statusServico"]:checked').value;
     const servicos = JSON.parse(localStorage.getItem('servicos')) || [];
     const corpoTabela = document.getElementById('corpoTabelaServicos');
     corpoTabela.innerHTML = '';
 
     servicos.forEach(servico => {
-        if (servico.nomeServico.toLowerCase().includes(termoPesquisa) || servico.descricao.toLowerCase().includes(termoPesquisa)) {
+        const nomeIncluiTermo = servico.nomeServico.toLowerCase().includes(termoPesquisa);
+        const descricaoIncluiTermo = servico.descricao.toLowerCase().includes(termoPesquisa);
+        const statusCorreto = (statusFiltro === 'todos') ||
+                              (statusFiltro === 'ativos' && servico.ativo === true) ||
+                              (statusFiltro === 'inativos' && servico.ativo === false);
+
+        if ((nomeIncluiTermo || descricaoIncluiTermo) && statusCorreto) {
             corpoTabela.appendChild(criarLinhaTabela(servico));
         }
     });
@@ -41,7 +56,22 @@ function filtrarServicos() {
 // Função para lidar com a submissão do formulário
 function lidarComSubmissaoFormulario(event) {
     event.preventDefault();
-    salvarServico();
+    if (validarCampos()) {
+        salvarServico();
+    } else {
+        alert('Por favor, preencha todos os campos obrigatórios.');
+    }
+}
+
+// Função para validar todos os campos do formulário
+function validarCampos() {
+    const nomeServico = document.getElementById('nomeServico').value.trim();
+    const descricao = document.getElementById('descricao').value.trim();
+    const preco = document.getElementById('preco').value.trim();
+    const tempoBase = document.getElementById('tempoBase').value.trim();
+    const categoria = document.getElementById('categoria').value.trim();
+
+    return nomeServico && descricao && preco && tempoBase && categoria;
 }
 
 // Função para salvar o serviço no localStorage
@@ -49,17 +79,25 @@ function salvarServico() {
     const servicoId = document.getElementById('idServico').value;
     const nomeServico = document.getElementById('nomeServico').value;
     const descricao = document.getElementById('descricao').value;
-    const preco = document.getElementById('preco').value;
+    let preco = document.getElementById('preco').value;
     const tempoBase = document.getElementById('tempoBase').value;
     const categoria = document.getElementById('categoria').value;
 
+    if (!validarPreco(preco)) {
+        alert('Por favor, insira um preço válido.');
+        return;
+    }
+
+    preco = formatarPreco(preco);
+
     const dadosServico = {
-        id: gerarIdClienteUnico(), // Gera um ID único para o serviço
+        id: servicoId ? parseInt(servicoId) : gerarIdClienteUnico(),
         nomeServico,
         descricao,
         preco,
         tempoBase,
-        categoria
+        categoria,
+        ativo: true
     };
 
     let servicos = JSON.parse(localStorage.getItem('servicos')) || [];
@@ -79,12 +117,13 @@ function salvarServico() {
     carregarServicos();
 }
 
+// Função para gerar um ID único para o serviço
 function gerarIdClienteUnico() {
     let clientes = JSON.parse(localStorage.getItem('servicos')) || [];
     let novoId;
 
     do {
-        novoId = Math.floor(10000000000 + Math.random() * 90000000000).toString(); // Gera número de 11 dígitos
+        novoId = Math.floor(10000000000 + Math.random() * 90000000000); // Gera número de 11 dígitos
     } while (clientes.some(servico => servico.id === novoId)); // Garante que o ID seja único
 
     return novoId;
@@ -97,6 +136,8 @@ function carregarServicos() {
     corpoTabela.innerHTML = '';
 
     servicos.forEach(servico => corpoTabela.appendChild(criarLinhaTabela(servico)));
+
+    filtrarServicos(); // Aplica o filtro de status e pesquisa após carregar todos os serviços
 }
 
 // Função para criar uma linha na tabela
@@ -110,8 +151,13 @@ function criarLinhaTabela(servico) {
         <td>${servico.tempoBase}</td>
         <td>${servico.categoria}</td>
         <td class="acoes">
-            <button class="editar" onclick="editarServico(${servico.id})">Editar</button>
-            <button class="deletar" onclick="deletarServico(${servico.id})">Deletar</button>
+            ${servico.ativo ? `
+                <button class="editar" onclick="editarServico(${servico.id})">Editar</button>
+                <button class="inativar" onclick="inativarServico(${servico.id})">Inativar</button>
+            ` : `
+                <button class="ativar" onclick="ativarServico(${servico.id})">Ativar</button>
+                <button class="deletar" onclick="deletarServico(${servico.id})">Excluir</button>
+            `}
         </td>
     `;
     return linha;
@@ -134,13 +180,55 @@ function editarServico(id) {
     toggleFormulario(true);
 }
 
-// Função para deletar um serviço
-function deletarServico(id) {
+// Função para inativar um serviço
+function inativarServico(id) {
     let servicos = JSON.parse(localStorage.getItem('servicos')) || [];
-    if (confirm('Você tem certeza que deseja excluir esse serviço?')) {
-        servicos = servicos.filter(servico => servico.id != id);
+    const index = servicos.findIndex(servico => servico.id == id);
+    if (index !== -1) {
+        servicos[index].ativo = false;
         localStorage.setItem('servicos', JSON.stringify(servicos));
-        alert('Serviço deletado com sucesso!');
+        alert('Serviço inativado com sucesso!');
         carregarServicos();
     }
+}
+
+// Função para ativar um serviço
+function ativarServico(id) {
+    let servicos = JSON.parse(localStorage.getItem('servicos')) || [];
+    const index = servicos.findIndex(servico => servico.id == id);
+    if (index !== -1) {
+        servicos[index].ativo = true;
+        localStorage.setItem('servicos', JSON.stringify(servicos));
+        alert('Serviço ativado com sucesso!');
+        carregarServicos();
+    }
+}
+
+// Função para deletar um serviço (inativar)
+function deletarServico(id) {
+    let servicos = JSON.parse(localStorage.getItem('servicos')) || [];
+    const index = servicos.findIndex(servico => servico.id == id);
+    if (index !== -1) {
+        servicos.splice(index, 1);
+        localStorage.setItem('servicos', JSON.stringify(servicos));
+        alert('Serviço excluído com sucesso!');
+        carregarServicos();
+    } else {
+        alert('Serviço não encontrado.');
+    }
+}
+
+// Função para formatar o preço
+function formatarPreco(preco) {
+    preco = preco.replace(/\D/g, ""); // Remove caracteres não numéricos
+    preco = (preco / 100).toFixed(2) + ""; // Divide por 100 para obter o valor correto
+    preco = preco.replace(".", ","); // Substitui ponto por vírgula
+    preco = preco.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."); // Adiciona pontos como separadores de milhar
+    return "R$ " + preco;
+}
+
+// Função para validar o preço
+function validarPreco(preco) {
+    const precoNumerico = parseFloat(preco.replace(/\D/g, "")) / 100;
+    return !isNaN(precoNumerico) && precoNumerico > 0;
 }

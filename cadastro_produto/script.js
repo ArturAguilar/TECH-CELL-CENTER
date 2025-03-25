@@ -16,6 +16,10 @@ function configurarOuvintesDeEventos() {
 
     document.getElementById('entradaPesquisa').addEventListener('input', filtrarProdutos);
 
+    document.querySelectorAll('input[name="statusProduto"]').forEach(radio => {
+        radio.addEventListener('change', filtrarProdutos);
+    });
+
     document.getElementById('preco').addEventListener('input', function() {
         this.value = formatarPreco(this.value);
     });
@@ -30,13 +34,18 @@ function toggleFormulario(mostrar) {
 
 // Função para filtrar os produtos
 function filtrarProdutos() {
-    const termoPesquisa = this.value.toLowerCase();
+    const termoPesquisa = document.getElementById('entradaPesquisa').value.trim().toLowerCase();
+    const statusFiltro = document.querySelector('input[name="statusProduto"]:checked').value;
     const produtos = JSON.parse(localStorage.getItem('produtos')) || [];
     const corpoTabela = document.getElementById('corpoTabelaProdutos');
     corpoTabela.innerHTML = '';
 
     produtos.forEach(produto => {
-        if (produto.nome.toLowerCase().includes(termoPesquisa)) {
+        const nomeIncluiTermo = produto.nome.toLowerCase().includes(termoPesquisa);
+        const statusCorreto = (statusFiltro === 'ativos' && produto.ativo !== false) ||
+                              (statusFiltro === 'inativos' && produto.ativo === false);
+
+        if (nomeIncluiTermo && statusCorreto) {
             corpoTabela.appendChild(criarLinhaTabela(produto));
         }
     });
@@ -53,11 +62,12 @@ function criarLinhaTabela(produto) {
         <td>${produto.preco}</td>
         <td>${produto.categoria}</td>
         <td class="acoes">
-            <button class="editar" onclick="editarProduto(${produto.id})">Editar</button>
             ${produto.ativo ? `
-                <button class="inativar" onclick="inativarProduto(${produto.id})">Inativar</button>
+                <button class="editar" onclick="editarProduto('${produto.id}')">Editar</button>
+                <button class="inativar" onclick="inativarProduto('${produto.id}')">Inativar</button>
             ` : `
-                <button class="ativar" onclick="ativarProduto(${produto.id})">Ativar</button>
+                <button class="ativar" onclick="ativarProduto('${produto.id}')">Ativar</button>
+                <button class="deletar" onclick="deletarProduto('${produto.id}')">Excluir</button>
             `}
         </td>
     `;
@@ -130,7 +140,7 @@ function gerarIdProdutoUnico() {
     let novoId;
 
     do {
-        novoId = Math.floor(10000000000 + Math.random() * 90000000000).toString(); // Gera número de 11 dígitos
+        novoId = Math.floor(10000000000 + Math.random() * 90000000000); // Gera número de 11 dígitos
     } while (produtos.some(produto => produto.id === novoId)); // Garante que o ID seja único
 
     return novoId;
@@ -143,6 +153,8 @@ function carregarProdutos() {
     corpoTabela.innerHTML = '';
 
     produtos.forEach(produto => corpoTabela.appendChild(criarLinhaTabela(produto)));
+
+    filtrarProdutos(); // Aplica o filtro de status e pesquisa após carregar todos os produtos
 }
 
 // Função para editar um produto
@@ -169,6 +181,30 @@ function deletarProduto(id) {
         produtos = produtos.filter(produto => produto.id != id);
         localStorage.setItem('produtos', JSON.stringify(produtos));
         alert('Produto deletado com sucesso!');
+        carregarProdutos();
+    }
+}
+
+// Função para inativar um produto
+function inativarProduto(id) {
+    let produtos = JSON.parse(localStorage.getItem('produtos')) || [];
+    const index = produtos.findIndex(produto => produto.id == id);
+    if (index !== -1) {
+        produtos[index].ativo = false;
+        localStorage.setItem('produtos', JSON.stringify(produtos));
+        alert('Produto inativado com sucesso!');
+        carregarProdutos();
+    }
+}
+
+// Função para ativar um produto
+function ativarProduto(id) {
+    let produtos = JSON.parse(localStorage.getItem('produtos')) || [];
+    const index = produtos.findIndex(produto => produto.id == id);
+    if (index !== -1) {
+        produtos[index].ativo = true;
+        localStorage.setItem('produtos', JSON.stringify(produtos));
+        alert('Produto ativado com sucesso!');
         carregarProdutos();
     }
 }
