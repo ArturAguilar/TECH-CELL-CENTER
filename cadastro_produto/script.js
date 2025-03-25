@@ -124,13 +124,14 @@ function salvarProduto() {
     carregarProdutos();
 }
 
-function gerarIdClienteUnico() {
-    let clientes = JSON.parse(localStorage.getItem('produtos')) || [];
+// Função para gerar um ID único para o produto
+function gerarIdProdutoUnico() {
+    let produtos = JSON.parse(localStorage.getItem('produtos')) || [];
     let novoId;
 
     do {
         novoId = Math.floor(10000000000 + Math.random() * 90000000000).toString(); // Gera número de 11 dígitos
-    } while (clientes.some(produto => produto.id === novoId)); // Garante que o ID seja único
+    } while (produtos.some(produto => produto.id === novoId)); // Garante que o ID seja único
 
     return novoId;
 }
@@ -155,7 +156,7 @@ function editarProduto(id) {
     document.getElementById('nome').value = produto.nome;
     document.getElementById('marca').value = produto.marca;
     document.getElementById('modelo').value = produto.modelo;
-    document.getElementById('preco').value = produto.preco;
+    document.getElementById('preco').value = produto.preco.replace("R$ ", "").replace(/\./g, "").replace(",", ".");
     document.getElementById('categoria').value = produto.categoria;
 
     toggleFormulario(true);
@@ -174,15 +175,15 @@ function deletarProduto(id) {
 
 // Função para formatar o preço
 function formatarPreco(preco) {
-    preco = preco.replace(/\D/g, ""); // Remove caracteres não numéricos
-    preco = (preco / 100).toFixed(2) + ""; // Divide por 100 para obter o valor correto
+    preco = preco.replace(/[^\d]/g, ""); // Remove caracteres não numéricos
+    preco = (parseFloat(preco) / 100).toFixed(2) + ''; // Converte para número e fixa duas casas decimais
     preco = preco.replace(".", ","); // Substitui ponto por vírgula
-    preco = preco.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."); // Adiciona pontos como separadores de milhar
+    preco = preco.replace(/\B(?=(\d{3})+(?!\d))/g, "."); // Adiciona pontos como separadores de milhar
     return "R$ " + preco;
 }
 
 // Função para validar o preço
 function validarPreco(preco) {
-    const precoNumerico = parseFloat(preco.replace(/\D/g, "")) / 100;
+    const precoNumerico = parseFloat(preco.replace(/[^\d,]/g, "").replace(",", "."));
     return !isNaN(precoNumerico) && precoNumerico > 0;
 }
