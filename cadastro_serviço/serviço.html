@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="../menu.css">
+    <link rel="stylesheet" href="form.css"> <!-- Link para o novo arquivo CSS -->
     <link rel="shortcut icon" href="../logo.png" type="image/x-icon">
     <title>Serviços - Tech Cell Center Brasil</title>
   </head>
@@ -56,7 +57,7 @@
       <!-- Seção do formulário de adicionar serviço -->
       <section class="formulario-servico" id="secaoFormularioServico" style="display: none;">
         <h2>Adicionar Serviço</h2>
-        <form id="formularioServico">
+        <form id="formularioServico" class="grid-form">
           <input type="hidden" id="idServico" name="idServico" />
           <label for="nomeServico">Nome do Serviço:</label>
           <input type="text" id="nomeServico" name="nomeServico" required />
@@ -65,7 +66,7 @@
           <input type="text" id="descricao" name="descricao" required />
 
           <label for="preco">Preço:</label>
-          <input type="number" id="preco" name="preco" step="0.01" required />
+          <input type="text" id="preco" name="preco" step="0.01" required />
 
           <label for="tempoBase">Tempo Base (em Dias):</label>
           <input type="number" id="tempoBase" name="tempoBase" step="0.1" required />
@@ -83,7 +84,17 @@
       <!-- Seção da tabela de serviços cadastrados -->
       <section class="tabela-servico">
         <h2>Serviços Cadastrados</h2>
-        <input type="text" id="inputBusca" placeholder="Buscar por nome ou descrição..." />
+        <div class="filtros">
+          <input type="text" id="inputBusca" placeholder="Buscar por nome ou descrição..." />
+          <div class="filtro-status">
+            <label>
+              <input type="radio" name="statusServico" value="ativos" checked /> Ativos
+            </label>
+            <label>
+              <input type="radio" name="statusServico" value="inativos" /> Inativos
+            </label>
+          </div>
+        </div>
         <div class="contêiner-tabela">
           <table>
             <thead>
