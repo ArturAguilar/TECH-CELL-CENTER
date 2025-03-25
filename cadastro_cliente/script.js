@@ -118,12 +118,12 @@ function salvarCliente() {
 
 // Função para gerar um ID auto-incrementado
 function gerarIdClienteUnico() {
-    let clientes = JSON.parse(localStorage.getItem('produtos')) || [];
+    let clientes = JSON.parse(localStorage.getItem('clientes')) || [];
     let novoId;
 
     do {
         novoId = Math.floor(10000000000 + Math.random() * 90000000000); // Gera número de 11 dígitos
-    } while (clientes.some(produto => produto.id === novoId)); // Garante que o ID seja único
+    } while (clientes.some(cliente => cliente.id === novoId)); // Garante que o ID seja único
 
     return novoId;
 }
@@ -153,12 +153,12 @@ function criarLinhaTabela(cliente) {
         <td>${telefoneFormatado}</td>
         <td>${cliente.endereco}</td>
         <td class="acoes">
-            <button class="editar" onclick="editarCliente('${cliente.id}')">Editar</button>
             ${cliente.ativo ? `
-                <button class="deletar" onclick="inativarCliente('${cliente.id}')">Inativar</button>
+                <button class="editar" onclick="editarCliente('${cliente.id}')">Editar</button>
+                <button class="inativar" onclick="inativarCliente('${cliente.id}')">Inativar</button>
             ` : `
                 <button class="ativar" onclick="ativarCliente('${cliente.id}')">Ativar</button>
-                <button class="excluir" onclick="excluirCliente('${cliente.id}')">Excluir</button>
+                <button class="deletar" onclick="excluirCliente('${cliente.id}')">Excluir</button>
             `}
         </td>
     `;

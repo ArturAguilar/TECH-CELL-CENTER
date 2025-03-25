@@ -206,6 +206,29 @@ button {
   background-color: #c82333;
 }
 
+/* Estilos para os botões de ativar na tabela de clientes */
+.tabela-clientes .acoes .ativar {
+  background-color: #3540dc;
+  color: #fff;
+  margin-bottom: 0.3125rem; /* 5px */
+}
+
+/* Estilos para o hover dos botões de ativar na tabela de clientes */
+.tabela-clientes .acoes .ativar:hover {
+  background-color: #3540dc;
+}
+
+/* Estilos para os botões de exclusão na tabela de clientes */
+.tabela-clientes .acoes .inativar {
+  background-color: #dc3545;
+  color: #fff;
+}
+
+/* Estilos para o hover dos botões de exclusão na tabela de clientes */
+.tabela-clientes .acoes .inativar:hover {
+  background-color: #c82333;
+}
+
 .filtros {
   display: flex;
   align-items: center;
