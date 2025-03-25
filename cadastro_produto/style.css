@@ -40,7 +40,19 @@ main {
 }
 
 /* Estilos para o formulário de produto e a tabela de produtos */
-.formulario-produto, .tabela-produto {
+.formulario-produto {
+  margin: 20px;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 5px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  max-width: 800px;
+  width: 90%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.tabela-produto {
   margin: 20px;
   padding: 20px;
   background-color: #fff;

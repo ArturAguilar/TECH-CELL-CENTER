@@ -59,26 +59,37 @@
         <h2>Adicionar Serviço</h2>
         <form id="formularioServico" class="grid-form">
           <input type="hidden" id="idServico" name="idServico" />
-          <label for="nomeServico">Nome do Serviço:</label>
-          <input type="text" id="nomeServico" name="nomeServico" required />
+          <div class="form-group">
+            <label for="nomeServico">Nome do Serviço:</label>
+            <input type="text" id="nomeServico" name="nomeServico" required />
+          </div>
 
-          <label for="descricao">Descrição:</label>
-          <input type="text" id="descricao" name="descricao" required />
+          <div class="form-group">
+            <label for="descricao">Descrição:</label>
+            <input type="text" id="descricao" name="descricao" required />
+          </div>
 
-          <label for="preco">Preço:</label>
-          <input type="text" id="preco" name="preco" step="0.01" required />
+          <div class="form-group">
+            <label for="preco">Preço:</label>
+            <input type="text" id="preco" name="preco" step="0.01" required />
+          </div>
 
-          <label for="tempoBase">Tempo Base (em Dias):</label>
-          <input type="number" id="tempoBase" name="tempoBase" step="0.1" required />
+          <div class="form-group">
+            <label for="tempoBase">Tempo Base (em Dias):</label>
+            <input type="number" id="tempoBase" name="tempoBase"  required />
+          </div>
 
-          <label for="categoria">Categoria:</label>
-          <select id="categoria" name="categoria" required>
-            <option value="Serviços de Celulares">Serviços de Celulares</option>
-            <option value="Serviços para PC Gamer">Serviços para PC Gamer</option>
-            <option value="Notebooks e Computadores">Notebooks e Computadores</option>
-          </select>
+          <div class="form-group">
+            <label for="categoria">Categoria:</label>
+            <select id="categoria" name="categoria" required>
+              <option value="Serviços de Celulares">Serviços de Celulares</option>
+              <option value="Serviços para PC Gamer">Serviços para PC Gamer</option>
+              <option value="Notebooks e Computadores">Notebooks e Computadores</option>
+            </select>
+          </div>
 
-          <button type="submit">Adicionar</button>
+            <button type="submit">Adicionar</button>
+    
         </form>
       </section>
       <!-- Seção da tabela de serviços cadastrados -->
