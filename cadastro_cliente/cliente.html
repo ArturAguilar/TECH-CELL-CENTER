@@ -6,61 +6,34 @@
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="../menu.css">
     <link rel="shortcut icon" href="../logo.png" type="image/x-icon">
-    <title>Cadastro de Clientes - Tech Cell Center Brasil</title>
+    <title>Clientes - Tech Cell Center Brasil</title>
   </head>
   <body>
     <header>
       <nav class="navegacao">
         <!-- Link para a página inicial -->
         <a href="../index.html" class="logo" title="logo">
-          Tech Cell Center <span>Brasil</span></a
-        >
+          Tech Cell Center <span>Brasil</span></a>
         <ul class="menu-navegacao">
           <!-- Link para a página inicial -->
           <li class="item-navegacao">
-            <a
-              href="../index.html"
-              onclick="fecharMenu()"
-              title="início"> Início</a>
+            <a href="../index.html" onclick="fecharMenu()" title="início"> Início</a>
           </li>
           <!-- Link para a página de clientes -->
           <li class="item-navegacao">
-            <a
-              href="cliente.html"
-              onclick="fecharMenu()"
-              title="clientes"
-            >
-              Clientes
-            </a>
+            <a href="../cadastro_cliente/cliente.html" onclick="fecharMenu()" title="Clientes">Clientes</a>
           </li>
           <!-- Link para a página de produtos -->
           <li class="item-navegacao">
-            <a
-              href="../cadastro_produto/produto.html"
-              onclick="fecharMenu()"
-              title="produtos"
-            >
-              Produtos</a
-            >
+            <a href="../cadastro_produto/produto.html" onclick="fecharMenu()" title="produtos">Produtos</a>
           </li>
           <!-- Link para a página de serviços -->
           <li class="item-navegacao">
-            <a
-              href="../cadastro_serviço/serviço.html"
-              onclick="fecharMenu()"
-              title="serviços"
-            >
-              Serviços</a
-            >
+            <a href="../cadastro_serviço/serviço.html" onclick="fecharMenu()" title="serviços">Serviços</a>
           </li>
           <!-- Link para a página de solicitação de orçamento -->
           <li class="item-navegacao">
-            <a
-              href="../cadastro_orçamento/orcamentos.html"
-              onclick="fecharMenu()"
-              title="orçamento"
-              >Solicitar Orçamento</a
-            >
+            <a href="../cadastro_orçamento/orcamentos.html" onclick="fecharMenu()" title="orçamento">Solicitar Orçamento</a>
           </li>
         </ul>
 
@@ -72,17 +45,16 @@
         </div>
       </nav>
     </header>
-    <main>
-      <!-- Botão para mostrar o formulário de registro de novo cliente -->
-      <!-- Botão para mostrar o formulário de registro de novo cliente -->
+    <main class="principal">
+      <!-- Botão para mostrar o formulário de adicionar cliente -->
       <button id="mostrarFormularioBotao" class="mostrar-formulario-botao">
         Registrar Novo Cliente
       </button>
 
-      <!-- Seção do formulário de registro de cliente -->
+      <!-- Seção do formulário de adicionar cliente -->
       <section id="secaoFormularioCliente" class="formulario-cliente" style="display: none">
-        <h2>Registrar Cliente</h2>
-        <form id="formularioCliente">
+        <h2>Adicionar Cliente</h2>
+        <form id="formularioCliente" class="grid-form">
           <input type="hidden" id="clienteId" name="clienteId" />
           
           <div class="form-group">
@@ -131,36 +103,29 @@
           </div>
   
           <div class="form-group form-group-full">
-            <button type="submit">Registrar</button>
+            <button type="submit">Adicionar</button>
           </div>
         </form>
       </section>
-      <!-- Seção da tabela de clientes registrados -->
+      <!-- Seção da tabela de clientes cadastrados -->
       <section class="tabela-clientes">
-        <h2>Clientes Registrados</h2>
+        <h2>Clientes Cadastrados</h2>
         <div class="filtros">
-          <input
-            type="text"
-            id="entradaPesquisa"
-            placeholder="Buscar por nome..."
-          />
+          <input type="text" id="entradaPesquisa" placeholder="Buscar por nome..." />
           <div class="filtro-status">
-
             <label>
-              <input type="radio" name="statusCliente" value="ativos" checked />
-              Ativos
+              <input type="radio" name="statusCliente" value="ativos" checked /> Ativos
             </label>
             <label>
-              <input type="radio" name="statusCliente" value="inativos" />
-              Inativos
+              <input type="radio" name="statusCliente" value="inativos" /> Inativos
             </label>
           </div>
         </div>
-        <div class="container-tabela">
+        <div class="contêiner-tabela">
           <table>
             <thead>
               <tr>
-                <th>Código</th>
+                <th>ID</th>
                 <th>Nome</th>
                 <th>CPF/CNPJ</th>
                 <th>Telefone</th>
