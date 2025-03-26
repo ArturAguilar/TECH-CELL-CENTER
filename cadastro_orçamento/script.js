@@ -44,7 +44,7 @@ function carregarClientes() {
                 li.setAttribute('data-cpf', cliente.cpf);
                 li.addEventListener('click', function() {
                     inputPesquisaCliente.value = cliente.nome;
-                    listaClientes.innerHTML = '';
+                    listaClientes.innerHTML = ''; // Limpa as sugestões após a seleção
                 });
                 listaClientes.appendChild(li);
             }
@@ -88,6 +88,10 @@ function carregarProdutos() {
                 option.setAttribute('data-preco', produto.preco);
                 option.setAttribute('data-marca', produto.marca);
                 option.setAttribute('data-modelo', produto.modelo);
+                option.addEventListener('click', function() {
+                    document.getElementById('pesquisaProduto').value = produto.nome;
+                    selectProduto.innerHTML = '';
+                });
                 selectProduto.appendChild(option);
             }
         });
@@ -116,6 +120,68 @@ function carregarServicos() {
                 option.value = servico.id;
                 option.textContent = `${servico.nomeServico} - R$ ${servico.preco} - ${servico.tempoBase} dias`;
                 option.setAttribute('data-preco', servico.preco);
+                option.addEventListener('click', function() {
+                    document.getElementById('pesquisaServico').value = servico.nomeServico;
+                    selectServico.innerHTML = '';
+                });
+                selectServico.appendChild(option);
+            }
+        });
+    });
+}function carregarServicos() {
+    const servicos = JSON.parse(localStorage.getItem('servicos')) || [];
+    const selectServico = document.getElementById('servico');
+    selectServico.innerHTML = '<option value="">Selecione um serviço</option>';
+    servicos.forEach(servico => {
+        const option = document.createElement('option');
+        option.value = servico.id;
+        option.textContent = `${servico.nomeServico} - ${servico.tempoBase} dias - R$ ${servico.preco}`;
+        option.setAttribute('data-preco', servico.preco);
+        selectServico.appendChild(option);
+    });
+
+    document.getElementById('pesquisaServico').addEventListener('input', function() {
+        const termoPesquisa = this.value.toLowerCase();
+        selectServico.innerHTML = '<option value="">Selecione um serviço</option>';
+        servicos.forEach(servico => {
+            if (servico.nomeServico.toLowerCase().includes(termoPesquisa)) {
+                const option = document.createElement('option');
+                option.value = servico.id;
+                option.textContent = `${servico.nomeServico} - R$ ${servico.preco} - ${servico.tempoBase} dias`;
+                option.setAttribute('data-preco', servico.preco);
+                option.addEventListener('click', function() {
+                    document.getElementById('pesquisaServico').value = servico.nomeServico;
+                    selectServico.function carregarServicos() {
+    const servicos = JSON.parse(localStorage.getItem('servicos')) || [];
+    const selectServico = document.getElementById('servico');
+    selectServico.innerHTML = '<option value="">Selecione um serviço</option>';
+    servicos.forEach(servico => {
+        const option = document.createElement('option');
+        option.value = servico.id;
+        option.textContent = `${servico.nomeServico} - ${servico.tempoBase} dias - R$ ${servico.preco}`;
+        option.setAttribute('data-preco', servico.preco);
+        selectServico.appendChild(option);
+    });
+
+    document.getElementById('pesquisaServico').addEventListener('input', function() {
+        const termoPesquisa = this.value.toLowerCase();
+        selectServico.innerHTML = '<option value="">Selecione um serviço</option>';
+        servicos.forEach(servico => {
+            if (servico.nomeServico.toLowerCase().includes(termoPesquisa)) {
+                const option = document.createElement('option');
+                option.value = servico.id;
+                option.textContent = `${servico.nomeServico} - R$ ${servico.preco} - ${servico.tempoBase} dias`;
+                option.setAttribute('data-preco', servico.preco);
+                option.addEventListener('click', function() {
+                    document.getElementById('pesquisaServico').value = servico.nomeServico;
+                    selectServico.innerHTML = '';
+                });
+                selectServico.appendChild(option);
+            }
+        });
+    });
+                    }innerHTML = '';
+                });
                 selectServico.appendChild(option);
             }
         });
