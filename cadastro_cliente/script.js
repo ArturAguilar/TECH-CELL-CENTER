@@ -44,7 +44,7 @@ function configurarOuvintesDeEventos() {
 // Função para alternar a exibição do formulário
 function toggleFormulario(mostrar) {
     document.getElementById('secaoFormularioCliente').style.display = mostrar ? 'block' : 'none'; 
-    document.querySelector('.tabela-clientes').style.display = mostrar ? 'none' : 'block';
+    document.getElementsByClassName('tabela-clientes')[0].style.display = mostrar ? 'none' : 'block';
     document.getElementById('mostrarFormularioBotao').style.display = mostrar ? 'none' : 'block';
 }
 
@@ -192,6 +192,11 @@ function editarCliente(id) {
     const cliente = clientes.find(cliente => cliente.id == id);
 
     if (!cliente) return;
+
+    if (!cliente.ativo) {
+        alert('Não é possível editar um cliente inativo.');
+        return;
+    }
 
     document.getElementById('clienteId').value = cliente.id;
     document.getElementById('nome').value = cliente.nome;
