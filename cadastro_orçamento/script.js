@@ -27,32 +27,38 @@ function configurarFiltroOrcamentos() {
 // Função para carregar os clientes do localStorage e preencher o select de clientes
 function carregarClientes() {
     const clientes = JSON.parse(localStorage.getItem('clientes')) || [];
-    const selectCliente = document.getElementById('cliente');
-    selectCliente.innerHTML = '<option value="">Selecione um cliente</option>';
-    clientes.forEach(cliente => {
-        const option = document.createElement('option');
-        option.value = cliente.id;
-        option.textContent = cliente.nome;
-        option.setAttribute('data-telefone', cliente.telefone);
-        option.setAttribute('data-endereco', cliente.endereco);
-        option.setAttribute('data-cpf', cliente.cpf);
-        selectCliente.appendChild(option);
-    });
+    const inputPesquisaCliente = document.getElementById('pesquisaCliente');
+    const listaClientes = document.getElementById('listaClientes');
 
-    document.getElementById('pesquisaCliente').addEventListener('input', function() {
+    inputPesquisaCliente.addEventListener('input', function() {
         const termoPesquisa = this.value.toLowerCase();
-        selectCliente.innerHTML = '<option value="">Selecione um cliente</option>';
+        listaClientes.innerHTML = '';
+
         clientes.forEach(cliente => {
-            if (cliente.nome.toLowerCase().includes(termoPesquisa)) {
-                const option = document.createElement('option');
-                option.value = cliente.id;
-                option.textContent = cliente.nome;
-                option.setAttribute('data-telefone', cliente.telefone);
-                option.setAttribute('data-endereco', cliente.endereco);
-                option.setAttribute('data-cpf', cliente.cpf);
-                selectCliente.appendChild(option);
+            if (cliente.nome.toLowerCase().includes(termoPesquisa) && cliente.ativo) {
+                const li = document.createElement('li');
+                li.textContent = cliente.nome;
+                li.setAttribute('data-id', cliente.id);
+                li.setAttribute('data-telefone', cliente.telefone);
+                li.setAttribute('data-endereco', cliente.endereco);
+                li.setAttribute('data-cpf', cliente.cpf);
+                li.addEventListener('click', function() {
+                    inputPesquisaCliente.value = cliente.nome;
+                    listaClientes.innerHTML = '';
+                });
+                listaClientes.appendChild(li);
             }
         });
+    });
+
+    inputPesquisaCliente.addEventListener('blur', function() {
+        const termoPesquisa = this.value.toLowerCase();
+        const clienteValido = clientes.some(cliente => cliente.nome.toLowerCase() === termoPesquisa && cliente.ativo);
+
+        if (!clienteValido) {
+            this.value = '';
+        }
+        listaClientes.innerHTML = '';
     });
 }
 
@@ -187,15 +193,23 @@ function deletarItem(index) {
 function salvarOrcamento(event) {
     event.preventDefault();
     const orcamentoId = document.getElementById('orcamentoId').value;
-    const selectCliente = document.getElementById('cliente');
+    const pesquisaCliente = document.getElementById('pesquisaCliente').value;
     const selectStatus = document.getElementById('status');
     const selectFormaPagamento = document.getElementById('formaPagamento');
 
-    const clienteId = selectCliente.value;
-    const clienteNome = selectCliente.options[selectCliente.selectedIndex].text;
-    const clienteTelefone = selectCliente.options[selectCliente.selectedIndex].getAttribute('data-telefone');
-    const clienteEndereco = selectCliente.options[selectCliente.selectedIndex].getAttribute('data-endereco');
-    const clienteCPF = selectCliente.options[selectCliente.selectedIndex].getAttribute('data-cpf');
+    const listaClientes = document.getElementById('listaClientes');
+    const clienteOption = Array.from(listaClientes.children).find(li => li.textContent === pesquisaCliente);
+
+    if (!clienteOption) {
+        alert('Por favor, selecione um cliente válido.');
+        return;
+    }
+
+    const clienteId = clienteOption.getAttribute('data-id');
+    const clienteNome = clienteOption.textContent;
+    const clienteTelefone = clienteOption.getAttribute('data-telefone');
+    const clienteEndereco = clienteOption.getAttribute('data-endereco');
+    const clienteCPF = clienteOption.getAttribute('data-cpf');
     const status = selectStatus.value;
     const formaPagamento = selectFormaPagamento.value;
 

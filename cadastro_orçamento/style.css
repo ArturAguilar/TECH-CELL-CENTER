@@ -67,6 +67,7 @@ main {
   margin-bottom: 0.625rem; /* 10px */
   border: 1px solid #ccc;
   border-radius: 4px;
+  box-shadow: none; /* Adicione esta linha para remover qualquer sombra */
 }
 
 /* Estilos para o textarea do formulário de orçamento */
@@ -263,3 +264,23 @@ main {
 .tabela-orcamento .acoes .enviar:hover {
   background-color: #08ca28;
 }
+
+/* Estilos para a lista de sugestões */
+.lista-sugestoes {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  border: 1px solid #ffffff;
+  max-height: 150px;
+  overflow-y: auto;
+}
+
+.lista-sugestoes li {
+  padding: 10px;
+  cursor: pointer;
+}
+
+.lista-sugestoes li:hover {
+  background-color: #f0f0f0;
+}
+
