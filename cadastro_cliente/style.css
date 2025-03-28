@@ -149,7 +149,9 @@ button {
 
 /* Estilos para o contêiner da tabela */
 .container-tabela {
-  overflow-x: auto;
+  overflow-x: auto; /* Permite a rolagem horizontal */
+  max-width: 100%; /* Garante que o contêiner não ultrapasse a largura da tela */
+  margin: 0 auto; /* Centraliza o contêiner */
 }
 
 /* Estilos para a tabela de clientes */

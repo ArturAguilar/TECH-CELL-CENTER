@@ -88,14 +88,18 @@ function salvarServico() {
         return;
     }
 
-    preco = formatarPreco(preco);
+    // Converte o preço para número
+    preco = parseFloat(preco.replace(/\D/g, "")) / 100;
+
+    // Converte o tempoBase para número
+    const tempoBaseNumerico = parseInt(tempoBase, 10);
 
     const dadosServico = {
         id: servicoId ? parseInt(servicoId) : gerarIdClienteUnico(),
         nomeServico,
         descricao,
-        preco,
-        tempoBase,
+        preco, // Armazena o preço como número
+        tempoBase: tempoBaseNumerico, // Armazena o tempoBase como número
         categoria,
         ativo: true
     };
@@ -143,12 +147,16 @@ function carregarServicos() {
 // Função para criar uma linha na tabela
 function criarLinhaTabela(servico) {
     const linha = document.createElement('tr');
+    const precoFormatado = typeof servico.preco === 'number'
+        ? `R$ ${servico.preco.toFixed(2).replace(".", ",")}`
+        : 'Preço inválido'; // Exibe uma mensagem caso o preço não seja válido
+
     linha.innerHTML = `
         <td>${servico.id}</td>
         <td>${servico.nomeServico}</td>
         <td>${servico.descricao}</td>
-        <td>${servico.preco}</td>
-        <td>${servico.tempoBase}</td>
+        <td>${precoFormatado}</td> <!-- Exibe o preço formatado -->
+        <td>${servico.tempoBase} dias</td> <!-- Exibe o tempoBase como número -->
         <td>${servico.categoria}</td>
         <td class="acoes">
             ${servico.ativo ? `
@@ -173,8 +181,13 @@ function editarServico(id) {
     document.getElementById('idServico').value = servico.id;
     document.getElementById('nomeServico').value = servico.nomeServico;
     document.getElementById('descricao').value = servico.descricao;
-    document.getElementById('preco').value = servico.preco;
+
+    // Exibe o preço formatado no campo
+    document.getElementById('preco').value = servico.preco.toFixed(2).replace(".", ",");
+
+    // Exibe o tempoBase como número
     document.getElementById('tempoBase').value = servico.tempoBase;
+
     document.getElementById('categoria').value = servico.categoria;
 
     toggleFormulario(true);

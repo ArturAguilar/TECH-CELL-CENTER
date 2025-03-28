@@ -11,7 +11,6 @@ function configurarOuvintesDeEventos() {
     });
 
     const formularioCliente = document.getElementById('formularioCliente');
-    formularioCliente.removeEventListener('submit', lidarComSubmissaoFormulario);
     formularioCliente.addEventListener('submit', lidarComSubmissaoFormulario);
 
     document.getElementById('entradaPesquisa').addEventListener('input', filtrarClientes);
@@ -19,6 +18,10 @@ function configurarOuvintesDeEventos() {
     document.getElementById('cpfCnpj').addEventListener('input', function() {
         const valor = this.value.replace(/\D/g, '');
         this.value = valor.length <= 11 ? formatarCPF(valor) : formatarCNPJ(valor);
+    });
+
+    document.getElementById('cpfCnpj').addEventListener('blur', function() {
+        buscarDadosPorCnpj(this.value);
     });
 
     document.getElementById('telefone').addEventListener('input', function() {
@@ -39,6 +42,8 @@ function configurarOuvintesDeEventos() {
     document.querySelectorAll('input[name="statusCliente"]').forEach(radio => {
         radio.addEventListener('change', filtrarClientes);
     });
+
+    
 }
 
 // Função para alternar a exibição do formulário
@@ -54,7 +59,10 @@ function filtrarClientes() {
     const statusFiltro = document.querySelector('input[name="statusCliente"]:checked').value;
     const clientes = JSON.parse(localStorage.getItem('clientes')) || [];
     const corpoTabela = document.getElementById('corpoTabelaClientes');
-    corpoTabela.innerHTML = '';
+    if (!corpoTabela) {
+        console.error('Elemento corpoTabelaClientes não encontrado no DOM.');
+        return;
+    }
 
     clientes.forEach(cliente => {
         const nomeIncluiTermo = cliente.nome.toLowerCase().includes(termoPesquisa);
@@ -82,15 +90,16 @@ function salvarCliente() {
     const nome = document.getElementById('nome').value;
     const cpfCnpj = document.getElementById('cpfCnpj').value.replace(/\D/g, ''); // Remove caracteres não numéricos
     const telefone = document.getElementById('telefone').value.replace(/\D/g, ''); // Remove caracteres não numéricos
+    const cep = document.getElementById('cep').value; // Inclui o CEP
     const cidade = document.getElementById('cidade').value;
     const bairro = document.getElementById('bairro').value;
     const rua = document.getElementById('rua').value;
     const numero = document.getElementById('numero').value;
     const email = document.getElementById('email').value;
 
-    const endereco = `${rua}, ${numero}, ${bairro}, ${cidade}`;
+    const endereco = `${rua}, ${numero}, ${bairro}, ${cidade}`; // Inclui o CEP no endereço
     const dadosCliente = {
-        id: gerarIdClienteUnico(),
+        id: clienteId ? parseInt(clienteId) : gerarIdClienteUnico(),
         nome,
         cpfCnpj: Number(cpfCnpj),
         telefone: Number(telefone),
@@ -129,23 +138,49 @@ function gerarIdClienteUnico() {
 }
 
 // Função para carregar os clientes
-function carregarClientes() {
+function carregarClientes(filtro = 'ativos') {
     const clientes = JSON.parse(localStorage.getItem('clientes')) || [];
+    if (!Array.isArray(clientes)) {
+        console.error('Os dados no localStorage não são um array válido.');
+        return;
+    }
+
     const corpoTabela = document.getElementById('corpoTabelaClientes');
+    if (!corpoTabela) {
+        console.error('Elemento corpoTabelaClientes não encontrado no DOM.');
+        return;
+    }
+
+    // Limpa a tabela antes de preenchê-la
     corpoTabela.innerHTML = '';
 
     clientes.forEach(cliente => {
-        corpoTabela.appendChild(criarLinhaTabela(cliente));
-    });
+        const linha = criarLinhaTabela(cliente);
+        if (!linha) {
+            console.error('Erro ao criar linha para o cliente:', cliente);
+            return;
+        }
 
-    filtrarClientes(); // Aplica o filtro de status e pesquisa após carregar todos os clientes
+        // Exibe apenas os clientes que correspondem ao filtro
+        if ((filtro === 'ativos' && cliente.ativo) || (filtro === 'inativos' && !cliente.ativo)) {
+            corpoTabela.appendChild(linha);
+        }
+    });
 }
 
 // Função para criar uma linha na tabela
 function criarLinhaTabela(cliente) {
+    if (!cliente || !cliente.id || !cliente.nome) {
+        console.error('Dados do cliente inválidos:', cliente);
+        return null;
+    }
+
     const linha = document.createElement('tr');
-    const cpfCnpjFormatado = cliente.cpfCnpj.toString().length <= 11 ? formatarCPF(cliente.cpfCnpj.toString()) : formatarCNPJ(cliente.cpfCnpj.toString());
+    const cpfCnpjFormatado = cliente.cpfCnpj.toString().length <= 11
+        ? formatarCPF(cliente.cpfCnpj.toString())
+        : formatarCNPJ(cliente.cpfCnpj.toString());
     const telefoneFormatado = formatarTelefone(cliente.telefone.toString());
+
     linha.innerHTML = `
         <td>${cliente.id}</td>
         <td>${cliente.nome}</td>
@@ -173,7 +208,7 @@ function ativarCliente(id) {
         clientes[index].ativo = true;
         localStorage.setItem('clientes', JSON.stringify(clientes));
         alert('Cliente ativado com sucesso!');
-        carregarClientes();
+        carregarClientes('inativos'); // Atualiza a exibição dos inativos
     }
 }
 
@@ -199,11 +234,13 @@ function editarCliente(id) {
     }
 
     document.getElementById('clienteId').value = cliente.id;
-    document.getElementById('nome').value = cliente.nome;
+    document.getElementById('nome').value = cliente.nome || cliente.fantasia || '';
     document.getElementById('cpfCnpj').value = cliente.cpfCnpj;
     document.getElementById('telefone').value = cliente.telefone;
 
-    const [rua, numero, bairro, cidade] = cliente.endereco.split(', ');
+    // Extrai o CEP e os outros campos do endereço
+    const [cep, rua, numero, bairro, cidade] = cliente.endereco.split(', ');
+    document.getElementById('cep').value = cep; // Preenche o CEP
     document.getElementById('rua').value = rua;
     document.getElementById('numero').value = numero;
     document.getElementById('bairro').value = bairro;
@@ -221,7 +258,7 @@ function inativarCliente(id) {
         clientes[index].ativo = false;
         localStorage.setItem('clientes', JSON.stringify(clientes));
         alert('Cliente inativado com sucesso!');
-        carregarClientes();
+        carregarClientes('ativos'); // Atualiza a exibição dos ativos
     }
 }
 
@@ -232,6 +269,32 @@ function formatarCPF(cpf) {
     cpf = cpf.replace(/(\d{3})(\d)/, "$1.$2");
     cpf = cpf.replace(/(\d{3})(\d{1,2})$/, "$1-$2");
     return cpf;
+}
+
+// Função para validar CPF
+function validarCPF(cpf) {
+    cpf = cpf.replace(/\D/g, ""); // Remove caracteres não numéricos
+    if (cpf.length !== 11) return false;
+
+    let soma = 0;
+    let resto;
+
+    for (let i = 1; i <= 9; i++) {
+        soma += parseInt(cpf.substring(i - 1, i)) * (11 - i);
+    }
+    resto = (soma * 10) % 11;
+    if (resto === 10 || 11) resto = 0;
+    if (resto !== parseInt(cpf.substring(9, 10))) return false;
+
+    soma = 0;
+    for (let i = 1; i <= 10; i++) {
+        soma += parseInt(cpf.substring(i - 1, i)) * (12 - i);
+    }
+    resto = (soma * 10) % 11;
+    if (resto === 10 || 11) resto = 0;
+    if (resto !== parseInt(cpf.substring(10, 11))) return false;
+
+    return true;
 }
 
 // Função para formatar CNPJ
@@ -278,6 +341,74 @@ function buscarEnderecoPorCEP(cep) {
         .catch(error => console.error("Erro ao buscar CEP:", error));
 }
 
+// Função para buscar dados de CPF ou CNPJ usando a API ReceitaWS (apenas para CNPJ)
+function buscarDadosPorCpfCnpj(cpfCnpj) {
+    cpfCnpj = cpfCnpj.replace(/\D/g, ""); // Remove caracteres não numéricos
+
+    if (cpfCnpj.length === 11) {
+        // Caso seja CPF, apenas valida o formato (não há busca na API)
+        if (!validarCPF(cpfCnpj)) {
+            alert("CPF inválido.");
+            return;
+        }
+        alert("CPF válido, mas não há integração com API para CPF.");
+    } else if (cpfCnpj.length === 14) {
+        // Caso seja CNPJ, faz a busca na API ReceitaWS
+        fetch(`https://www.receitaws.com.br/v1/cnpj/{Cnpj}`)
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === "ERROR") {
+                    alert("CNPJ não encontrado.");
+                    return;
+                }
+
+                // Preenche os campos com os dados retornados
+                document.getElementById('nome').value = data.nome || data.fantasia || '';
+                document.getElementById('email').value = data.email || '';
+                document.getElementById('telefone').value = data.telefone || '';
+                document.getElementById('rua').value = data.logradouro || '';
+                document.getElementById('bairro').value = data.bairro || '';
+                document.getElementById('cidade').value = data.municipio || '';
+                document.getElementById('cep').value = data.cep || '';
+            })
+    } else {
+        alert("CPF ou CNPJ inválido.");
+    }
+}
+
+// Função para buscar dados de CNPJ usando a API ReceitaWS
+function buscarDadosPorCnpj(cnpj) {
+    cnpj = cnpj.replace(/\D/g, ""); // Remove caracteres não numéricos
+
+    if (cnpj.length !== 14) {
+        alert("CNPJ inválido.");
+        return;
+    }
+
+    // Faz a busca na API ReceitaWS
+    fetch(`https://www.receitaws.com.br/v1/cnpj/${cnpj}`)
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === "ERROR") {
+                alert("CNPJ não encontrado.");
+                return;
+            }
+
+            // Preenche os campos com os dados retornados
+            document.getElementById('nome').value = data.nome || data.fantasia || '';
+            document.getElementById('email').value = data.email || '';
+            document.getElementById('telefone').value = data.telefone || '';
+            document.getElementById('rua').value = data.logradouro || '';
+            document.getElementById('bairro').value = data.bairro || '';
+            document.getElementById('cidade').value = data.municipio || '';
+            document.getElementById('cep').value = data.cep || '';
+        })
+        .catch(error => {
+            console.error("Erro ao buscar CNPJ:", error);
+            alert("Erro ao buscar CNPJ. Tente novamente mais tarde.");
+        });
+}
+
 // Função para validar Email
 function validarEmail(email) {
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -295,6 +426,8 @@ function validarCampos() {
     const numero = document.getElementById('numero').value.trim();
     const bairro = document.getElementById('bairro').value.trim();
     const cidade = document.getElementById('cidade').value.trim();
+
+    console.log({ nome, cpfCnpj, telefone, email, cep, rua, numero, bairro, cidade });
 
     if (!nome || !cpfCnpj || !telefone || !email || !cep || !rua || !numero || !bairro || !cidade) {
         alert('Por favor, preencha todos os campos obrigatórios.');
