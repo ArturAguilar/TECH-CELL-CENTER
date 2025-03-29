@@ -1,0 +1,79 @@
+/* Importa a fonte Poppins do Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
+/* Define estilos globais para todos os elementos */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+  list-style: none;
+  text-decoration: none;
+}
+
+/* Define estilos para o corpo da página */
+body {
+  background-color: #f4f4f4;
+  color: #333;
+  padding-top: 80px; /* Adiciona espaço suficiente para o menu fixo */
+}
+
+.casa {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0px 2%;
+}
+
+.casa-texto {
+  max-width: 37rem;
+}
+
+.casa-texto .texto-h4 {
+  font-size: 1.5rem;
+  color: #ff4800;
+  margin-bottom: 1rem;
+}
+
+.casa-texto .texto-h1 {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+  line-height: 4rem;
+}
+
+.casa-texto p {
+  margin-bottom: 4rem;
+}
+
+.casa-img img {
+  width: 100%;
+}
+
+@media (max-width: 900px) {
+  .casa {
+    padding: 50px 2%;
+    flex-direction: column;
+    overflow: hidden;
+    text-align: center;
+    gap: 2rem;
+  }
+
+  .casa .texto-h4 {
+    font-size: 15px;
+  }
+
+  .casa .texto-h1 {
+    font-size: 2.5rem;
+    line-height: 3rem;
+  }
+
+  .casa p {
+    font-size: 15px;
+  }
+
+  .casa-img {
+    width: 100%;
+  }
+}

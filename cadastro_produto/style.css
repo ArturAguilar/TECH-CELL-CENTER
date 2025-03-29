@@ -1,0 +1,210 @@
+/* Importa a fonte Poppins do Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
+/* Define estilos globais para todos os elementos */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+  list-style: none;
+  text-decoration: none;
+}
+
+/* Define estilos para o corpo da página */
+body {
+  background-color: #f4f4f4;
+  color: #333;
+}
+
+/* Estilos para o elemento main */
+main {
+  padding: 80px 0px 16px;
+}
+
+/* Estilos para o botão de mostrar formulário */
+.mostrar-formulario-botao {
+  margin: 20px;
+  padding: 10px 20px;
+  background-color: #ff4800;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+/* Estilos para o hover do botão de mostrar formulário */
+.mostrar-formulario-botao:hover {
+  background-color: #ff4800cc;
+}
+
+/* Estilos para o formulário de produto e a tabela de produtos */
+.formulario-produto {
+  margin: 20px;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 5px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  max-width: 800px;
+  width: 90%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.tabela-produto {
+  margin: 20px;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 5px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Estilos para os títulos das seções de formulário e tabela de produtos */
+.formulario-produto h2, .tabela-produto h2 {
+  margin-top: 0;
+}
+
+/* Estilos para os labels do formulário de produto */
+.formulario-produto label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: 500;
+}
+
+/* Estilos para os inputs e selects do formulário de produto */
+.formulario-produto input, .formulario-produto select {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+/* Estilos adicionais para o select do formulário de produto */
+.formulario-produto select {
+  appearance: none;
+  background-color: #fff;
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-size: 8px 10px;
+}
+
+/* Estilos para o botão do formulário de produto */
+.formulario-produto button {
+  padding: 10px 20px;
+  background-color: #ff4800;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+/* Estilos para o hover do botão do formulário de produto */
+.formulario-produto button:hover {
+  background-color: #ff4800;
+}
+
+/* Estilos para o input de busca da tabela de produtos */
+.tabela-produto input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+/* Estilos para o contêiner da tabela */
+.container-tabela {
+  overflow-x: auto;
+}
+
+/* Estilos para a tabela de produtos */
+.tabela-produto table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 600px; /* Define uma largura mínima para a tabela */
+}
+
+/* Estilos para as células da tabela de produtos */
+.tabela-produto th, .tabela-produto td {
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+}
+
+/* Estilos para as linhas pares da tabela de produtos */
+.tabela-produto tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+/* Estilos para o hover das linhas da tabela de produtos */
+.tabela-produto tr:hover {
+  background-color: #f1f1f1;
+}
+
+/* Estilos para os botões de ações na tabela de produtos */
+.tabela-produto .acoes button {
+  margin-right: 5px;
+  padding: 5px 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+/* Estilos para os botões de edição na tabela de produtos */
+.tabela-produto .acoes .editar {
+  background-color: #ffc107;
+  color: #fff;
+  margin-bottom: 5px;
+}
+
+/* Estilos para o hover dos botões de edição na tabela de produtos */
+.tabela-produto .acoes .editar:hover {
+  background-color: #e0a800;
+}
+
+/* Estilos para os botões de exclusão na tabela de produtos */
+.tabela-produto .acoes .deletar {
+  background-color: #dc3545;
+  color: #fff;
+}
+
+/* Estilos para o hover dos botões de exclusão na tabela de produtos */
+.tabela-produto .acoes .deletar:hover {
+  background-color: #c82333;
+}
+
+.tabela-produto .acoes .ativar {
+  background-color: #3540dc;
+  color: #fff;
+  margin-bottom: 0.3125rem; /* 5px */
+}
+
+
+.tabela-produto .acoes .inativar {
+  background-color: #dc3545;
+  color: #fff;
+}
+
+.filtros {
+  display: flex;
+  align-items: center;
+  gap: 10px; /* Espaçamento entre os elementos */
+}
+
+.filtro-status {
+  display: flex;
+  gap: 10px; /* Espaçamento entre os rótulos */
+}
+
+.formulario-produto form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.form-group-full {
+  grid-column: span 2;
+}
