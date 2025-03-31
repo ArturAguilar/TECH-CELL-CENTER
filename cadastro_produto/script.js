@@ -59,7 +59,7 @@ function criarLinhaTabela(produto) {
         <td>${produto.nome}</td>
         <td>${produto.marca}</td>
         <td>${produto.modelo}</td>
-        <td>${produto.preco}</td>
+        <td>R$ ${produto.preco.toFixed(2).replace(".", ",")}</td> <!-- Exibe o preço formatado -->
         <td>${produto.categoria}</td>
         <td class="acoes">
             ${produto.ativo ? `
@@ -105,14 +105,15 @@ function salvarProduto() {
         return;
     }
 
-    preco = formatarPreco(preco);
+    // Converte o preço para número
+    preco = parseFloat(preco.replace(/[^\d,]/g, "").replace(",", "."));
 
     const dadosProduto = {
         id: produtoId ? parseInt(produtoId) : gerarIdProdutoUnico(),
         nome,
         marca,
         modelo,
-        preco,
+        preco, // Armazena o preço como número
         categoria,
         ativo: true
     };
@@ -168,7 +169,7 @@ function editarProduto(id) {
     document.getElementById('nome').value = produto.nome;
     document.getElementById('marca').value = produto.marca;
     document.getElementById('modelo').value = produto.modelo;
-    document.getElementById('preco').value = produto.preco.replace("R$ ", "").replace(/\./g, "").replace(",", ".");
+    document.getElementById('preco').value = produto.preco.toFixed(2).replace(".", ","); // Exibe o preço formatado
     document.getElementById('categoria').value = produto.categoria;
 
     toggleFormulario(true);
@@ -222,4 +223,44 @@ function formatarPreco(preco) {
 function validarPreco(preco) {
     const precoNumerico = parseFloat(preco.replace(/[^\d,]/g, "").replace(",", "."));
     return !isNaN(precoNumerico) && precoNumerico > 0;
+}
+
+// Função para salvar o orçamento no localStorage
+function salvarOrcamento() {
+    const orcamentoId = document.getElementById('orcamentoId').value;
+    const cliente = document.getElementById('cliente').value;
+    const itens = JSON.parse(localStorage.getItem('itensOrcamento')) || [];
+    const status = document.getElementById('status').value;
+    const formaPagamento = document.getElementById('formaPagamento').value;
+
+    // Calcula o total do orçamento
+    const total = itens.reduce((sum, item) => {
+        const totalProduto = parseFloat(item.precoProduto) * item.quantidade || 0;
+        const totalServico = parseFloat(item.precoServico) || 0;
+        return sum + totalProduto + totalServico;
+    }, 0);
+
+    const dadosOrcamento = {
+        id: orcamentoId ? parseInt(orcamentoId) : gerarIdOrcamentoUnico(),
+        cliente,
+        itens,
+        status,
+        formaPagamento,
+        total: total.toFixed(2)
+    };
+
+    let orcamentos = JSON.parse(localStorage.getItem('orcamentos')) || [];
+
+    if (orcamentoId) {
+        const index = orcamentos.findIndex(orcamento => orcamento.id == orcamentoId);
+        orcamentos[index] = dadosOrcamento;
+    } else {
+        orcamentos.push(dadosOrcamento);
+    }
+
+    localStorage.setItem('orcamentos', JSON.stringify(orcamentos));
+
+    alert('Orçamento salvo com sucesso!');
+    document.getElementById('formularioOrcamento').reset();
+    carregarOrcamentos();
 }

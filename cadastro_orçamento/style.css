@@ -255,38 +255,35 @@ main {
 }
 
 /* Estilos para os botões de edição na tabela de orçamentos */
-.tabela-orcamento .acoes .editar {
+.tabela-orcamento .acoes .btn-editar {
   background-color: #f0b70e;
   color: #fff;
   margin-bottom: 0.3125rem; /* 5px */
 }
 
-/* Estilos para o hover dos botões de edição na tabela de orçamentos */
-.tabela-orcamento .acoes .editar:hover {
-  background-color: #f0b70e;
+.tabela-orcamento .acoes .btn-editar:hover {
+  background-color: #d9a30d;
 }
 
 /* Estilos para os botões de exclusão na tabela de orçamentos */
-.tabela-orcamento .acoes .deletar {
+.tabela-orcamento .acoes .btn-excluir {
   background-color: #dc3545;
   color: #fff;
   margin-bottom: 0.3125rem; /* 5px */
 }
 
-/* Estilos para o hover dos botões de exclusão na tabela de orçamentos */
-.tabela-orcamento .acoes .deletar:hover {
+.tabela-orcamento .acoes .btn-excluir:hover {
   background-color: #c82333;
 }
 
-/* Estilos para os botões de exclusão na tabela de orçamentos */
-.tabela-orcamento .acoes .enviar {
+/* Estilos para os botões de envio (WhatsApp) na tabela de orçamentos */
+.tabela-orcamento .acoes .btn-whatsapp {
   background-color: #08ca28;
   color: #fff;
 }
 
-/* Estilos para o hover dos botões de exclusão na tabela de orçamentos */
-.tabela-orcamento .acoes .enviar:hover {
-  background-color: #08ca28;
+.tabela-orcamento .acoes .btn-whatsapp:hover {
+  background-color: #06a020;
 }
 
 /* Estilos para a lista de sugestões */
@@ -308,7 +305,6 @@ main {
   background-color: #f0f0f0;
 }
 
-<<<<<<< Updated upstream
 .sugestoes {
   list-style: none;
   margin: 0;
@@ -329,7 +325,7 @@ main {
 
 .sugestoes li:hover {
   background-color: #f0f0f0;
-=======
+}
 
 .grupo-campos {
   margin-bottom: 30px; /* Espaçamento entre os grupos */
@@ -733,5 +729,4 @@ button {
 
 .remover-item:hover {
     background-color: #c82333; /* Cor de hover */
->>>>>>> Stashed changes
 }
