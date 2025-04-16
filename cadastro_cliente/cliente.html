@@ -79,7 +79,7 @@
 
           <div class="form-group">
             <label for="cep">CEP:</label>
-            <input type="text" id="cep" name="cep" required />
+            <input type="text" id="cep" placeholder="Digite o CEP" name="cep" required />
           </div>
   
           <div class="form-group">
@@ -139,6 +139,23 @@
           </table>
         </div>
       </section>
+      <!-- Modal para exibir informações do cliente -->
+      <div id="modalCliente" class="modal" style="display: none;">
+        <div class="modal-conteudo">
+          <span id="fecharModal" class="fechar-modal">&times;</span>
+          <h2>Detalhes do Cliente</h2>
+          <hr> <br>
+          <p><strong>Código do Cliente:</strong> <span id="modalCodigoCliente"></span></p>
+          <p><strong>Nome:</strong> <span id="modalNome"></span></p>
+          <p><strong>CPF/CNPJ:</strong> <span id="modalCpfCnpj"></span></p>
+          <p><strong>Telefone:</strong> <span id="modalTelefone"></span></p>
+          <p><strong>Email:</strong> <span id="modalEmail"></span></p>
+          <p><strong>Endereço:</strong> <span id="modalEndereco"></span></p>
+          <p><strong>CEP:</strong> <span id="modalCep"></span></p>
+          <p><strong>Status:</strong> <span id="modalStatus"></span></p>
+          <p><strong>Última Atualização:</strong> <span id="modalUltimaAtualizacao"></span></p><br>
+        </div>
+      </div>
     </main>
     <script src="../menu.js"></script>
     <script src="script.js"></script>

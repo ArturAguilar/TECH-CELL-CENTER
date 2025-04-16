@@ -30,9 +30,13 @@ function carregarClientes() {
     const inputPesquisaCliente = document.getElementById('pesquisaCliente');
     const listaClientes = document.getElementById('listaClientes');
 
-    inputPesquisaCliente.addEventListener('input', function() {
-        const termoPesquisa = this.value.toLowerCase();
-        listaClientes.innerHTML = '';
+    inputPesquisaCliente.addEventListener('input', function () {
+        const termoPesquisa = this.value.trim().toLowerCase();
+        listaClientes.innerHTML = ''; // Limpa as sugestões anteriores
+
+        if (termoPesquisa === '') {
+            return; // Não exibe sugestões se o campo estiver vazio
+        }
 
         clientes.forEach(cliente => {
             if (cliente.nome.toLowerCase().includes(termoPesquisa) && cliente.ativo) {
@@ -42,24 +46,24 @@ function carregarClientes() {
                 li.setAttribute('data-telefone', cliente.telefone);
                 li.setAttribute('data-endereco', cliente.endereco);
                 li.setAttribute('data-cpf', cliente.cpf);
-                li.addEventListener('click', function() {
-                    inputPesquisaCliente.value = cliente.nome;
+
+                li.addEventListener('click', function () {
+                    inputPesquisaCliente.value = cliente.nome; // Preenche o campo com o nome do cliente
+                    inputPesquisaCliente.setAttribute('data-id', cliente.id); // Define o ID do cliente no atributo
+                    inputPesquisaCliente.setAttribute('data-telefone', cliente.telefone); // Define o telefone no atributo
+                    inputPesquisaCliente.setAttribute('data-endereco', cliente.endereco); // Define o endereço no atributo
+                    inputPesquisaCliente.setAttribute('data-cpf', cliente.cpf); // Define o CPF no atributo
                     listaClientes.innerHTML = ''; // Limpa as sugestões após a seleção
                 });
+
                 listaClientes.appendChild(li);
             }
         });
     });
 
-    inputPesquisaCliente.addEventListener('blur', function() {
-        const termoPesquisa = this.value.toLowerCase();
-        const clienteValido = clientes.some(cliente => cliente.nome.toLowerCase() === termoPesquisa && cliente.ativo);
-
-        if (!clienteValido) {
-            this.value = ''; // Limpa o campo apenas se o cliente não for válido
-        }
+    inputPesquisaCliente.addEventListener('blur', function () {
         setTimeout(() => {
-            listaClientes.innerHTML = ''; // Limpa as sugestões após um pequeno atraso
+            listaClientes.innerHTML = ''; // Limpa as sugestões ao perder o foco
         }, 200);
     });
 }
@@ -150,6 +154,9 @@ function configurarOuvintesEventos() {
         document.getElementById('botaoMostrarFormulario').style.display = 'none';
         document.getElementById('secaoTabelaOrcamentos').style.display = 'none';
     });
+    document.getElementById('pesquisaProduto').addEventListener('input', atualizarPreco);
+    document.getElementById('quantidade').addEventListener('input', atualizarPreco);
+    document.getElementById('pesquisaServico').addEventListener('input', atualizarPreco);
 }
 
 let itensOrcamento = [];
@@ -157,27 +164,30 @@ let indiceItemEdicao = -1;
 
 // Função para adicionar um item ao orçamento
 function adicionarItem() {
-    const produto = document.getElementById('pesquisaProduto').value;
+    const produto = document.getElementById('pesquisaProduto').value.trim();
     const quantidade = parseInt(document.getElementById('quantidade').value) || 0;
-    const servico = document.getElementById('pesquisaServico').value;
-    const precoProduto = parseFloat(document.getElementById('pesquisaProduto').getAttribute('data-preco')) || 0;
-    const precoServico = parseFloat(document.getElementById('pesquisaServico').getAttribute('data-preco')) || 0;
+    const servico = document.getElementById('pesquisaServico').value.trim();
+    const precoProduto = produto ? parseFloat(document.getElementById('pesquisaProduto').getAttribute('data-preco')) || 0 : 0;
+    const precoServico = servico ? parseFloat(document.getElementById('pesquisaServico').getAttribute('data-preco')) || 0 : 0;
 
     let precoTotal = 0;
 
-    // Calcula o total apenas para os itens selecionados
-    if (precoProduto > 0 && quantidade > 0) {
+    // Considera o preço do produto apenas se a quantidade for maior que 1
+    if (produto && precoProduto > 0 && quantidade > 1) {
         precoTotal += precoProduto * quantidade;
+    } else if (produto && precoProduto > 0 && quantidade === 1) {
+        precoTotal += precoProduto; // Apenas adiciona o preço unitário
     }
 
-    if (precoServico > 0) {
+    // Adiciona o preço do serviço apenas se ele for válido
+    if (servico && precoServico > 0) {
         precoTotal += precoServico;
     }
 
     if ((produto && quantidade > 0) || servico) {
         itensOrcamento.push({ produto, quantidade, servico, precoProduto, precoServico, precoTotal: precoTotal.toFixed(2) });
         atualizarTabelaItensOrcamento();
-        atualizarPrecoTotal();
+        atualizarPrecoTotal(); // Atualiza o total automaticamente
         document.getElementById('formularioOrcamento').reset();
     } else {
         alert('Por favor, selecione um produto ou serviço válido.');
@@ -202,6 +212,9 @@ function atualizarTabelaItensOrcamento() {
         `;
         corpoTabela.appendChild(linha);
     });
+
+    // Atualiza o total automaticamente após atualizar a tabela
+    atualizarPrecoTotal();
 }
 
 // Função para deletar um item do orçamento
@@ -225,8 +238,9 @@ function removerItem(index) {
 
 // Função para salvar o orçamento
 function salvarOrcamento() {
-    const orcamentoId = document.getElementById('orcamentoId').value || Date.now(); // Gera um ID único se não existir
-    const cliente = document.getElementById('pesquisaCliente').value.trim();
+    const orcamentoId = document.getElementById('orcamentoId').value || gerarIdUnico(); // Gera um ID único se não existir
+    const clienteId = document.getElementById('pesquisaCliente').getAttribute('data-id'); // Obtém o ID do cliente
+    const clienteNome = document.getElementById('pesquisaCliente').value.trim(); // Obtém o nome do cliente
     const status = document.getElementById('status').value;
     const formaPagamento = document.getElementById('formaPagamento').value;
     const observacoes = document.getElementById('observacoes').value.trim();
@@ -238,22 +252,25 @@ function salvarOrcamento() {
     }
 
     // Verifica se o cliente foi selecionado
-    if (!cliente) {
+    if (!clienteId || !clienteNome) {
         alert('Por favor, selecione um cliente válido.');
         return;
     }
 
     // Calcula o total do orçamento
     const total = itensOrcamento.reduce((sum, item) => {
-        const totalProduto = parseFloat(item.precoProduto) * item.quantidade || 0;
-        const totalServico = parseFloat(item.precoServico) || 0;
+        const totalProduto = item.produto ? parseFloat(item.precoProduto) * (parseInt(item.quantidade, 10) || 0) : 0;
+        const totalServico = item.servico ? parseFloat(item.precoServico) || 0 : 0;
         return sum + totalProduto + totalServico;
     }, 0).toFixed(2);
 
     // Cria o objeto do orçamento
     const dadosOrcamento = {
         id: parseInt(orcamentoId),
-        cliente,
+        cliente: {
+            id: clienteId,
+            nome: clienteNome
+        },
         itens: itensOrcamento,
         status,
         formaPagamento,
@@ -298,11 +315,12 @@ function atualizarPrecoTotal() {
     let precoTotal = 0;
 
     itensOrcamento.forEach(item => {
-        const totalProduto = parseFloat(item.precoProduto) * item.quantidade || 0;
-        const totalServico = parseFloat(item.precoServico) || 0;
+        const totalProduto = item.produto ? parseFloat(item.precoProduto) * (parseInt(item.quantidade, 10) || 0) : 0;
+        const totalServico = item.servico ? parseFloat(item.precoServico) || 0 : 0;
         precoTotal += totalProduto + totalServico;
     });
 
+    // Atualiza o elemento do DOM com o total formatado
     document.getElementById('precoTotal').textContent = `R$ ${precoTotal.toFixed(2).replace('.', ',')}`;
 }
 
@@ -313,23 +331,23 @@ function atualizarPreco() {
     const selectServico = document.getElementById('pesquisaServico');
     const inputPreco = document.getElementById('preco');
 
-    // Recupera os valores do produto, quantidade e serviço
     const quantidade = parseInt(inputQuantidade.value) || 0;
     const precoProduto = selectProduto.getAttribute('data-preco') ? parseFloat(selectProduto.getAttribute('data-preco')) : 0;
     const precoServico = selectServico.getAttribute('data-preco') ? parseFloat(selectServico.getAttribute('data-preco')) : 0;
 
     let precoTotal = 0;
 
-    // Calcula o total apenas para os itens selecionados
+    // Calcula o preço do produto apenas se ele for válido
     if (precoProduto > 0 && quantidade > 0) {
         precoTotal += precoProduto * quantidade;
     }
 
+    // Adiciona o preço do serviço apenas se ele for válido
     if (precoServico > 0) {
         precoTotal += precoServico;
     }
 
-    // Atualiza o campo de preço
+    // Atualiza o campo de preço no formulário
     inputPreco.value = `R$ ${precoTotal.toFixed(2).replace('.', ',')}`;
 }
 
@@ -343,7 +361,7 @@ function carregarOrcamentos() {
         const linha = document.createElement('tr');
         linha.innerHTML = `
             <td>${orcamento.id}</td>
-            <td>${orcamento.cliente}</td>
+            <td>${orcamento.cliente.nome}</td>
             <td>${orcamento.itens
                 .filter(item => item.produto)
                 .map(item => `${item.produto} (${item.quantidade})`)
@@ -358,7 +376,7 @@ function carregarOrcamentos() {
             <td class="acoes">
                 <button class="btn btn-editar" onclick="editarOrcamento(${orcamento.id})">Editar</button>
                 <button class="btn btn-excluir deletar" onclick="excluirOrcamento(${orcamento.id})">Excluir</button>
-                <button class="btn btn-whatsapp enviar" onclick="mandarWhatsApp(${orcamento.id})">WhatsApp</button>
+                <button class="btn btn-whatsapp" onclick="abrirModalOrcamento(${orcamento.id})">Visualizar</button>
             </td>
         `;
         corpoTabela.appendChild(linha);
@@ -379,7 +397,8 @@ function editarOrcamento(id) {
 
     // Preenche os campos do formulário com os dados do orçamento
     document.getElementById('orcamentoId').value = orcamento.id;
-    document.getElementById('pesquisaCliente').value = orcamento.cliente;
+    document.getElementById('pesquisaCliente').value = orcamento.cliente.nome;
+    document.getElementById('pesquisaCliente').setAttribute('data-id', orcamento.cliente.id);
     document.getElementById('status').value = orcamento.status;
     document.getElementById('formaPagamento').value = orcamento.formaPagamento;
     document.getElementById('observacoes').value = orcamento.observacoes;
@@ -418,35 +437,49 @@ function excluirOrcamento(id) {
 
 // Função para enviar orçamento por WhatsApp
 function mandarWhatsApp(id) {
-    // Recupera os orçamentos do localStorage
     const orcamentos = JSON.parse(localStorage.getItem('orcamentos')) || [];
-    const orcamento = orcamentos.find(orc => orc.id === id);
+    const clientes = JSON.parse(localStorage.getItem('clientes')) || [];
 
-    // Verifica se o orçamento foi encontrado
+    // Encontra o orçamento pelo ID
+    const orcamento = orcamentos.find(o => o.id === id);
+
     if (!orcamento) {
         alert('Orçamento não encontrado.');
         return;
     }
 
-    // Recupera os clientes do localStorage
-    const clientes = JSON.parse(localStorage.getItem('clientes')) || [];
-    const cliente = clientes.find(cli => cli.nome === orcamento.cliente);
+    // Encontra o cliente pelo nome do orçamento
+    const cliente = clientes.find(c => c.nome === orcamento.cliente.nome);
 
-    // Verifica se o cliente foi encontrado
     if (!cliente) {
-        alert('Cliente não encontrado.');
+        alert('Cliente não encontrado no registro de clientes.');
+        return;
+    }
+
+    // Verifica se o cliente está ativo
+    if (!cliente.ativo) {
+        alert('Este cliente está inativo e não pode receber orçamentos.');
         return;
     }
 
     // Dados do cliente
     const clienteNome = cliente.nome;
-    const clienteEndereco = cliente.endereco || 'Não informado';
-    const clienteCPF = cliente.cpfCnpj || 'Não informado';
+    let clienteTelefone = cliente.telefone ? cliente.telefone.toString().replace(/\D/g, '') : ''; // Remove caracteres não numéricos
 
-    // Remove caracteres não numéricos do telefone e converte para o formato internacional
-    let clienteTelefone = cliente.telefone; // Remove caracteres não numéricos
+    // Verifica se o número de telefone é válido
+    if (!clienteTelefone) {
+        alert('Número de telefone do cliente não encontrado.');
+        return;
+    }
+
+    // Adiciona o código do país (Brasil: 55) se necessário
     if (clienteTelefone.length === 11) {
-        clienteTelefone = `55${clienteTelefone}`; // Adiciona o código do país (Brasil: 55)
+        clienteTelefone = `55${clienteTelefone}`;
+    } else if (clienteTelefone.length === 10) {
+        clienteTelefone = `55${clienteTelefone}`;
+    } else if (!clienteTelefone.startsWith('55')) {
+        alert('Número de telefone inválido ou incompleto.');
+        return;
     }
 
     // Formata os produtos e serviços do orçamento
@@ -463,7 +496,18 @@ function mandarWhatsApp(id) {
     const total = `R$ ${orcamento.total.toFixed(2).replace('.', ',')}`;
 
     // Mensagem formatada
-    const mensagem = `Olá ${clienteNome},\n\nAqui está o seu orçamento:\n\nNome do Cliente: ${clienteNome}\nCPF: ${clienteCPF}\nEndereço: ${clienteEndereco}\n\nProdutos:\n${produtos || 'Nenhum produto selecionado'}\n\nServiços:\n${servicos || 'Nenhum serviço selecionado'}\n\nTotal: ${total}\nStatus: ${orcamento.status}\nForma de Pagamento: ${orcamento.formaPagamento}\n\nObrigado por escolher a Tech Cell Center Brasil!`;
+    const mensagem = `Olá, ${clienteNome}!\n\n` +
+        `Aqui está o resumo do seu orçamento com a Tech Cell Center Brasil:\n\n` +
+        `Código do Orçamento: ${orcamento.id}\n` +
+        `Produtos:\n${produtos || 'Nenhum produto selecionado'}\n` +
+        `Serviços:\n${servicos || 'Nenhum serviço selecionado'}\n` +
+        `Total: ${total}\n` +
+        `Status: ${orcamento.status}\n` +
+        `Forma de Pagamento: ${orcamento.formaPagamento}\n` +
+        `Observações: ${orcamento.observacoes || 'Nenhuma observação'}\n\n` +
+        `Estamos à disposição para esclarecer qualquer dúvida ou ajustar o orçamento conforme necessário. É sempre um prazer atendê-lo(a)!\n\n` +
+        `Entre em contato conosco pelo WhatsApp ou responda a esta mensagem.\n` +
+        `Tech Cell Center Brasil - Soluções que conectam você ao futuro!`;
 
     // Gera o link do WhatsApp
     const url = `https://wa.me/${clienteTelefone}?text=${encodeURIComponent(mensagem)}`;
@@ -472,14 +516,118 @@ function mandarWhatsApp(id) {
     window.open(url, '_blank');
 }
 
-// Função para gerar um ID único
+// Função para abrir o modal de visualização do orçamento
+function abrirModalOrcamento(id) {
+    const orcamentos = JSON.parse(localStorage.getItem('orcamentos')) || [];
+    const clientes = JSON.parse(localStorage.getItem('clientes')) || [];
+    const orcamento = orcamentos.find(o => o.id === id);
+
+    if (!orcamento) {
+        alert('Orçamento não encontrado.');
+        return;
+    }
+
+    // Encontra o cliente pelo nome do orçamento
+    const cliente = clientes.find(c => c.nome === orcamento.cliente.nome);
+
+    if (!cliente) {
+        alert('Cliente não encontrado no registro de clientes.');
+        return;
+    }
+
+    // Verifica se o cliente está ativo
+    if (!cliente.ativo) {
+        alert('Este cliente está inativo e não pode receber orçamentos.');
+        return;
+    }
+
+    // Dados do cliente
+    const clienteNome = cliente.nome;
+    let clienteTelefone = cliente.telefone ? cliente.telefone.toString().replace(/\D/g, '') : ''; // Remove caracteres não numéricos
+
+    // Verifica se o número de telefone é válido
+    if (!clienteTelefone) {
+        alert('Número de telefone do cliente não encontrado.');
+        return;
+    }
+
+    // Adiciona o código do país (Brasil: 55) se necessário
+    if (clienteTelefone.length === 11) {
+        clienteTelefone = `55${clienteTelefone}`;
+    } else if (clienteTelefone.length === 10) {
+        clienteTelefone = `55${clienteTelefone}`;
+    } else if (!clienteTelefone.startsWith('55')) {
+        alert('Número de telefone inválido ou incompleto.');
+        return;
+    }
+
+    // Formata os produtos e serviços do orçamento
+    const produtos = orcamento.itens
+        .filter(item => item.produto)
+        .map(item => `${item.produto} (${item.quantidade}) - R$ ${item.precoProduto.toFixed(2).replace('.', ',')}`)
+        .join('\n');
+    const servicos = orcamento.itens
+        .filter(item => item.servico)
+        .map(item => `${item.servico} - R$ ${item.precoServico.toFixed(2).replace('.', ',')}`)
+        .join('\n');
+
+    // Total do orçamento
+    const total = `R$ ${orcamento.total.toFixed(2).replace('.', ',')}`;
+
+    // Mensagem formatada
+    const mensagem = `Olá, ${clienteNome}!\n\n` +
+        `Aqui está o resumo do seu orçamento com a Tech Cell Center Brasil:\n\n` +
+        `Código do Orçamento: ${orcamento.id}\n` +
+        `Produtos:\n${produtos || 'Nenhum produto selecionado'}\n` +
+        `Serviços:\n${servicos || 'Nenhum serviço selecionado'}\n` +
+        `Total: ${total}\n` +
+        `Status: ${orcamento.status}\n` +
+        `Forma de Pagamento: ${orcamento.formaPagamento}\n` +
+        `Observações: ${orcamento.observacoes || 'Nenhuma observação'}\n\n` +
+        `Estamos à disposição para esclarecer qualquer dúvida ou ajustar o orçamento conforme necessário. É sempre um prazer atendê-lo(a)!\n\n` +
+        `Entre em contato conosco pelo WhatsApp.\n` +
+        `Tech Cell Center Brasil - Soluções que conectam você ao futuro!`;
+
+    // Gera o link do WhatsApp
+    const url = `https://wa.me/${clienteTelefone}?text=${encodeURIComponent(mensagem)}`;
+
+    // Preenche as informações do orçamento no modal
+    document.getElementById('modalCodigoOrcamento').textContent = orcamento.id;
+    document.getElementById('modalClienteOrcamento').textContent = clienteNome;
+    document.getElementById('modalProdutosOrcamento').textContent = orcamento.itens
+        .filter(item => item.produto)
+        .map(item => `${item.produto} (x${item.quantidade})`)
+        .join(', ') || 'Nenhum produto';
+    document.getElementById('modalServicosOrcamento').textContent = orcamento.itens
+        .filter(item => item.servico)
+        .map(item => item.servico)
+        .join(', ') || 'Nenhum serviço';
+    document.getElementById('modalTotalOrcamento').textContent = total;
+    document.getElementById('modalStatusOrcamento').textContent = orcamento.status;
+    document.getElementById('modalFormaPagamentoOrcamento').textContent = orcamento.formaPagamento;
+    document.getElementById('modalObservacoesOrcamento').textContent = orcamento.observacoes || 'Nenhuma observação';
+
+    // Configura o botão do WhatsApp para abrir o link
+    const botaoWhatsApp = document.getElementById('botaoWhatsApp');
+    botaoWhatsApp.href = url;
+
+    // Exibe o modal
+    document.getElementById('modalOrcamento').style.display = 'flex';
+}
+
+// Fecha o modal ao clicar no botão de fechar
+document.getElementById('fecharModalOrcamento').addEventListener('click', function () {
+    document.getElementById('modalOrcamento').style.display = 'none';
+});
+
+// Função para gerar um ID único de 11 dígitos
 function gerarIdUnico() {
-    let clientes = JSON.parse(localStorage.getItem('produtos')) || [];
+    const clientes = JSON.parse(localStorage.getItem('orcamento')) || [];
     let novoId;
 
     do {
-        novoId = Math.floor(10000000000 + Math.random() * 90000000000).toString(); // Gera número de 11 dígitos
-    } while (clientes.some(produto => produto.id === novoId)); // Garante que o ID seja único
+        novoId = Math.floor(10000000000 + Math.random() * 90000000000); // Gera número de 11 dígitos
+    } while (clientes.some(orcamento => orcamento.id === novoId)); // Garante que o ID seja único
 
     return novoId;
 }

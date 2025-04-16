@@ -53,7 +53,7 @@
                         <!-- Campo de pesquisa de produto -->
                         <div class="campo-produto">
                             <label for="pesquisaProduto">Pesquisar Produto:</label>
-                            <input type="text" id="pesquisaProduto" placeholder="Digite o nome do produto">
+                            <input type="text" id="pesquisaProduto"  placeholder="Digite o nome do produto">
                             <ul id="listaProdutos" class="lista-sugestoes"></ul>
                         </div>
                         <!-- Campo de quantidade -->
@@ -71,8 +71,7 @@
                         </div>
                         <!-- Campo de preço -->
                         <div class="campo-preco">
-                            <label for="total">Total:</label>
-                            <input type="text" id="preco" name="preco" step="0.01" readonly />
+                            
                         </div>
                     </div>
                     <!-- Botão para adicionar item -->
@@ -171,6 +170,26 @@
                 </table>
             </div>
         </section>
+
+        <!-- Modal para exibir informações do orçamento -->
+        <div id="modalOrcamento" class="modal" style="display: none;">
+            <div class="modal-conteudo">
+                <span id="fecharModalOrcamento" class="fechar-modal">&times;</span>
+                <h2>Detalhes do Orçamento</h2>
+                <hr> <br>
+                <p><strong>Código:</strong> <span id="modalCodigoOrcamento"></span></p>
+                <p><strong>Cliente:</strong> <span id="modalClienteOrcamento"></span></p>
+                <p><strong>Produtos:</strong> <span id="modalProdutosOrcamento"></span></p>
+                <p><strong>Serviços:</strong> <span id="modalServicosOrcamento"></span></p> <br>
+                <p><strong>Total:</strong> <span id="modalTotalOrcamento"></span></p> <br>
+                <p><strong>Status:</strong> <span id="modalStatusOrcamento"></span></p>
+                <p><strong>Forma de Pagamento:</strong> <span id="modalFormaPagamentoOrcamento"></span></p>
+                <p><strong>Observações:</strong> <span id="modalObservacoesOrcamento"></span></p>
+                <br>
+                <!-- Botão do WhatsApp -->
+                <a id="botaoWhatsApp" href="#" target="_blank" class="botao-whatsapp">Enviar pelo WhatsApp</a>
+            </div>
+        </div>
     </main>
     <script src="script.js"></script>
     <script src="../menu.js"></script>
