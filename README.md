@@ -1,7 +1,5 @@
 # 🚀 Tech Cell Center Brasil
 
-![Tech Cell Center Logo](logo.png)
-
 ## 📋 Sobre o Projeto
 
 O Tech Cell Center Brasil é um sistema de gestão completo desenvolvido para otimizar e automatizar os processos de uma loja de tecnologia. O sistema oferece uma solução integrada para gerenciamento de clientes, produtos, serviços e orçamentos, proporcionando uma experiência eficiente tanto para os administradores quanto para os clientes.
