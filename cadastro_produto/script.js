@@ -6,22 +6,20 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // Função para configurar os ouvintes de eventos
 function configurarOuvintesDeEventos() {
-    document.getElementById('mostrarFormularioBotao').addEventListener('click', function() {
+    document.getElementById('mostrarFormularioBotao').addEventListener('click', function () {
         toggleFormulario(true);
     });
 
     const formularioProduto = document.getElementById('formularioProduto');
-    formularioProduto.removeEventListener('submit', lidarComSubmissaoFormulario);
-    formularioProduto.addEventListener('submit', lidarComSubmissaoFormulario);
+    formularioProduto.addEventListener('submit', salvarProduto);
 
     document.getElementById('entradaPesquisa').addEventListener('input', filtrarProdutos);
 
     document.querySelectorAll('input[name="statusProduto"]').forEach(radio => {
-        radio.addEventListener('change', filtrarProdutos);
-    });
-
-    document.getElementById('preco').addEventListener('input', function() {
-        this.value = formatarPreco(this.value);
+        radio.addEventListener('change', function () {
+            const filtro = this.value; // "ativos" ou "inativos"
+            carregarProdutos(filtro);
+        });
     });
 }
 
@@ -35,18 +33,35 @@ function toggleFormulario(mostrar) {
 // Função para filtrar os produtos
 function filtrarProdutos() {
     const termoPesquisa = document.getElementById('entradaPesquisa').value.trim().toLowerCase();
-    const statusFiltro = document.querySelector('input[name="statusProduto"]:checked').value;
     const produtos = JSON.parse(localStorage.getItem('produtos')) || [];
     const corpoTabela = document.getElementById('corpoTabelaProdutos');
+
+    // Verifica o status atual (ativos ou inativos)
+    const statusAtual = document.querySelector('input[name="statusProduto"]:checked').value;
+
+    // Filtra os produtos com base no status e no termo de pesquisa
+    const produtosFiltrados = produtos.filter(produto => {
+        const correspondeStatus = statusAtual === 'ativos' ? produto.ativo : !produto.ativo;
+        const correspondePesquisa = produto.nome.toLowerCase().includes(termoPesquisa);
+        return correspondeStatus && correspondePesquisa;
+    });
+
+    // Limpa a tabela antes de preenchê-la
     corpoTabela.innerHTML = '';
 
-    produtos.forEach(produto => {
-        const nomeIncluiTermo = produto.nome.toLowerCase().includes(termoPesquisa);
-        const statusCorreto = (statusFiltro === 'ativos' && produto.ativo !== false) ||
-                              (statusFiltro === 'inativos' && produto.ativo === false);
+    // Exibe uma mensagem se não houver produtos no filtro atual
+    if (produtosFiltrados.length === 0) {
+        const linhaVazia = document.createElement('tr');
+        linhaVazia.innerHTML = `<td colspan="6" style="text-align: center;">Nenhum produto encontrado.</td>`;
+        corpoTabela.appendChild(linhaVazia);
+        return;
+    }
 
-        if (nomeIncluiTermo && statusCorreto) {
-            corpoTabela.appendChild(criarLinhaTabela(produto));
+    // Adiciona os produtos filtrados na tabela
+    produtosFiltrados.forEach(produto => {
+        const linha = criarLinhaTabela(produto);
+        if (linha) {
+            corpoTabela.appendChild(linha);
         }
     });
 }
@@ -59,16 +74,11 @@ function criarLinhaTabela(produto) {
         <td>${produto.nome}</td>
         <td>${produto.marca}</td>
         <td>${produto.modelo}</td>
-        <td>R$ ${produto.preco.toFixed(2).replace(".", ",")}</td> <!-- Exibe o preço formatado -->
+        <td>R$ ${produto.preco.toFixed(2).replace(".", ",")}</td>
         <td>${produto.categoria}</td>
         <td class="acoes">
-            ${produto.ativo ? `
-                <button class="editar" onclick="editarProduto('${produto.id}')">Editar</button>
-                <button class="inativar" onclick="inativarProduto('${produto.id}')">Inativar</button>
-            ` : `
-                <button class="ativar" onclick="ativarProduto('${produto.id}')">Ativar</button>
-                <button class="deletar" onclick="deletarProduto('${produto.id}')">Excluir</button>
-            `}
+            <button class="editar" onclick="editarProduto('${produto.id}')">Editar</button>
+            <button class="deletar" onclick="deletarProduto('${produto.id}')">Excluir</button>
         </td>
     `;
     return linha;
@@ -76,8 +86,7 @@ function criarLinhaTabela(produto) {
 
 // Função para lidar com a submissão do formulário
 function lidarComSubmissaoFormulario(event) {
-    event.preventDefault();
-    salvarProduto();
+    salvarProduto(event);
 }
 
 // Função para validar os campos do formulário
@@ -92,47 +101,49 @@ function validarFormulario() {
 }
 
 // Função para salvar o produto no localStorage
-function salvarProduto() {
-    const produtoId = document.getElementById('produtoId').value;
-    const nome = document.getElementById('nome').value;
-    const marca = document.getElementById('marca').value;
-    const modelo = document.getElementById('modelo').value;
-    let preco = document.getElementById('preco').value;
-    const categoria = document.getElementById('categoria').value;
+function salvarProduto(event) {
+    event.preventDefault(); // Evita o comportamento padrão do formulário
 
-    if (!validarPreco(preco)) {
-        alert('Por favor, insira um preço válido.');
+    const produtoId = document.getElementById('produtoId').value.trim();
+    const nome = document.getElementById('nome').value.trim();
+    const marca = document.getElementById('marca').value.trim();
+    const modelo = document.getElementById('modelo').value.trim();
+    const preco = parseFloat(document.getElementById('preco').value.replace(/[^\d,]/g, "").replace(",", "."));
+    const categoria = document.getElementById('categoria').value.trim();
+    const status = document.querySelector('input[name="statusProduto"]:checked').value; // Obtém o status selecionado
+
+    if (!nome || !marca || !modelo || isNaN(preco) || !categoria) {
+        alert('Por favor, preencha todos os campos obrigatórios.');
         return;
     }
-
-    // Converte o preço para número
-    preco = parseFloat(preco.replace(/[^\d,]/g, "").replace(",", "."));
 
     const dadosProduto = {
         id: produtoId ? parseInt(produtoId) : gerarIdProdutoUnico(),
         nome,
         marca,
         modelo,
-        preco, // Armazena o preço como número
+        preco,
         categoria,
-        ativo: true
+        ativo: status === 'ativo' // Define o status como booleano
     };
 
     let produtos = JSON.parse(localStorage.getItem('produtos')) || [];
 
     if (produtoId) {
         const index = produtos.findIndex(produto => produto.id == produtoId);
-        produtos[index] = dadosProduto;
+        if (index !== -1) {
+            produtos[index] = dadosProduto;
+        }
     } else {
         produtos.push(dadosProduto);
     }
 
     localStorage.setItem('produtos', JSON.stringify(produtos));
-
     alert('Produto salvo com sucesso!');
     document.getElementById('formularioProduto').reset();
     toggleFormulario(false);
-    carregarProdutos();
+
+    location.reload();
 }
 
 // Função para gerar um ID único para o produto
@@ -148,30 +159,56 @@ function gerarIdProdutoUnico() {
 }
 
 // Função para carregar os produtos
-function carregarProdutos() {
+function carregarProdutos(filtro = 'ativos') {
     const produtos = JSON.parse(localStorage.getItem('produtos')) || [];
     const corpoTabela = document.getElementById('corpoTabelaProdutos');
+
+    // Filtra os produtos com base no status
+    const produtosFiltrados = produtos.filter(produto => {
+        return filtro === 'ativos' ? produto.ativo : !produto.ativo;
+    });
+
+    // Limpa a tabela antes de preenchê-la
     corpoTabela.innerHTML = '';
 
-    produtos.forEach(produto => corpoTabela.appendChild(criarLinhaTabela(produto)));
+    // Adiciona os produtos filtrados na tabela
+    produtosFiltrados.forEach(produto => {
+        const linha = criarLinhaTabela(produto);
+        if (linha) {
+            corpoTabela.appendChild(linha);
+        }
+    });
 
-    filtrarProdutos(); // Aplica o filtro de status e pesquisa após carregar todos os produtos
+    // Exibe uma mensagem se não houver produtos no filtro atual
+    if (produtosFiltrados.length === 0) {
+        const linhaVazia = document.createElement('tr');
+        linhaVazia.innerHTML = `<td colspan="8" style="text-align: center;">Nenhum produto encontrado.</td>`;
+        corpoTabela.appendChild(linhaVazia);
+    }
 }
 
 // Função para editar um produto
 function editarProduto(id) {
     const produtos = JSON.parse(localStorage.getItem('produtos')) || [];
     const produto = produtos.find(produto => produto.id == id);
-
     if (!produto) return;
 
+    // Preenche os campos do formulário com os dados do produto
     document.getElementById('produtoId').value = produto.id;
-    document.getElementById('nome').value = produto.nome;
-    document.getElementById('marca').value = produto.marca;
-    document.getElementById('modelo').value = produto.modelo;
-    document.getElementById('preco').value = produto.preco.toFixed(2).replace(".", ","); // Exibe o preço formatado
-    document.getElementById('categoria').value = produto.categoria;
+    document.getElementById('nome').value = produto.nome || '';
+    document.getElementById('marca').value = produto.marca || '';
+    document.getElementById('modelo').value = produto.modelo || '';
+    document.getElementById('preco').value = produto.preco.toFixed(2).replace(".", ",");
+    document.getElementById('categoria').value = produto.categoria || '';
 
+    // Define o status do produto
+    if (produto.ativo) {
+        document.getElementById('statusAtivo').checked = true;
+    } else {
+        document.getElementById('statusInativo').checked = true;
+    }
+
+    // Exibe o formulário para edição
     toggleFormulario(true);
 }
 
@@ -210,18 +247,18 @@ function ativarProduto(id) {
     }
 }
 
-// Função para formatar o preço
-function formatarPreco(preco) {
-    preco = preco.replace(/[^\d]/g, ""); // Remove caracteres não numéricos
-    preco = (parseFloat(preco) / 100).toFixed(2) + ''; // Converte para número e fixa duas casas decimais
-    preco = preco.replace(".", ","); // Substitui ponto por vírgula
-    preco = preco.replace(/\B(?=(\d{3})+(?!\d))/g, "."); // Adiciona pontos como separadores de milhar
-    return "R$ " + preco;
+function aplicarMascaraPreco(campo) {
+    let valor = campo.value.replace(/[^\d]/g, ""); // Remove caracteres não numéricos
+    valor = (parseFloat(valor) / 100).toFixed(2) + ""; // Converte para número e fixa duas casas decimais
+    valor = valor.replace(".", ","); // Substitui ponto por vírgula
+    valor = valor.replace(/\B(?=(\d{3})+(?!\d))/g, "."); // Adiciona pontos como separadores de milhar
+    campo.value = "R$ " + valor; // Adiciona o prefixo "R$"
 }
 
 // Função para validar o preço
 function validarPreco(preco) {
-    const precoNumerico = parseFloat(preco.replace(/[^\d,]/g, "").replace(",", "."));
+    const precoNumerico = parse
+    Float(preco.replace(/[^\d,]/g, "").replace(",", "."));
     return !isNaN(precoNumerico) && precoNumerico > 0;
 }
 
@@ -263,4 +300,10 @@ function salvarOrcamento() {
     alert('Orçamento salvo com sucesso!');
     document.getElementById('formularioOrcamento').reset();
     carregarOrcamentos();
+}
+
+// Função para cancelar o formulário
+function cancelarFormulario() {
+    document.getElementById('formularioProduto').reset(); // Reseta os campos do formulário
+    toggleFormulario(false); // Oculta o formulário e exibe a tabela
 }

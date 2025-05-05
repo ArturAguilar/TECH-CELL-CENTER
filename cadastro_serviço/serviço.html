@@ -70,7 +70,7 @@
 
           <div class="form-group">
             <label for="preco">Preço:</label>
-            <input type="text" id="preco" name="preco" step="0.01" required />
+            <input type="text" id="preco" placeholder="Digite o preço" oninput="aplicarMascaraPreco(this)" />
           </div>
 
           <div class="form-group">
@@ -87,21 +87,37 @@
             </select>
           </div>
 
-            <button type="submit">Adicionar</button>
-    
+          <div class="form-group">
+            <label>Status do Serviço:</label>
+            <div class="status-opcoes">
+              <label for="statusAtivo">
+                <input type="radio" id="statusAtivo" name="statusServico" value="ativo" checked> Ativo
+              </label>
+              <label for="statusInativo">
+                <input type="radio" id="statusInativo" name="statusServico" value="inativo"> Inativo
+              </label>
+            </div>
+          </div>
+
+          <div class="form-group form-group-full">
+            <button type="submit" class="botao-adicionar">Adicionar</button>
+            <button type="button" id="botaoCancelar" class="botao-cancelar" onclick="cancelarFormulario()">Cancelar</button>
+          </div>
         </form>
       </section>
       <!-- Seção da tabela de serviços cadastrados -->
       <section class="tabela-servico">
         <h2>Serviços Cadastrados</h2>
         <div class="filtros">
-          <input type="text" id="inputBusca" placeholder="Buscar por nome ou descrição..." />
+          <input type="text" id="entradaPesquisa" placeholder="Buscar serviços..." />
           <div class="filtro-status">
             <label>
-              <input type="radio" name="statusServico" value="ativos" checked /> Ativos
+              <input type="radio" name="statusServico" value="ativos" checked onchange="filtrarServicos()" />
+              Ativos
             </label>
             <label>
-              <input type="radio" name="statusServico" value="inativos" /> Inativos
+              <input type="radio" name="statusServico" value="inativos" onchange="filtrarServicos()" />
+              Inativos
             </label>
           </div>
         </div>
@@ -109,7 +125,7 @@
           <table>
             <thead>
               <tr>
-                <th>ID</th>
+                <th>Código</th>
                 <th>Nome do Serviço</th>
                 <th>Descrição</th>
                 <th>Preço</th>

@@ -217,3 +217,58 @@ body {
 .grid-form button {
   justify-self: start;
 }
+
+/* Estilos para o grupo de status do produto */
+.form-group {
+  margin-bottom: 1rem; /* Espaçamento inferior */
+}
+
+.form-group label {
+  font-weight: 500; /* Deixa o texto do rótulo mais destacado */
+  margin-bottom: 0.5rem; /* Espaçamento inferior */
+  display: block; /* Faz o rótulo ocupar toda a largura */
+}
+
+/* Estilos para o contêiner dos botões de status */
+.status-opcoes {
+  display: flex; /* Alinha os itens horizontalmente */
+  gap: 1rem; /* Espaçamento entre os botões */
+  align-items: center; /* Alinha verticalmente os itens */
+}
+
+/* Estilos para os rótulos dos botões de status */
+.status-opcoes label {
+  display: flex; /* Alinha o texto e o botão juntos */
+  align-items: center; /* Alinha verticalmente o texto e o botão */
+  gap: 0.5rem; /* Espaçamento entre o botão e o texto */
+  font-size: 1rem; /* Tamanho da fonte */
+  cursor: pointer; /* Mostra o cursor de clique ao passar sobre o rótulo */
+}
+
+/* Estilos para os botões de rádio */
+.status-opcoes input[type="radio"] {
+  accent-color: #ff4800; /* Cor personalizada para os botões de rádio */
+  width: 1.2rem; /* Largura do botão */
+  height: 1.2rem; /* Altura do botão */
+  cursor: pointer; /* Mostra o cursor de clique */
+}
+
+/* Estilos para o hover nos rótulos */
+.status-opcoes label:hover {
+  color: #ff4800; /* Altera a cor do texto ao passar o mouse */
+}
+
+#botaoCancelar {
+  background-color: #6c757d; /* Cor de fundo cinza */
+  color: #fff; /* Cor do texto branca */
+  border: none; /* Remove a borda */
+  border-radius: 5px; /* Bordas arredondadas */
+  padding: 10px 20px; /* Espaçamento interno */
+  cursor: pointer; /* Mostra o cursor de clique */
+  transition: background-color 0.3s; /* Transição suave */
+  margin-left: 10px; /* Espaçamento à esquerda */
+}
+
+#botaoCancelar:hover {
+  background-color: #5a6268; /* Cor de fundo mais escura ao passar o mouse */
+}

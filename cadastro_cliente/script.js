@@ -14,24 +14,17 @@ function configurarOuvintesDeEventos() {
     formularioCliente.addEventListener('submit', lidarComSubmissaoFormulario);
 
     document.getElementById('entradaPesquisa').addEventListener('input', filtrarClientes);
+    document.querySelectorAll('input[name="statusCliente"]').forEach(radio => {
+        radio.addEventListener('change', filtrarClientes);
+    });
 
     document.getElementById('cpfCnpj').addEventListener('input', function () {
-        const valor = this.value.replace(/\D/g, ''); // Remove caracteres não numéricos
-        if (valor.length <= 11) {
-            this.value = formatarCPF(valor); // Formata como CPF
-        } else {
-            this.value = formatarCNPJ(valor); // Formata como CNPJ
-        }
+        this.value = this.value.replace(/\D/g, ''); // Remove caracteres não numéricos
     });
 
     document.getElementById('cpfCnpj').addEventListener('blur', function () {
-        const valor = this.value.replace(/\D/g, ''); // Remove caracteres não numéricos
-
-        if (valor.length === 14) {
-            buscarDadosPorCnpj(valor); // Chama a função apenas se for um CNPJ
-        } else if (valor.length === 11) {
-            console.log('CPF detectado. Nenhuma busca será feita.'); // Apenas loga no console
-        } else {
+        const cpfCnpj = this.value.replace(/\D/g, ''); // Remove caracteres não numéricos
+        if (cpfCnpj.length !== 11 && cpfCnpj.length !== 14) {
             alert('CPF ou CNPJ inválido.');
         }
     });
@@ -45,14 +38,11 @@ function configurarOuvintesDeEventos() {
         buscarEnderecoPorCEP(this.value);
     });
 
-    document.getElementById('email').addEventListener('input', function() {
-        if (!validarEmail(this.value)) {
-            alert("Email inválido.");
-        }
-    });
-
-    document.querySelectorAll('input[name="statusCliente"]').forEach(radio => {
-        radio.addEventListener('change', filtrarClientes);
+    document.querySelectorAll('.filtro-status input[name="statusCliente"]').forEach(radio => {
+        radio.addEventListener('change', function () {
+            const filtro = this.value; // "ativos" ou "inativos"
+            carregarClientes(filtro);
+        });
     });
 }
 
@@ -66,30 +56,35 @@ function toggleFormulario(mostrar) {
 // Função para filtrar os clientes
 function filtrarClientes() {
     const termoPesquisa = document.getElementById('entradaPesquisa').value.trim().toLowerCase();
-    const statusFiltro = document.querySelector('input[name="statusCliente"]:checked').value;
     const clientes = JSON.parse(localStorage.getItem('clientes')) || [];
     const corpoTabela = document.getElementById('corpoTabelaClientes');
 
-    if (!corpoTabela) {
-        console.error('Elemento corpoTabelaClientes não encontrado no DOM.');
-        return;
-    }
+    // Verifica o status atual (ativos ou inativos)
+    const statusAtual = document.querySelector('input[name="statusCliente"]:checked').value;
+
+    // Filtra os clientes com base no status e no termo de pesquisa
+    const clientesFiltrados = clientes.filter(cliente => {
+        const correspondeStatus = statusAtual === 'ativos' ? cliente.ativo : !cliente.ativo;
+        const correspondePesquisa = cliente.nome.toLowerCase().includes(termoPesquisa);
+        return correspondeStatus && correspondePesquisa;
+    });
 
     // Limpa a tabela antes de preenchê-la
     corpoTabela.innerHTML = '';
 
-    // Adiciona os clientes filtrados na tabela
-    clientes.forEach(cliente => {
-        const nomeIncluiTermo = cliente.nome.toLowerCase().includes(termoPesquisa);
-        const statusCorreto = (statusFiltro === 'todos') || 
-                              (statusFiltro === 'ativos' && cliente.ativo !== false) || 
-                              (statusFiltro === 'inativos' && cliente.ativo === false);
+    // Exibe uma mensagem se não houver clientes no filtro atual
+    if (clientesFiltrados.length === 0) {
+        const linhaVazia = document.createElement('tr');
+        linhaVazia.innerHTML = `<td colspan="6" style="text-align: center;">Nenhum cliente encontrado.</td>`;
+        corpoTabela.appendChild(linhaVazia);
+        return;
+    }
 
-        if (nomeIncluiTermo && statusCorreto) {
-            const linha = criarLinhaTabela(cliente);
-            if (linha) {
-                corpoTabela.appendChild(linha);
-            }
+    // Adiciona os clientes filtrados na tabela
+    clientesFiltrados.forEach(cliente => {
+        const linha = criarLinhaTabela(cliente);
+        if (linha) {
+            corpoTabela.appendChild(linha);
         }
     });
 }
@@ -98,12 +93,14 @@ function filtrarClientes() {
 function lidarComSubmissaoFormulario(event) {
     event.preventDefault();
     if (validarCampos()) {
-        salvarCliente();
+        salvarCliente(event);
     }
 }
 
 // Função para salvar o cliente no localStorage
-function salvarCliente() {
+function salvarCliente(event) {
+    event.preventDefault(); // Evita o comportamento padrão do formulário
+
     const clienteId = document.getElementById('clienteId').value;
     const nome = document.getElementById('nome').value;
     const cpfCnpj = document.getElementById('cpfCnpj').value.replace(/\D/g, ''); // Remove caracteres não numéricos
@@ -117,15 +114,18 @@ function salvarCliente() {
     const endereco = `${rua}, ${numero}, ${bairro}, ${cidade}`;
     const ultimaAtualizacao = new Date().toLocaleString(); // Data e hora da última atualização
 
+    // Obtém o status do cliente com base no botão de rádio selecionado
+    const status = document.querySelector('input[name="statusCliente"]:checked').value;
+
     const dadosCliente = {
         id: clienteId ? parseInt(clienteId) : gerarIdClienteUnico(),
         nome,
         cpfCnpj: Number(cpfCnpj),
         telefone: Number(telefone),
-        cep, // Certifique-se de que o CEP está sendo salvo
+        cep,
         endereco,
         email,
-        ativo: true,
+        ativo: status === 'ativo', // Define o status como booleano
         ultimaAtualizacao
     };
 
@@ -141,7 +141,8 @@ function salvarCliente() {
     alert('Cliente salvo com sucesso!');
     document.getElementById('formularioCliente').reset();
     toggleFormulario(false);
-    carregarClientes();
+
+    location.reload();
 }
 
 // Função para gerar um ID auto-incrementado
@@ -157,33 +158,30 @@ function gerarIdClienteUnico() {
 // Função para carregar os clientes
 function carregarClientes(filtro = 'ativos') {
     const clientes = JSON.parse(localStorage.getItem('clientes')) || [];
-    if (!Array.isArray(clientes)) {
-        console.error('Os dados no localStorage não são um array válido.');
-        return;
-    }
-
     const corpoTabela = document.getElementById('corpoTabelaClientes');
-    if (!corpoTabela) {
-        console.error('Elemento corpoTabelaClientes não encontrado no DOM.');
-        return;
-    }
+
+    // Filtra os clientes com base no status
+    const clientesFiltrados = clientes.filter(cliente => {
+        return filtro === 'ativos' ? cliente.ativo : !cliente.ativo;
+    });
 
     // Limpa a tabela antes de preenchê-la
     corpoTabela.innerHTML = '';
 
     // Adiciona os clientes filtrados na tabela
-    clientes.forEach(cliente => {
+    clientesFiltrados.forEach(cliente => {
         const linha = criarLinhaTabela(cliente);
-        if (!linha) {
-            console.error('Erro ao criar linha para o cliente:', cliente);
-            return;
-        }
-
-        // Exibe apenas os clientes que correspondem ao filtro
-        if ((filtro === 'ativos' && cliente.ativo) || (filtro === 'inativos' && !cliente.ativo) || filtro === 'todos') {
+        if (linha) {
             corpoTabela.appendChild(linha);
         }
     });
+
+    // Exibe uma mensagem se não houver clientes no filtro atual
+    if (clientesFiltrados.length === 0) {
+        const linhaVazia = document.createElement('tr');
+        linhaVazia.innerHTML = `<td colspan="6" style="text-align: center;">Nenhum cliente encontrado.</td>`;
+        corpoTabela.appendChild(linhaVazia);
+    }
 }
 
 // Função para criar uma linha na tabela
@@ -207,13 +205,8 @@ function criarLinhaTabela(cliente) {
         <td>${cliente.endereco}</td>
         <td class="acoes">
             <button class="detalhes" onclick="abrirModalCliente(${cliente.id})">Ver Detalhes</button>
-            ${cliente.ativo ? `
-                <button class="editar" onclick="editarCliente('${cliente.id}')">Editar</button>
-                <button class="inativar" onclick="inativarCliente('${cliente.id}')">Inativar</button>
-            ` : `
-                <button class="ativar" onclick="ativarCliente('${cliente.id}')">Ativar</button>
-                <button class="deletar" onclick="excluirCliente('${cliente.id}')">Excluir</button>
-            `}
+            <button class="editar" onclick="editarCliente(${cliente.id})">Editar</button>
+            <button class="deletar" onclick="excluirCliente(${cliente.id})">Excluir</button>
         </td>
     `;
     return linha;
@@ -233,16 +226,20 @@ function ativarCliente(id) {
 
 // Função para excluir um cliente
 function excluirCliente(id) {
+    // Recupera os clientes do localStorage
     let clientes = JSON.parse(localStorage.getItem('clientes')) || [];
+
+    // Filtra os clientes para remover o cliente com o ID especificado
     clientes = clientes.filter(cliente => cliente.id != id);
+
+    // Atualiza o localStorage com a lista de clientes atualizada
     localStorage.setItem('clientes', JSON.stringify(clientes));
+
+    // Exibe uma mensagem de sucesso
     alert('Cliente excluído com sucesso!');
 
-    // Obtém o filtro atual (ativos ou inativos)
-    const filtroAtual = document.querySelector('input[name="statusCliente"]:checked').value;
-
-    // Recarrega os clientes com base no filtro atual
-    carregarClientes(filtroAtual);
+    // Recarrega a página para atualizar a tabela
+    location.reload();
 }
 
 // Função para editar um cliente
@@ -251,22 +248,26 @@ function editarCliente(id) {
     const cliente = clientes.find(cliente => cliente.id == id);
     if (!cliente) return;
 
-    if (!cliente.ativo) {
-        alert('Não é possível editar um cliente inativo.');
-        return;
-    }
-
     // Preenche os campos do formulário com os dados do cliente
     document.getElementById('clienteId').value = cliente.id;
-    document.getElementById('nome').value = cliente.nome || cliente.fantasia || '';
-    document.getElementById('cpfCnpj').value = cliente.cpfCnpj;
-    document.getElementById('telefone').value = cliente.telefone;
-    document.getElementById('cep').value = cliente.cep; // Preenche o CEP
+    document.getElementById('nome').value = cliente.nome || '';
+    document.getElementById('cpfCnpj').value = cliente.cpfCnpj.toString().length <= 11
+        ? formatarCPF(cliente.cpfCnpj.toString())
+        : formatarCNPJ(cliente.cpfCnpj.toString());
+    document.getElementById('telefone').value = formatarTelefone(cliente.telefone.toString());
+    document.getElementById('cep').value = formatarCEP(cliente.cep);
     document.getElementById('rua').value = cliente.endereco.split(', ')[0];
     document.getElementById('numero').value = cliente.endereco.split(', ')[1];
     document.getElementById('bairro').value = cliente.endereco.split(', ')[2];
     document.getElementById('cidade').value = cliente.endereco.split(', ')[3];
     document.getElementById('email').value = cliente.email;
+
+    // Define o status do cliente
+    if (cliente.ativo) {
+        document.getElementById('statusAtivo').checked = true;
+    } else {
+        document.getElementById('statusInativo').checked = true;
+    }
 
     // Exibe o formulário para edição
     toggleFormulario(true);
@@ -379,6 +380,9 @@ function buscarEnderecoPorCEP(cep) {
     cep = cep.replace(/\D/g, ""); // Remove caracteres não numéricos
     if (cep.length !== 8) return;
 
+    const loading = document.getElementById('loading');
+    loading.style.display = 'flex'; // Exibe o indicador de carregamento
+
     fetch(`https://viacep.com.br/ws/${cep}/json/`)
         .then(response => response.json())
         .then(data => {
@@ -386,65 +390,13 @@ function buscarEnderecoPorCEP(cep) {
                 alert("CEP não encontrado.");
                 return;
             }
-            document.getElementById('rua').value = data.logradouro;
-            document.getElementById('bairro').value = data.bairro;
-            document.getElementById('cidade').value = data.localidade;
-        })
-        .catch(error => console.error("Erro ao buscar CEP:", error));
-}
-
-let requisicaoCnpjEmAndamento = false; // Variável de controle
-
-// Função para buscar dados de CNPJ usando a API ReceitaWS
-function buscarDadosPorCnpj(cnpj) {
-    if (requisicaoCnpjEmAndamento) {
-        console.log("Uma requisição já está em andamento. Aguarde.");
-        return;
-    }
-
-    cnpj = cnpj.replace(/\D/g, ""); // Remove caracteres não numéricos
-
-    if (cnpj.length !== 14) {
-        alert("CNPJ inválido. Certifique-se de que possui 14 números.");
-        return;
-    }
-
-    requisicaoCnpjEmAndamento = true; // Marca que a requisição está em andamento
-
-    // Faz a busca na API ReceitaWS
-    fetch(`https://www.receitaws.com.br/v1/cnpj/${cnpj}`, {
-        method: 'GET',
-        headers: {
-            'Accept': 'application/json'
-        }
-    })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error(`Erro na API ReceitaWS: ${response.status}`);
-            }
-            return response.json();
-        })
-        .then(data => {
-            if (data.status === "ERROR") {
-                alert("CNPJ não encontrado.");
-                return;
-            }
-
-            // Preenche os campos com os dados retornados
-            document.getElementById('nome').value = data.nome || data.fantasia || '';
-            document.getElementById('email').value = data.email || '';
-            document.getElementById('telefone').value = data.telefone || '';
             document.getElementById('rua').value = data.logradouro || '';
             document.getElementById('bairro').value = data.bairro || '';
-            document.getElementById('cidade').value = data.municipio || '';
-            document.getElementById('cep').value = data.cep || '';
+            document.getElementById('cidade').value = data.localidade || '';
         })
-        .catch(error => {
-            console.error("Erro ao buscar CNPJ:", error);
-            alert("Erro ao buscar CNPJ. Tente novamente mais tarde.");
-        })
+        .catch(error => console.error("Erro ao buscar CEP:", error))
         .finally(() => {
-            requisicaoCnpjEmAndamento = false; // Libera a variável de controle
+            loading.style.display = 'none'; // Oculta o indicador de carregamento
         });
 }
 
@@ -466,11 +418,7 @@ function validarCampos() {
     const bairro = document.getElementById('bairro').value.trim();
     const cidade = document.getElementById('cidade').value.trim();
 
-    if (!nome || !cpfCnpj || !telefone || !email || !cep || !rua || !numero || !bairro || !cidade) {
-        alert('Por favor, preencha todos os campos obrigatórios.');
-        return false;
-    }
-
+    // Validação de CPF ou CNPJ
     if (cpfCnpj.length === 11) {
         if (!validarCPF(cpfCnpj)) {
             alert('CPF inválido.');
@@ -482,10 +430,10 @@ function validarCampos() {
             return false;
         }
     } else {
-        alert('CPF ou CNPJ inválido.');
-        return false;
+        return false; // Remove o alerta e apenas retorna false
     }
 
+    // Validação de email
     if (!validarEmail(email)) {
         alert('Email inválido.');
         return false;
@@ -525,3 +473,9 @@ function abrirModalCliente(clienteId) {
 document.getElementById('fecharModal').addEventListener('click', function () {
     document.getElementById('modalCliente').style.display = 'none';
 });
+
+// Função para cancelar o formulário
+function cancelarFormulario() {
+    document.getElementById('formularioCliente').reset(); // Reseta os campos do formulário
+    toggleFormulario(false); // Oculta o formulário e exibe a tabela
+}

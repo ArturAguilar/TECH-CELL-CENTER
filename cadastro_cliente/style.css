@@ -74,6 +74,13 @@ main {
 .form-group {
   display: flex;
   flex-direction: column;
+  margin-bottom: 1rem; /* Espaçamento inferior */
+}
+
+.form-group label {
+  font-weight: 500; /* Deixa o texto do rótulo mais destacado */
+  margin-bottom: 0.5rem; /* Espaçamento inferior */
+  display: block; /* Faz o rótulo ocupar toda a largura */
 }
 
 /* Estilos para os labels do formulário de cliente */
@@ -272,5 +279,135 @@ button {
   float: right;
   font-size: 24px;
   cursor: pointer;
+}
+
+.status-opcoes {
+  display: flex; /* Alinha os itens horizontalmente */
+  gap: 10px; /* Espaçamento entre os botões */
+  align-items: center; /* Alinha verticalmente os itens */
+}
+
+.status-opcoes label {
+  display: flex; /* Alinha o texto e o botão juntos */
+  align-items: center; /* Alinha verticalmente o texto e o botão */
+  gap: 5px; /* Espaçamento entre o botão e o texto */
+  font-size: 14px; /* Tamanho da fonte */
+  cursor: pointer; /* Mostra o cursor de clique ao passar sobre o rótulo */
+}
+
+.status-opcoes input[type="radio"] {
+  accent-color: #ff4800; /* Cor personalizada para os botões de rádio */
+  width: 1.2rem; /* Largura do botão */
+  height: 1.2rem; /* Altura do botão */
+  cursor: pointer; /* Mostra o cursor de clique */
+}
+
+.status-opcoes label:hover {
+  color: #ff4800; /* Altera a cor do texto ao passar o mouse */
+}
+
+/* Estilos para o formulário de produto */
+.formulario-produto {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  margin: 20px auto; /* Centraliza o formulário */
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 5px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  max-width: 800px;
+  width: 90%;
+}
+
+/* Estilos para os botões do formulário */
+.formulario-produto button {
+  padding: 10px 20px;
+  background-color: #ff4800;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  font-size: 14px;
+}
+
+.formulario-produto button:hover {
+  background-color: #e04300;
+}
+
+/* Estilos para os botões de ação */
+.botoes-acoes {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.botao-adicionar,
+.botao-cancelar {
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.botao-adicionar {
+  background-color: #28a745;
+  color: #fff;
+}
+
+.botao-adicionar:hover {
+  background-color: #218838;
+}
+
+.botao-cancelar {
+  background-color: #6c757d;
+  color: #fff;
+}
+
+.botao-cancelar:hover {
+  background-color: #5a6268;
+}
+
+#botao-cancelar {
+  background-color: #6c757d;
+  color: #fff;
+}
+
+/* Estilo do indicador de carregamento */
+#loading {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.8); /* Fundo semitransparente */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    backdrop-filter: blur(0.5px); /* Aplica o desfoque ao fundo */
+}
+
+/* Estilo do spinner */
+.spinner {
+    border: 12px solid #f3f3f3; /* Cor de fundo */
+    border-top: 12px solid #ff3300; /* Cor da borda superior */
+    border-radius: 50%;
+    width: 80px; /* Aumenta o tamanho do spinner */
+    height: 80px; /* Aumenta o tamanho do spinner */
+    animation: girar 1s linear infinite;
+}
+
+/* Animação de rotação */
+@keyframes girar {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
 }
 
