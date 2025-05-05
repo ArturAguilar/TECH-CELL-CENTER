@@ -47,13 +47,85 @@
             <h2 style="padding-bottom: 10px;">Adicionar Orçamento</h2>
             <form id="formularioOrcamento">
                 <input type="hidden" id="orcamentoId" />
+                <!-- Campo de pesquisa de cliente e status -->
+                <div class="grupo-campos">
+                    <div class="linha">
+                        <!-- Campo de pesquisa de cliente -->
+                        <div id="filtroClientes">
+                            <label for="pesquisaCliente">Pesquisar Cliente:</label>
+                            <input type="text" id="pesquisaCliente" placeholder="Digite o nome do cliente">
+                            <ul id="listaClientes" class="lista-sugestoes"></ul>
+                        </div>
+
+                        <!-- Campo de e-mail -->
+                        <div class="campo-email">
+                            <label for="emailCliente">E-mail:</label>
+                            <input type="email" id="emailCliente" placeholder="Digite o e-mail do cliente">
+                        </div>
+                    </div>
+
+                    <div class="linha">
+                        <!-- Campo de telefone -->
+                        <div class="campo-telefone">
+                            <label for="telefoneCliente">Telefone:</label>
+                            <input type="text" id="telefoneCliente" placeholder="Digite o telefone" oninput="aplicarMascaraTelefone(this)" />
+                        </div>
+
+                        <!-- Campo de endereço -->
+                        <div class="campo-endereco">
+                            <label for="enderecoCliente">Endereço:</label>
+                            <input type="text" id="enderecoCliente" placeholder="Digite o endereço do cliente">
+                        </div>
+                    </div>
+
+                    <div class="linha">
+                        <!-- Campo de CPF/CNPJ -->
+                        <div class="campo-cpf-cnpj">
+                            <label for="cpfCnpjCliente">CPF/CNPJ:</label>
+                            <input type="text" id="cpfCnpjCliente" placeholder="Digite o CPF ou CNPJ" oninput="aplicarMascaraCpfCnpj(this)" />
+                        </div>
+
+                        <!-- Seleção de status -->
+                        <div class="campo-status">
+                            <label for="status" style="margin-bottom: 4px;">Status:</label>
+                            <select id="status" name="status" required>
+                                <option value="Pendente">Pendente</option>
+                                <option value="Andamento">Em Andamento</option>
+                                <option value="Concluido">Concluído</option>
+                                <option value="Rejeitado">Rejeitado</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="linha">
+                        <!-- Campo de observações -->
+                        <div class="campo-observacoes">
+                            <label for="observacoes">Observações:</label>
+                            <textarea id="observacoes" name="observacoes"></textarea>
+                        </div>
+
+                        <!-- Seleção de forma de pagamento -->
+                        <div class="campo-forma-pagamento">
+                            <label for="formaPagamento">Forma de Pagamento:</label>
+                            <select id="formaPagamento" name="formaPagamento" required>
+                                <option value="Dinheiro">Dinheiro</option>
+                                <option value="Cartão de Crédito">Cartão de Crédito</option>
+                                <option value="Cartão de Débito">Cartão de Débito</option>
+                                <option value="Pix">Pix</option>
+                                <option value="Boleto">Boleto</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <br><hr><br>
                 
                 <div class="grupo-campos">
                     <div class="linha">
                         <!-- Campo de pesquisa de produto -->
                         <div class="campo-produto">
                             <label for="pesquisaProduto">Pesquisar Produto:</label>
-                            <input type="text" id="pesquisaProduto" placeholder="Digite o nome do produto">
+                            <input type="text" id="pesquisaProduto"  placeholder="Digite o nome do produto">
                             <ul id="listaProdutos" class="lista-sugestoes"></ul>
                         </div>
                         <!-- Campo de quantidade -->
@@ -71,8 +143,7 @@
                         </div>
                         <!-- Campo de preço -->
                         <div class="campo-preco">
-                            <label for="total">Total:</label>
-                            <input type="text" id="preco" name="preco" step="0.01" readonly />
+                            
                         </div>
                     </div>
                     <!-- Botão para adicionar item -->
@@ -97,52 +168,9 @@
                     <h3 >Total: <span id="precoTotal">R$ 0.00</span></h3>
                 </div>
 
-                <!-- Campo de pesquisa de cliente e status -->
-                <div class="grupo-campos">
-                    <div class="linha">
-                        <!-- Campo de pesquisa de cliente -->
-                        <div id="filtroClientes">
-                            <label for="pesquisaCliente">Pesquisar Cliente:</label>
-                            <input type="text" id="pesquisaCliente" placeholder="Digite o nome do cliente">
-                            <ul id="listaClientes" class="lista-sugestoes"></ul>
-                        </div>
-
-                        <!-- Seleção de status -->
-                        <div class="campo-status">
-                            <label for="status" style="margin-bottom: 4px;">Status:</label>
-                            <select id="status" name="status" required>
-                                <option value="Pendente">Pendente</option>
-                                <option value="Andamento">Em Andamento</option>
-                                <option value="Concluido">Concluído</option>
-                                <option value="Rejeitado">Rejeitado</option>
-                            </select>
-                        </div>
-                    </div>
-
-                <!-- Campo de observações e forma de pagamento -->
-                    <div class="linha">
-                        <!-- Campo de observações -->
-                        <div class="campo-observacoes">
-                            <label for="observacoes">Observações:</label>
-                            <textarea id="observacoes" name="observacoes"></textarea>
-                        </div>
-
-                        <!-- Seleção de forma de pagamento -->
-                        <div class="campo-forma-pagamento">
-                            <label for="formaPagamento">Forma de Pagamento:</label>
-                            <select id="formaPagamento" name="formaPagamento" required>
-                                <option value="Dinheiro">Dinheiro</option>
-                                <option value="Cartão de Crédito">Cartão de Crédito</option>
-                                <option value="Cartão de Débito">Cartão de Débito</option>
-                                <option value="Pix">Pix</option>
-                                <option value="Boleto">Boleto</option>
-                            </select>
-                        </div>
-                    </div>
-
-                <!-- Botão para salvar orçamento -->
-                
-                    <button type="button" id="botaoSalvarOrcamento">Salvar Orçamento</button>
+                <div class="botoes-formulario">
+                    <button type="button" id="botaoSalvarOrcamento" class="btn btn-salvar">Salvar Orçamento</button>
+                    <button type="button" id="botaoCancelarOrcamento" class="btn btn-cancelar">Cancelar</button>
                 </div>
             </form>
         </section>
@@ -150,11 +178,12 @@
         <!-- Seção da tabela de orçamentos registrados -->
         <section class="tabela-orcamento" id="secaoTabelaOrcamentos">
             <h2>Orçamentos Registrados</h2>
-            <input type="text" id="entradaPesquisaOrcamento" placeholder="Buscar por nome do cliente..." />
+            <input type="text" id="entradaPesquisaOrcamento" placeholder="Buscar por nome do cliente...">
             <div class="container-tabela">
                 <table>
                     <thead>
                         <tr>
+
                             <th>Código</th>
                             <th>Cliente</th>
                             <th>Produtos</th>
@@ -171,6 +200,27 @@
                 </table>
             </div>
         </section>
+
+        <!-- Modal para exibir informações do orçamento -->
+        <div id="modalOrcamento" class="modal">
+    <div class="modal-conteudo">
+        <span id="fecharModalOrcamento" class="fechar-modal">&times;</span>
+        <h2>Detalhes do Orçamento</h2>
+        <p><strong>Código do Orçamento:</strong> <span id="modalCodigoOrcamento"></span></p>
+        <p><strong>Cliente:</strong> <span id="modalClienteOrcamento"></span></p>
+        <p><strong>Telefone:</strong> <span id="modalTelefoneCliente"></span></p>
+        <p><strong>Email:</strong> <span id="modalEmailCliente"></span></p>
+        <p><strong>Endereço:</strong> <span id="modalEnderecoCliente"></span></p>
+        <p><strong>CPF/CNPJ:</strong> <span id="modalCpfCnpjCliente"></span></p>
+        <p><strong>Produtos:</strong> <span id="modalProdutosOrcamento"></span></p>
+        <p><strong>Serviços:</strong> <span id="modalServicosOrcamento"></span></p>
+        <p><strong>Total:</strong> <span id="modalTotalOrcamento"></span></p>
+        <p><strong>Status:</strong> <span id="modalStatusOrcamento"></span></p>
+        <p><strong>Forma de Pagamento:</strong> <span id="modalFormaPagamentoOrcamento"></span></p>
+        <p><strong>Observações:</strong> <span id="modalObservacoesOrcamento"></span></p>
+        <button id="botaoEnviarWhatsApp" class="btn btn-whatsapp">Enviar por WhatsApp</button>
+    </div>
+</div>
     </main>
     <script src="script.js"></script>
     <script src="../menu.js"></script>

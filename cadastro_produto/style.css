@@ -42,14 +42,31 @@ main {
 /* Estilos para o formulário de produto e a tabela de produtos */
 .formulario-produto {
   margin: 20px;
-  padding: 20px;
-  background-color: #fff;
-  border-radius: 5px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  max-width: 800px;
+  padding: 1.5rem; /* Espaçamento interno */
+  background-color: #fff; /* Fundo branco */
+  border-radius: 8px; /* Bordas arredondadas */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra suave */
+  max-width: 600px; /* Largura máxima */
   width: 90%;
   margin-left: auto;
   margin-right: auto;
+}
+
+/* Estilos para os botões do formulário */
+.formulario-produto button {
+  padding: 0.75rem 1.5rem; /* Espaçamento interno */
+  background-color: #ff4800; /* Cor de fundo */
+  color: #fff; /* Cor do texto */
+  border: none; /* Remove a borda */
+  border-radius: 5px; /* Bordas arredondadas */
+  cursor: pointer; /* Mostra o cursor de clique */
+  font-size: 1rem; /* Tamanho da fonte */
+  transition: background-color 0.3s; /* Transição suave */
+}
+
+/* Estilos para o hover dos botões */
+.formulario-produto button:hover {
+  background-color: #e04300; /* Cor de fundo ao passar o mouse */
 }
 
 .tabela-produto {
@@ -88,22 +105,6 @@ main {
   background-repeat: no-repeat;
   background-position: right 10px center;
   background-size: 8px 10px;
-}
-
-/* Estilos para o botão do formulário de produto */
-.formulario-produto button {
-  padding: 10px 20px;
-  background-color: #ff4800;
-  color: #fff;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s;
-}
-
-/* Estilos para o hover do botão do formulário de produto */
-.formulario-produto button:hover {
-  background-color: #ff4800;
 }
 
 /* Estilos para o input de busca da tabela de produtos */
@@ -182,7 +183,6 @@ main {
   margin-bottom: 0.3125rem; /* 5px */
 }
 
-
 .tabela-produto .acoes .inativar {
   background-color: #dc3545;
   color: #fff;
@@ -207,4 +207,59 @@ main {
 
 .form-group-full {
   grid-column: span 2;
+}
+
+/* Estilos para o grupo de status do produto */
+.form-group {
+  margin-bottom: 1rem; /* Espaçamento inferior */
+}
+
+.form-group label {
+  font-weight: 500; /* Deixa o texto do rótulo mais destacado */
+  margin-bottom: 0.5rem; /* Espaçamento inferior */
+  display: block; /* Faz o rótulo ocupar toda a largura */
+}
+
+/* Estilos para o contêiner dos botões de status */
+.status-opcoes {
+  display: flex; /* Alinha os itens horizontalmente */
+  gap: 1rem; /* Espaçamento entre os botões */
+  align-items: center; /* Alinha verticalmente os itens */
+}
+
+/* Estilos para os rótulos dos botões de status */
+.status-opcoes label {
+  display: flex; /* Alinha o texto e o botão juntos */
+  align-items: center; /* Alinha verticalmente o texto e o botão */
+  gap: 0.5rem; /* Espaçamento entre o botão e o texto */
+  font-size: 1rem; /* Tamanho da fonte */
+  cursor: pointer; /* Mostra o cursor de clique ao passar sobre o rótulo */
+}
+
+/* Estilos para os botões de rádio */
+.status-opcoes input[type="radio"] {
+  accent-color: #ff4800; /* Cor personalizada para os botões de rádio */
+  width: 1.2rem; /* Largura do botão */
+  height: 1.2rem; /* Altura do botão */
+  cursor: pointer; /* Mostra o cursor de clique */
+}
+
+/* Estilos para o hover nos rótulos */
+.status-opcoes label:hover {
+  color: #ff4800; /* Altera a cor do texto ao passar o mouse */
+}
+
+#botaoCancelar {
+  background-color: #6c757d; /* Cor de fundo cinza */
+  color: #fff; /* Cor do texto branca */
+  border: none; /* Remove a borda */
+  border-radius: 5px; /* Bordas arredondadas */
+  padding: 10px 20px; /* Espaçamento interno */
+  cursor: pointer; /* Mostra o cursor de clique */
+  transition: background-color 0.3s; /* Transição suave */
+  margin-left: 10px; /* Espaçamento à esquerda */
+}
+
+#botaoCancelar:hover {
+  background-color: #5a6268; /* Cor de fundo mais escura ao passar o mouse */
 }

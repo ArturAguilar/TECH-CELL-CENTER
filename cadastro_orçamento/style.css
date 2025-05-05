@@ -286,6 +286,15 @@ main {
   background-color: #06a020;
 }
 
+#botaoEnviarWhatsApp {
+  background-color: #25d366;
+  color: white;
+}
+
+#botaoEnviarWhatsAppr {
+  background-color: #1da851;
+}
+
 /* Estilos para a lista de sugestões */
 .lista-sugestoes {
   list-style-type: none;
@@ -331,11 +340,11 @@ main {
   margin-bottom: 30px; /* Espaçamento entre os grupos */
 }
 
-/* Estilo padrão: lado a lado */
+/* Estilo para alinhar os inputs */
 .linha {
     display: flex;
     gap: 20px; /* Espaçamento entre os elementos */
-    align-items: flex-start; /* Alinha os itens no topo */
+    align-items: center; /* Alinha os itens verticalmente ao centro */
     margin-bottom: 20px; /* Espaçamento inferior */
 }
 
@@ -347,386 +356,149 @@ main {
 .campo-forma-pagamento,
 .campo-servico,
 .campo-preco,
-.campo-observacoes,
-.campo-forma-pagamento,
-.campo-status,
-#filtroClientes {
+.campo-email,
+.campo-telefone,
+.campo-endereco,
+.campo-cpf-cnpj {
     flex: 1; /* Faz os elementos ocuparem o mesmo espaço */
+    display: flex;
+    flex-direction: column; /* Alinha os rótulos e inputs verticalmente */
 }
 
-/* Estilo para dispositivos móveis: um embaixo do outro */
-@media (max-width: 768px) {
-    .linha {
-        display: block; /* Alinha os elementos verticalmente */
-    }
-
-    #filtroClientes,
-    .campo-status,
-    .campo-produto,
-    .campo-quantidade,
-    .campo-observacoes,
-    .campo-forma-pagamento,
-    .campo-servico,
-    .campo-preco {
-        width: 100%; /* Garante que os elementos ocupem toda a largura */
-        margin-bottom: 20px; /* Espaçamento inferior entre os campos */
-    }
-}
-
-#filtroClientes label,
-.campo-status label,
-.campo-produto label,
-.campo-quantidade label,
-.campo-observacoes label,
-.campo-forma-pagamento label,
-.campo-servico label,
-.campo-preco label {
-    display: block;
-    margin-bottom: 5px;
+/* Estilo para os rótulos */
+label {
     font-weight: bold;
+    margin-bottom: 5px; /* Espaçamento entre o rótulo e o campo */
+    font-size: 14px;
 }
 
-#filtroClientes input,
-.campo-status select,
-.campo-produto input,
-.campo-quantidade input,
-.campo-observacoes textarea,
-.campo-forma-pagamento select
-.campo-servico input,
-.campo-preco input{
-    width: 100%;
+/* Estilo para os inputs */
+input[type="text"],
+input[type="email"],
+input[type="tel"],
+textarea,
+select {
+    width: 100%; /* Garante que os campos ocupem toda a largura disponível */
     padding: 10px;
-    font-size: 1rem;
     border: 1px solid #ccc;
     border-radius: 5px;
+    font-size: 14px;
+    box-sizing: border-box;
 }
 
-/* Estilo padrão para fontes e espaçamentos */
-body {
-    font-size: 12px; /* Tamanho base da fonte */
-    line-height: 1.5; /* Altura da linha */
-    padding: 0;
-    margin: 0;
+/* Estilo para o textarea */
+textarea {
+    resize: vertical;
+    min-height: 80px;
 }
 
-/* Ajuste para os campos de formulário */
-.formulario-orcamento label,
-.formulario-orcamento input,
-.formulario-orcamento select,
-.formulario-orcamento textarea,
-.formulario-orcamento button {
-    font-size: 1rem; /* Tamanho relativo à fonte base */
-    margin-bottom: 1rem; /* Espaçamento inferior */
-}
-
-/* Ajuste para títulos */
-.formulario-orcamento h2,
-.formulario-orcamento h3 {
-    font-size: 1.5rem; /* Tamanho maior para títulos */
-    margin-bottom: 1rem;
-}
-
-/* Ajuste para dispositivos móveis */
+/* Estilo responsivo para dispositivos móveis */
 @media (max-width: 768px) {
-    body {
-        font-size: 14px; /* Reduz o tamanho da fonte em telas menores */
-    }
-
-    .formulario-orcamento label,
-    .formulario-orcamento input,
-    .formulario-orcamento select,
-    .formulario-orcamento textarea,
-    .formulario-orcamento button {
-        font-size: 1rem; /* Ajusta o tamanho dos campos */
-        margin-bottom: 0.8rem; /* Reduz o espaçamento inferior */
-    }
-
-    .formulario-orcamento h2{
-      font-size: 1.8rem; /* Aumenta o tamanho dos títulos */
-  }
-
-  .formulario-orcamento h3 {
-      font-size: 1.2rem; /* Aumenta o tamanho dos títulos */
-  }
-
     .linha {
-        display: block; /* Empilha os elementos verticalmente */
-        gap: 15px; /* Reduz o espaçamento entre os elementos */
+        flex-direction: column; /* Empilha os elementos verticalmente */
+        align-items: flex-start; /* Alinha os itens à esquerda */
     }
 
-    #filtroClientes,
-    .campo-status,
-    .campo-produto,
-    .campo-quantidade,
-    .campo-observacoes,
-    .campo-forma-pagamento,
-    .campo-servico,
-    .campo-preco {
-        width: 100%; /* Garante que os elementos ocupem toda a largura */
-        margin-bottom: 15px; /* Reduz o espaçamento inferior */
+    input[type="text"],
+    input[type="email"],
+    input[type="tel"],
+    textarea,
+    select {
+        width: 100%; /* Garante que os campos ocupem toda a largura */
     }
 }
 
-/* Ajuste para telas maiores */
-@media (min-width: 1024px) {
-    body {
-        font-size: 16px; /* Aumenta o tamanho da fonte em telas maiores */
+/* Estilo geral do modal */
+.modal {
+    display: none; /* Oculta o modal por padrão */
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.5); /* Fundo semitransparente */
+}
+
+/* Conteúdo do modal */
+.modal-conteudo {
+    background-color: #fff;
+    margin: 10% auto; /* Centraliza o modal verticalmente */
+    padding: 20px;
+    border: 1px solid #888;
+    border-radius: 8px;
+    width: 50%; /* Largura do modal */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    animation: aparecer 0.3s ease-in-out;
+}
+
+/* Animação de entrada */
+@keyframes aparecer {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
     }
-
-    .formulario-orcamento label,
-    .formulario-orcamento input,
-    .formulario-orcamento select,
-    .formulario-orcamento textarea,
-    .formulario-orcamento button {
-        font-size: 1rem; /* Aumenta o tamanho dos campos */
-        margin-bottom: 1.1rem; /* Aumenta o espaçamento inferior */
-    }
-
-    .formulario-orcamento h2{
-        font-size: 1.8rem; /* Aumenta o tamanho dos títulos */
-    }
-
-    .formulario-orcamento h3 {
-        font-size: 1.2rem; /* Aumenta o tamanho dos títulos */
-    }
-
-    .linha {
-        gap: 25px; /* Aumenta o espaçamento entre os elementos */
+    to {
+        opacity: 1;
+        transform: scale(1);
     }
 }
 
-/* Estilo base para o corpo */
-body {
-    font-size: 16px; /* Tamanho base confortável */
-    line-height: 1.6; /* Altura da linha para melhor legibilidade */
-    color: #333; /* Cor do texto */
+/* Botão de fechar */
+.fechar-modal {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
 }
 
-/* Ajuste para títulos */
-h1 {
-    font-size: 2rem; /* Título principal */
-    font-weight: 700;
-    margin-bottom: 1rem;
+.fechar-modal:hover,
+.fechar-modal:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
 }
 
-h2 {
-    font-size: 1.8rem; /* Subtítulo */
-    font-weight: 600;
-    margin-bottom: 0.8rem;
+/* Título do modal */
+.modal-conteudo h2 {
+    margin-top: 0;
+    font-size: 24px;
+    color: #333;
+    border-bottom: 2px solid #f0f0f0;
+    padding-bottom: 10px;
 }
 
-h3 {
-    font-size: 1.5rem; /* Título de seção */
-    font-weight: 500;
-    margin-bottom: 0.6rem;
-}
-
-h4, label {
-    font-size: 1.2rem; /* Títulos menores e labels */
-    font-weight: 500;
-    margin-bottom: 0.5rem;
-}
-
-/* Ajuste para textos gerais */
-p, input, select, textarea, button, span {
-    font-size: 1rem; /* Texto padrão */
+/* Parágrafos do modal */
+.modal-conteudo p {
+    margin: 10px 0;
+    font-size: 16px;
+    color: #555;
     line-height: 1.5;
 }
 
-/* Ajuste para botões */
-button {
-    font-size: 1rem; /* Texto dos botões */
-    padding: 0.6rem 1.2rem; /* Espaçamento interno */
+/* Botões no modal (se necessário) */
+.modal-conteudo button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
     border-radius: 5px;
     cursor: pointer;
-    transition: background-color 0.3s;
+    font-size: 16px;
+    margin-top: 20px;
 }
 
-button:hover {
-    background-color: #ff4800cc; /* Cor de hover */
-    color: #fff;
+.modal-conteudo button:hover {
+    background-color: #0056b3;
 }
 
-/* Ajuste para o texto do total */
-#precoTotal {
-    font-size: 1.2rem; /* Destaque para o total */
-    font-weight: 700;
-    color: #ff4800;
+#botaoCancelarOrcamento{
+    background-color: #5a6268;
+    color: white;
 }
 
-/* Ajuste para tabelas */
-table {
-    font-size: 1rem; /* Texto padrão da tabela */
-    border-collapse: collapse;
-    width: 100%;
-}
-
-th {
-    font-size: 1.1rem; /* Cabeçalhos da tabela */
-    font-weight: 600;
-    text-align: left;
-    padding: 0.8rem;
-    background-color: #ffffff;
-    color: #1f1f1f;
-}
-
-td {
-    font-size: 1rem; /* Células da tabela */
-    padding: 0.8rem;
-    border-bottom: 1px solid #ddd;
-}
-
-/* Ajuste para dispositivos móveis */
-@media (max-width: 768px) {
-    body {
-        font-size: 15px; /* Reduz o tamanho base em telas menores */
-    }
-
-    h1 {
-        font-size: 1.8rem;
-    }
-
-    h2 {
-        font-size: 1.6rem;
-    }
-
-    h3 {
-        font-size: 1.4rem;
-    }
-
-    h4, label {
-        font-size: 1.1rem;
-    }
-
-    p, input, select, textarea, button, span {
-        font-size: 0.95rem; /* Texto padrão menor */
-    }
-
-    button {
-        padding: 0.5rem 1rem; /* Botões mais compactos */
-    }
-
-    th, td {
-        font-size: 1.1rem; /* Texto menor na tabela */
-        padding: 0.6rem;
-    }
-}
-
-/* Ajuste para telas maiores */
-@media (min-width: 1024px) {
-    body {
-        font-size: 17px; /* Aumenta o tamanho base em telas maiores */
-    }
-
-    h1 {
-        font-size: 2.2rem;
-    }
-
-    h2 {
-        font-size: 2rem;
-    }
-
-    h3 {
-        font-size: 1.7rem;
-    }
-
-    h4, label {
-        font-size: 1.3rem;
-    }
-
-    p, input, select, textarea, button, span {
-        font-size: 1.1rem; /* Texto padrão maior */
-    }
-
-    button {
-        padding: 0.7rem 1.4rem; /* Botões maiores */
-    }
-
-    th, td {
-        font-size: 1.1rem; /* Texto maior na tabela */
-        padding: 0.9rem;
-    }
-}
-
-/* Estilo geral para botões */
-button {
-    font-size: 0.9rem; /* Reduz o tamanho do texto */
-    padding: 0.4rem 0.8rem; /* Reduz o espaçamento interno */
-    border-radius: 4px; /* Bordas levemente arredondadas */
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
-
-/* Botão de adicionar item */
-#botaoAdicionarItem {
-    font-size: 0.9rem; /* Texto menor */
-    padding: 0.4rem 0.8rem; /* Botão mais compacto */
-    background-color: #ff4800;
-    color: #fff;
-    border: none;
-}
-
-#botaoAdicionarItem:hover {
-    background-color: #ff4800cc; /* Cor de hover */
-}
-
-/* Botão de salvar orçamento */
-#botaoSalvarOrcamento {
-    font-size: 0.9rem; /* Texto menor */
-    padding: 0.5rem 1rem; /* Botão mais compacto */
-    background-color: #ff4800;
-    color: #fff;
-    border: none;
-    cursor: pointer;
-}
-
-/* Botões de ações na tabela */
-.tabela-orcamento .acoes button {
-    font-size: 0.85rem; /* Texto menor */
-    padding: 0.3rem 0.6rem; /* Botões compactos */
-    border-radius: 4px;
-    margin-right: 0.3rem; /* Espaçamento entre os botões */
-}
-
-.tabela-orcamento .acoes .editar {
-    background-color: #ffc107;
-    color: #fff;
-}
-
-.tabela-orcamento .acoes .editar:hover {
-    background-color: #e0a800;
-}
-
-.tabela-orcamento .acoes .deletar {
-    background-color: #dc3545;
-    color: #fff;
-}
-
-.tabela-orcamento .acoes .deletar:hover {
-    background-color: #c82333;
-}
-
-.tabela-orcamento .acoes .enviar {
-    background-color: #08ca28;
-    color: #fff;
-}
-
-.tabela-orcamento .acoes .enviar:hover {
-    background-color: #06a020;
-}
-
-/* Botão de remover na tabela */
-.remover-item {
-    font-size: 0.8rem; /* Reduz o tamanho do texto */
-    padding: 0.3rem 0.6rem; /* Reduz o espaçamento interno */
-    border-radius: 3px; /* Bordas levemente arredondadas */
-    background-color: #dc3545; /* Cor de fundo */
-    color: #fff; /* Cor do texto */
-    border: none; /* Remove borda */
-    cursor: pointer; /* Mostra o cursor de clique */
-    transition: background-color 0.3s; /* Transição suave para hover */
-}
-
-.remover-item:hover {
-    background-color: #c82333; /* Cor de hover */
+#botaoCancelarOrcamento {
+    background-color: #5a6268;
 }
