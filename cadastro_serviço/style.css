@@ -61,7 +61,8 @@ body {
 }
 
 /* Estilos para os títulos das seções de formulário e tabela de serviços */
-.formulario-servico h2, .tabela-servico h2 {
+.formulario-servico h2,
+.tabela-servico h2 {
   margin-top: 0;
 }
 
@@ -73,7 +74,8 @@ body {
 }
 
 /* Estilos para os inputs e selects do formulário de serviço */
-.formulario-servico input, .formulario-servico select {
+.formulario-servico input,
+.formulario-servico select {
   width: 100%;
   padding: 10px;
   margin-bottom: 10px;
@@ -125,11 +127,13 @@ body {
 .tabela-servico table {
   width: 100%;
   border-collapse: collapse;
-  min-width: 600px; /* Define uma largura mínima para a tabela */
+  min-width: 600px;
+  /* Define uma largura mínima para a tabela */
 }
 
 /* Estilos para as células da tabela de serviços */
-.tabela-servico th, .tabela-servico td {
+.tabela-servico th,
+.tabela-servico td {
   padding: 10px;
   border-bottom: 1px solid #ddd;
 }
@@ -180,7 +184,8 @@ body {
 .tabela-servico .acoes .ativar {
   background-color: #3540dc;
   color: #fff;
-  margin-bottom: 0.3125rem; /* 5px */
+  margin-bottom: 0.3125rem;
+  /* 5px */
 }
 
 
@@ -192,12 +197,14 @@ body {
 .filtros {
   display: flex;
   align-items: center;
-  gap: 10px; /* Espaçamento entre os elementos */
+  gap: 10px;
+  /* Espaçamento entre os elementos */
 }
 
 .filtro-status {
   display: flex;
-  gap: 10px; /* Espaçamento entre os rótulos */
+  gap: 10px;
+  /* Espaçamento entre os rótulos */
 }
 
 .grid-form {
@@ -210,7 +217,9 @@ body {
   grid-column: span 2;
 }
 
-.grid-form input, .grid-form select, .grid-form button {
+.grid-form input,
+.grid-form select,
+.grid-form button {
   grid-column: span 2;
 }
 
@@ -220,55 +229,81 @@ body {
 
 /* Estilos para o grupo de status do produto */
 .form-group {
-  margin-bottom: 1rem; /* Espaçamento inferior */
+  margin-bottom: 1rem;
+  /* Espaçamento inferior */
 }
 
 .form-group label {
-  font-weight: 500; /* Deixa o texto do rótulo mais destacado */
-  margin-bottom: 0.5rem; /* Espaçamento inferior */
-  display: block; /* Faz o rótulo ocupar toda a largura */
+  font-weight: 500;
+  /* Deixa o texto do rótulo mais destacado */
+  margin-bottom: 0.5rem;
+  /* Espaçamento inferior */
+  display: block;
+  /* Faz o rótulo ocupar toda a largura */
 }
 
 /* Estilos para o contêiner dos botões de status */
 .status-opcoes {
-  display: flex; /* Alinha os itens horizontalmente */
-  gap: 1rem; /* Espaçamento entre os botões */
-  align-items: center; /* Alinha verticalmente os itens */
+  display: flex;
+  /* Alinha os itens horizontalmente */
+  gap: 1rem;
+  /* Espaçamento entre os botões */
+  align-items: center;
+  /* Alinha verticalmente os itens */
 }
 
 /* Estilos para os rótulos dos botões de status */
 .status-opcoes label {
-  display: flex; /* Alinha o texto e o botão juntos */
-  align-items: center; /* Alinha verticalmente o texto e o botão */
-  gap: 0.5rem; /* Espaçamento entre o botão e o texto */
-  font-size: 1rem; /* Tamanho da fonte */
-  cursor: pointer; /* Mostra o cursor de clique ao passar sobre o rótulo */
+  display: flex;
+  /* Alinha o texto e o botão juntos */
+  align-items: center;
+  /* Alinha verticalmente o texto e o botão */
+  gap: 0.5rem;
+  /* Espaçamento entre o botão e o texto */
+  font-size: 1rem;
+  /* Tamanho da fonte */
+  cursor: pointer;
+  /* Mostra o cursor de clique ao passar sobre o rótulo */
 }
 
 /* Estilos para os botões de rádio */
 .status-opcoes input[type="radio"] {
-  accent-color: #ff4800; /* Cor personalizada para os botões de rádio */
-  width: 1.2rem; /* Largura do botão */
-  height: 1.2rem; /* Altura do botão */
-  cursor: pointer; /* Mostra o cursor de clique */
+  accent-color: #ff4800;
+  /* Cor personalizada para os botões de rádio */
+  width: 1.2rem;
+  /* Largura do botão */
+  height: 1.2rem;
+  /* Altura do botão */
+  cursor: pointer;
+  /* Mostra o cursor de clique */
 }
 
 /* Estilos para o hover nos rótulos */
 .status-opcoes label:hover {
-  color: #ff4800; /* Altera a cor do texto ao passar o mouse */
+  color: #ff4800;
+  /* Altera a cor do texto ao passar o mouse */
 }
 
 #botaoCancelar {
-  background-color: #6c757d; /* Cor de fundo cinza */
-  color: #fff; /* Cor do texto branca */
-  border: none; /* Remove a borda */
-  border-radius: 5px; /* Bordas arredondadas */
-  padding: 10px 20px; /* Espaçamento interno */
-  cursor: pointer; /* Mostra o cursor de clique */
-  transition: background-color 0.3s; /* Transição suave */
-  margin-left: 10px; /* Espaçamento à esquerda */
+  background-color: #6c757d;
+  /* Cor de fundo cinza */
+  color: #fff;
+  /* Cor do texto branca */
+  border: none;
+  /* Remove a borda */
+  border-radius: 5px;
+  /* Bordas arredondadas */
+  padding: 10px 20px;
+  /* Espaçamento interno */
+  cursor: pointer;
+  /* Mostra o cursor de clique */
+  transition: background-color 0.3s;
+  /* Transição suave */
+  margin-left: 10px;
+  /* Espaçamento à esquerda */
 }
 
 #botaoCancelar:hover {
-  background-color: #5a6268; /* Cor de fundo mais escura ao passar o mouse */
+  background-color: #5a6268;
+  /* Cor de fundo mais escura ao passar o mouse */
 }

@@ -15,18 +15,22 @@
 body {
   background-color: #f4f4f4;
   color: #333;
-  font-size: 16px; /* Base font size */
+  font-size: 16px;
+  /* Base font size */
 }
 
 /* Estilos para o elemento main */
 main {
-  padding: 5rem 0rem 1rem; /* 80px 0px 16px */
+  padding: 5rem 0rem 1rem;
+  /* 80px 0px 16px */
 }
 
 /* Estilos para o botão de mostrar formulário */
 .mostrar-formulario-botao {
-  margin: 1.25rem; /* 20px */
-  padding: 0.625rem 1.25rem; /* 10px 20px */
+  margin: 1.25rem;
+  /* 20px */
+  padding: 0.625rem 1.25rem;
+  /* 10px 20px */
   background-color: #ff4800;
   color: #fff;
   border: none;
@@ -45,8 +49,10 @@ main {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 20px;
-  margin: 1.25rem; /* 20px */
-  padding: 1.25rem; /* 20px */
+  margin: 1.25rem;
+  /* 20px */
+  padding: 1.25rem;
+  /* 20px */
   background-color: #fff;
   border-radius: 5px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
@@ -65,7 +71,8 @@ main {
 }
 
 /* Estilos para os títulos das seções de formulário e tabela de clientes */
-.formulario-cliente h2, .tabela-clientes h2 {
+.formulario-cliente h2,
+.tabela-clientes h2 {
   margin-top: 0;
   grid-column: span 2;
 }
@@ -74,33 +81,41 @@ main {
 .form-group {
   display: flex;
   flex-direction: column;
-  margin-bottom: 1rem; /* Espaçamento inferior */
+  margin-bottom: 1rem;
+  /* Espaçamento inferior */
 }
 
 .form-group label {
-  font-weight: 500; /* Deixa o texto do rótulo mais destacado */
-  margin-bottom: 0.5rem; /* Espaçamento inferior */
-  display: block; /* Faz o rótulo ocupar toda a largura */
+  font-weight: 500;
+  /* Deixa o texto do rótulo mais destacado */
+  margin-bottom: 0.5rem;
+  /* Espaçamento inferior */
+  display: block;
+  /* Faz o rótulo ocupar toda a largura */
 }
 
 /* Estilos para os labels do formulário de cliente */
 .formulario-cliente label {
-  margin-bottom: 0.3125rem; /* 5px */
+  margin-bottom: 0.3125rem;
+  /* 5px */
   font-weight: 500;
 }
 
 /* Estilos para os inputs do formulário de cliente */
 .formulario-cliente input {
   width: 100%;
-  padding: 0.625rem; /* 10px */
-  margin-bottom: 0.625rem; /* 10px */
+  padding: 0.625rem;
+  /* 10px */
+  margin-bottom: 0.625rem;
+  /* 10px */
   border: 1px solid #ccc;
   border-radius: 4px;
 }
 
 /* Estilos para o botão do formulário de cliente */
 .formulario-cliente button {
-  padding: 0.625rem 1.25rem; /* 10px 20px */
+  padding: 0.625rem 1.25rem;
+  /* 10px 20px */
   background-color: #ff4800;
   color: #fff;
   border: none;
@@ -117,7 +132,8 @@ main {
 
 /* Estilos para grupos de formulário que ocupam toda a largura */
 .form-group-full {
-  grid-column: span 2; /* Faz o botão ocupar toda a largura */
+  grid-column: span 2;
+  /* Faz o botão ocupar toda a largura */
   display: flex;
   justify-content: center;
 }
@@ -134,12 +150,14 @@ button {
 
 /* Estilos para a tabela de clientes */
 .tabela-clientes {
-  margin: 1.25rem; /* 20px */
-  padding: 1.25rem; /* 20px */
+  margin: 1.25rem;
+  /* 20px */
+  padding: 1.25rem;
+  /* 20px */
   background-color: #fff;
   border-radius: 5px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  max-width:95%;
+  max-width: 95%;
 
   margin-left: auto;
   margin-right: auto;
@@ -148,29 +166,37 @@ button {
 /* Estilos para o input de busca da tabela de clientes */
 .tabela-clientes input {
   width: 100%;
-  padding: 0.625rem; /* 10px */
-  margin-bottom: 0.625rem; /* 10px */
+  padding: 0.625rem;
+  /* 10px */
+  margin-bottom: 0.625rem;
+  /* 10px */
   border: 1px solid #ccc;
   border-radius: 4px;
 }
 
 /* Estilos para o contêiner da tabela */
 .container-tabela {
-  overflow-x: auto; /* Permite a rolagem horizontal */
-  max-width: 100%; /* Garante que o contêiner não ultrapasse a largura da tela */
-  margin: 0 auto; /* Centraliza o contêiner */
+  overflow-x: auto;
+  /* Permite a rolagem horizontal */
+  max-width: 100%;
+  /* Garante que o contêiner não ultrapasse a largura da tela */
+  margin: 0 auto;
+  /* Centraliza o contêiner */
 }
 
 /* Estilos para a tabela de clientes */
 .tabela-clientes table {
   width: 100%;
   border-collapse: collapse;
-  min-width: 600px; /* Define uma largura mínima para a tabela */
+  min-width: 600px;
+  /* Define uma largura mínima para a tabela */
 }
 
 /* Estilos para as células da tabela de clientes */
-.tabela-clientes th, .tabela-clientes td {
-  padding: 0.625rem; /* 10px */
+.tabela-clientes th,
+.tabela-clientes td {
+  padding: 0.625rem;
+  /* 10px */
   border-bottom: 1px solid #ddd;
 }
 
@@ -186,8 +212,10 @@ button {
 
 /* Estilos para os botões de ações na tabela de clientes */
 .tabela-clientes .acoes button {
-  margin-right: 0.3125rem; /* 5px */
-  padding: 0.3125rem 0.625rem; /* 5px 10px */
+  margin-right: 0.3125rem;
+  /* 5px */
+  padding: 0.3125rem 0.625rem;
+  /* 5px 10px */
   border: none;
   border-radius: 5px;
   cursor: pointer;
@@ -198,7 +226,8 @@ button {
 .tabela-clientes .acoes .editar {
   background-color: #ffc107;
   color: #fff;
-  margin-bottom: 0.3125rem; /* 5px */
+  margin-bottom: 0.3125rem;
+  /* 5px */
 }
 
 /* Estilos para o hover dos botões de edição na tabela de clientes */
@@ -221,7 +250,8 @@ button {
 .tabela-clientes .acoes .ativar {
   background-color: #3540dc;
   color: #fff;
-  margin-bottom: 0.3125rem; /* 5px */
+  margin-bottom: 0.3125rem;
+  /* 5px */
 }
 
 /* Estilos para o hover dos botões de ativar na tabela de clientes */
@@ -243,12 +273,14 @@ button {
 .filtros {
   display: flex;
   align-items: center;
-  gap: 10px; /* Espaçamento entre os elementos */
+  gap: 10px;
+  /* Espaçamento entre os elementos */
 }
 
 .filtro-status {
   display: flex;
-  gap: 10px; /* Espaçamento entre os rótulos */
+  gap: 10px;
+  /* Espaçamento entre os rótulos */
 }
 
 /* Estilos para o modal */
@@ -271,8 +303,10 @@ button {
   width: 550px;
   max-width: 90%;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  letter-spacing: 0.5px; /* Adiciona espaçamento entre as letras */
-  line-height: 1.7; /* Ajusta o espaçamento entre as linhas */
+  letter-spacing: 0.5px;
+  /* Adiciona espaçamento entre as letras */
+  line-height: 1.7;
+  /* Ajusta o espaçamento entre as linhas */
 }
 
 .fechar-modal {
@@ -282,28 +316,41 @@ button {
 }
 
 .status-opcoes {
-  display: flex; /* Alinha os itens horizontalmente */
-  gap: 10px; /* Espaçamento entre os botões */
-  align-items: center; /* Alinha verticalmente os itens */
+  display: flex;
+  /* Alinha os itens horizontalmente */
+  gap: 10px;
+  /* Espaçamento entre os botões */
+  align-items: center;
+  /* Alinha verticalmente os itens */
 }
 
 .status-opcoes label {
-  display: flex; /* Alinha o texto e o botão juntos */
-  align-items: center; /* Alinha verticalmente o texto e o botão */
-  gap: 5px; /* Espaçamento entre o botão e o texto */
-  font-size: 14px; /* Tamanho da fonte */
-  cursor: pointer; /* Mostra o cursor de clique ao passar sobre o rótulo */
+  display: flex;
+  /* Alinha o texto e o botão juntos */
+  align-items: center;
+  /* Alinha verticalmente o texto e o botão */
+  gap: 5px;
+  /* Espaçamento entre o botão e o texto */
+  font-size: 14px;
+  /* Tamanho da fonte */
+  cursor: pointer;
+  /* Mostra o cursor de clique ao passar sobre o rótulo */
 }
 
 .status-opcoes input[type="radio"] {
-  accent-color: #ff4800; /* Cor personalizada para os botões de rádio */
-  width: 1.2rem; /* Largura do botão */
-  height: 1.2rem; /* Altura do botão */
-  cursor: pointer; /* Mostra o cursor de clique */
+  accent-color: #ff4800;
+  /* Cor personalizada para os botões de rádio */
+  width: 1.2rem;
+  /* Largura do botão */
+  height: 1.2rem;
+  /* Altura do botão */
+  cursor: pointer;
+  /* Mostra o cursor de clique */
 }
 
 .status-opcoes label:hover {
-  color: #ff4800; /* Altera a cor do texto ao passar o mouse */
+  color: #ff4800;
+  /* Altera a cor do texto ao passar o mouse */
 }
 
 /* Estilos para o formulário de produto */
@@ -311,7 +358,8 @@ button {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 20px;
-  margin: 20px auto; /* Centraliza o formulário */
+  margin: 20px auto;
+  /* Centraliza o formulário */
   padding: 20px;
   background-color: #fff;
   border-radius: 5px;
@@ -378,36 +426,42 @@ button {
 
 /* Estilo do indicador de carregamento */
 #loading {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(255, 255, 255, 0.8); /* Fundo semitransparente */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-    backdrop-filter: blur(0.5px); /* Aplica o desfoque ao fundo */
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.8);
+  /* Fundo semitransparente */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  backdrop-filter: blur(0.5px);
+  /* Aplica o desfoque ao fundo */
 }
 
 /* Estilo do spinner */
 .spinner {
-    border: 12px solid #f3f3f3; /* Cor de fundo */
-    border-top: 12px solid #ff3300; /* Cor da borda superior */
-    border-radius: 50%;
-    width: 80px; /* Aumenta o tamanho do spinner */
-    height: 80px; /* Aumenta o tamanho do spinner */
-    animation: girar 1s linear infinite;
+  border: 12px solid #f3f3f3;
+  /* Cor de fundo */
+  border-top: 12px solid #ff3300;
+  /* Cor da borda superior */
+  border-radius: 50%;
+  width: 80px;
+  /* Aumenta o tamanho do spinner */
+  height: 80px;
+  /* Aumenta o tamanho do spinner */
+  animation: girar 1s linear infinite;
 }
 
 /* Animação de rotação */
 @keyframes girar {
-    0% {
-        transform: rotate(0deg);
-    }
-    100% {
-        transform: rotate(360deg);
-    }
-}
+  0% {
+    transform: rotate(0deg);
+  }
 
+  100% {
+    transform: rotate(360deg);
+  }
+}

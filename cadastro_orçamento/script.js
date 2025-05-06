@@ -1,5 +1,5 @@
 // Executa quando o DOM é completamente carregado
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     inicializarAplicacao();
     carregarOrcamentos();
 });
@@ -32,14 +32,7 @@ function inicializarAplicacao() {
 
 function configurarFiltroOrcamentos() {
     const entradaPesquisaOrcamento = document.getElementById('entradaPesquisaOrcamento');
-    entradaPesquisaOrcamento.addEventListener('input', function() {
-        const termoPesquisa = entradaPesquisaOrcamento.value.toLowerCase();
-        const linhas = document.querySelectorAll('#corpoTabelaOrcamentos tr');
-        linhas.forEach(linha => {
-            const cliente = linha.querySelector('td:nth-child(2)').textContent.toLowerCase();
-            linha.style.display = cliente.includes(termoPesquisa) ? '' : 'none';
-        });
-    });
+    entradaPesquisaOrcamento.addEventListener('input', filtrarOrcamentos);
 }
 
 // Função para carregar os clientes do localStorage e preencher o select de clientes
@@ -195,12 +188,12 @@ function carregarServicos() {
 // Função para configurar os ouvintes de eventos
 function configurarOuvintesEventos() {
     document.getElementById('botaoAdicionarItem').addEventListener('click', function (event) {
-        
+
         adicionarItem(); // Chama a função para adicionar o item
     });
     document.getElementById('botaoSalvarOrcamento').addEventListener('click', salvarOrcamento);
     document.getElementById('quantidade').addEventListener('input', atualizarPreco);
-    document.getElementById('botaoMostrarFormulario').addEventListener('click', function() {
+    document.getElementById('botaoMostrarFormulario').addEventListener('click', function () {
         document.getElementById('secaoFormularioOrcamento').style.display = 'block';
         document.getElementById('botaoMostrarFormulario').style.display = 'none';
         document.getElementById('secaoTabelaOrcamentos').style.display = 'none';
@@ -471,11 +464,11 @@ function atualizarPreco() {
     }
 
     const quantidade = parseInt(inputQuantidade.value) || 0;
-    const precoProduto = selectProduto.getAttribute('data-preco') 
-        ? parseFloat(selectProduto.getAttribute('data-preco')) 
+    const precoProduto = selectProduto.getAttribute('data-preco')
+        ? parseFloat(selectProduto.getAttribute('data-preco'))
         : 0;
-    const precoServico = selectServico.getAttribute('data-preco') 
-        ? parseFloat(selectServico.getAttribute('data-preco')) 
+    const precoServico = selectServico.getAttribute('data-preco')
+        ? parseFloat(selectServico.getAttribute('data-preco'))
         : 0;
 
     let precoTotal = 0;
@@ -533,7 +526,7 @@ function filtrarOrcamentos() {
     corpoTabela.innerHTML = ''; // Limpa a tabela antes de preenchê-la
 
     // Filtra os orçamentos com base no nome do cliente
-    const orcamentosFiltrados = orcamentos.filter(orcamento => 
+    const orcamentosFiltrados = orcamentos.filter(orcamento =>
         orcamento.cliente.nome.toLowerCase().includes(termoPesquisa)
     );
 

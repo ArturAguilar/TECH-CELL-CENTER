@@ -80,7 +80,8 @@
 }
 
 /* Estilos para as barras do menu de hambúrguer */
-.menu .barra:nth-child(1), .menu .barra:nth-child(3) {
+.menu .barra:nth-child(1),
+.menu .barra:nth-child(3) {
   background-color: #ff4800;
 }
 

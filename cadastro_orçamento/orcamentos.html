@@ -1,13 +1,15 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="../menu.css">
-    <link rel="shortcut icon" href="../logo.png" type="image/x-icon">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="../menu.css" />
+    <link rel="shortcut icon" href="../logo.png" type="image/x-icon" />
     <title>Orçamentos - Tech Cell Center Brasil</title>
 </head>
+
 <body>
     <header>
         <nav class="navegacao">
@@ -16,7 +18,8 @@
             </a>
             <ul class="menu-navegacao">
                 <li class="item-navegacao">
-                    <a href="../index.html" onclick="fecharMenu()" title="início"> Início</a>
+                    <a href="../index.html" onclick="fecharMenu()" title="início">
+                        Início</a>
                 </li>
                 <li class="item-navegacao">
                     <a href="../cadastro_cliente/cliente.html" onclick="fecharMenu()" title="Clientes">Clientes</a>
@@ -40,11 +43,13 @@
     </header>
     <main>
         <!-- Botão para mostrar o formulário de adicionar orçamento -->
-        <button id="botaoMostrarFormulario" class="botao-mostrar-formulario">Criar Novo Orçamento</button>
-        
+        <button id="botaoMostrarFormulario" class="botao-mostrar-formulario">
+            Criar Novo Orçamento
+        </button>
+
         <!-- Seção do formulário de adicionar orçamento -->
-        <section class="formulario-orcamento" id="secaoFormularioOrcamento" style="display: none;">
-            <h2 style="padding-bottom: 10px;">Adicionar Orçamento</h2>
+        <section class="formulario-orcamento" id="secaoFormularioOrcamento" style="display: none">
+            <h2 style="padding-bottom: 10px">Adicionar Orçamento</h2>
             <form id="formularioOrcamento">
                 <input type="hidden" id="orcamentoId" />
                 <!-- Campo de pesquisa de cliente e status -->
@@ -53,14 +58,14 @@
                         <!-- Campo de pesquisa de cliente -->
                         <div id="filtroClientes">
                             <label for="pesquisaCliente">Pesquisar Cliente:</label>
-                            <input type="text" id="pesquisaCliente" placeholder="Digite o nome do cliente">
+                            <input type="text" id="pesquisaCliente" placeholder="Digite o nome do cliente" />
                             <ul id="listaClientes" class="lista-sugestoes"></ul>
                         </div>
 
                         <!-- Campo de e-mail -->
                         <div class="campo-email">
                             <label for="emailCliente">E-mail:</label>
-                            <input type="email" id="emailCliente" placeholder="Digite o e-mail do cliente">
+                            <input type="email" id="emailCliente" placeholder="Digite o e-mail do cliente" />
                         </div>
                     </div>
 
@@ -68,13 +73,14 @@
                         <!-- Campo de telefone -->
                         <div class="campo-telefone">
                             <label for="telefoneCliente">Telefone:</label>
-                            <input type="text" id="telefoneCliente" placeholder="Digite o telefone" oninput="aplicarMascaraTelefone(this)" />
+                            <input type="text" id="telefoneCliente" placeholder="Digite o telefone"
+                                oninput="aplicarMascaraTelefone(this)" />
                         </div>
 
                         <!-- Campo de endereço -->
                         <div class="campo-endereco">
                             <label for="enderecoCliente">Endereço:</label>
-                            <input type="text" id="enderecoCliente" placeholder="Digite o endereço do cliente">
+                            <input type="text" id="enderecoCliente" placeholder="Digite o endereço do cliente" />
                         </div>
                     </div>
 
@@ -82,12 +88,13 @@
                         <!-- Campo de CPF/CNPJ -->
                         <div class="campo-cpf-cnpj">
                             <label for="cpfCnpjCliente">CPF/CNPJ:</label>
-                            <input type="text" id="cpfCnpjCliente" placeholder="Digite o CPF ou CNPJ" oninput="aplicarMascaraCpfCnpj(this)" />
+                            <input type="text" id="cpfCnpjCliente" placeholder="Digite o CPF ou CNPJ"
+                                oninput="aplicarMascaraCpfCnpj(this)" />
                         </div>
 
                         <!-- Seleção de status -->
                         <div class="campo-status">
-                            <label for="status" style="margin-bottom: 4px;">Status:</label>
+                            <label for="status" style="margin-bottom: 4px">Status:</label>
                             <select id="status" name="status" required>
                                 <option value="Pendente">Pendente</option>
                                 <option value="Andamento">Em Andamento</option>
@@ -118,14 +125,16 @@
                     </div>
                 </div>
 
-                <br><hr><br>
-                
+                <br />
+                <hr />
+                <br />
+
                 <div class="grupo-campos">
                     <div class="linha">
                         <!-- Campo de pesquisa de produto -->
                         <div class="campo-produto">
                             <label for="pesquisaProduto">Pesquisar Produto:</label>
-                            <input type="text" id="pesquisaProduto"  placeholder="Digite o nome do produto">
+                            <input type="text" id="pesquisaProduto" placeholder="Digite o nome do produto" />
                             <ul id="listaProdutos" class="lista-sugestoes"></ul>
                         </div>
                         <!-- Campo de quantidade -->
@@ -138,16 +147,16 @@
                         <!-- Campo de pesquisa de serviço -->
                         <div class="campo-servico">
                             <label for="pesquisaServico">Pesquisar Serviço:</label>
-                            <input type="text" id="pesquisaServico" placeholder="Digite o nome do serviço">
+                            <input type="text" id="pesquisaServico" placeholder="Digite o nome do serviço" />
                             <ul id="listaServicos" class="lista-sugestoes"></ul>
                         </div>
                         <!-- Campo de preço -->
-                        <div class="campo-preco">
-                            
-                        </div>
+                        <div class="campo-preco"></div>
                     </div>
                     <!-- Botão para adicionar item -->
-                    <button type="button" id="botaoAdicionarItem">Adicionar Item</button>
+                    <button type="button" id="botaoAdicionarItem">
+                        Adicionar Item
+                    </button>
                     <!-- Tabela de itens do orçamento -->
                     <div class="tabela-container">
                         <table>
@@ -165,12 +174,16 @@
                             </tbody>
                         </table>
                     </div>
-                    <h3 >Total: <span id="precoTotal">R$ 0.00</span></h3>
+                    <h3>Total: <span id="precoTotal">R$ 0.00</span></h3>
                 </div>
 
                 <div class="botoes-formulario">
-                    <button type="button" id="botaoSalvarOrcamento" class="btn btn-salvar">Salvar Orçamento</button>
-                    <button type="button" id="botaoCancelarOrcamento" class="btn btn-cancelar">Cancelar</button>
+                    <button type="button" id="botaoSalvarOrcamento" class="btn btn-salvar">
+                        Salvar Orçamento
+                    </button>
+                    <button type="button" id="botaoCancelarOrcamento" class="btn btn-cancelar">
+                        Cancelar
+                    </button>
                 </div>
             </form>
         </section>
@@ -178,12 +191,11 @@
         <!-- Seção da tabela de orçamentos registrados -->
         <section class="tabela-orcamento" id="secaoTabelaOrcamentos">
             <h2>Orçamentos Registrados</h2>
-            <input type="text" id="entradaPesquisaOrcamento" placeholder="Buscar por nome do cliente...">
+            <input type="text" id="entradaPesquisaOrcamento" placeholder="Buscar orçamentos..." />
             <div class="container-tabela">
                 <table>
                     <thead>
                         <tr>
-
                             <th>Código</th>
                             <th>Cliente</th>
                             <th>Produtos</th>
@@ -203,26 +215,52 @@
 
         <!-- Modal para exibir informações do orçamento -->
         <div id="modalOrcamento" class="modal">
-    <div class="modal-conteudo">
-        <span id="fecharModalOrcamento" class="fechar-modal">&times;</span>
-        <h2>Detalhes do Orçamento</h2>
-        <p><strong>Código do Orçamento:</strong> <span id="modalCodigoOrcamento"></span></p>
-        <p><strong>Cliente:</strong> <span id="modalClienteOrcamento"></span></p>
-        <p><strong>Telefone:</strong> <span id="modalTelefoneCliente"></span></p>
-        <p><strong>Email:</strong> <span id="modalEmailCliente"></span></p>
-        <p><strong>Endereço:</strong> <span id="modalEnderecoCliente"></span></p>
-        <p><strong>CPF/CNPJ:</strong> <span id="modalCpfCnpjCliente"></span></p>
-        <p><strong>Produtos:</strong> <span id="modalProdutosOrcamento"></span></p>
-        <p><strong>Serviços:</strong> <span id="modalServicosOrcamento"></span></p>
-        <p><strong>Total:</strong> <span id="modalTotalOrcamento"></span></p>
-        <p><strong>Status:</strong> <span id="modalStatusOrcamento"></span></p>
-        <p><strong>Forma de Pagamento:</strong> <span id="modalFormaPagamentoOrcamento"></span></p>
-        <p><strong>Observações:</strong> <span id="modalObservacoesOrcamento"></span></p>
-        <button id="botaoEnviarWhatsApp" class="btn btn-whatsapp">Enviar por WhatsApp</button>
-    </div>
-</div>
+            <div class="modal-conteudo">
+                <span id="fecharModalOrcamento" class="fechar-modal">&times;</span>
+                <h2>Detalhes do Orçamento</h2>
+                <p>
+                    <strong>Código do Orçamento:</strong>
+                    <span id="modalCodigoOrcamento"></span>
+                </p>
+                <p>
+                    <strong>Cliente:</strong> <span id="modalClienteOrcamento"></span>
+                </p>
+                <p>
+                    <strong>Telefone:</strong> <span id="modalTelefoneCliente"></span>
+                </p>
+                <p><strong>Email:</strong> <span id="modalEmailCliente"></span></p>
+                <p>
+                    <strong>Endereço:</strong> <span id="modalEnderecoCliente"></span>
+                </p>
+                <p>
+                    <strong>CPF/CNPJ:</strong> <span id="modalCpfCnpjCliente"></span>
+                </p>
+                <p>
+                    <strong>Produtos:</strong> <span id="modalProdutosOrcamento"></span>
+                </p>
+                <p>
+                    <strong>Serviços:</strong> <span id="modalServicosOrcamento"></span>
+                </p>
+                <p><strong>Total:</strong> <span id="modalTotalOrcamento"></span></p>
+                <p>
+                    <strong>Status:</strong> <span id="modalStatusOrcamento"></span>
+                </p>
+                <p>
+                    <strong>Forma de Pagamento:</strong>
+                    <span id="modalFormaPagamentoOrcamento"></span>
+                </p>
+                <p>
+                    <strong>Observações:</strong>
+                    <span id="modalObservacoesOrcamento"></span>
+                </p>
+                <button id="botaoEnviarWhatsApp" class="btn btn-whatsapp">
+                    Enviar por WhatsApp
+                </button>
+            </div>
+        </div>
     </main>
     <script src="script.js"></script>
     <script src="../menu.js"></script>
 </body>
+
 </html>

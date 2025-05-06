@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,6 +9,7 @@
     <link rel="shortcut icon" href="../logo.png" type="image/x-icon">
     <title>Cadastro de Produtos - Tech Cell Center Brasil</title>
 </head>
+
 <body>
     <header>
         <nav class="navegacao">
@@ -15,7 +17,7 @@
                 Tech Cell Center <span>Brasil</span>
             </a>
             <ul class="menu-navegacao">
-                <li class="item-nav"egacao>
+                <li class="item-nav" egacao>
                     <a href="../index.html" onclick="fecharMenu()" title="início"> Início</a>
                 </li>
                 <li class="item-navegacao">
@@ -28,7 +30,8 @@
                     <a href="../cadastro_serviço/serviço.html" onclick="fecharMenu()" title="Serviços">Serviços</a>
                 </li>
                 <li class="item-navegacao">
-                    <a href="../cadastro_orçamento/orcamentos.html" onclick="fecharMenu()" title="Orçamento">Solicitar Orçamento</a>
+                    <a href="../cadastro_orçamento/orcamentos.html" onclick="fecharMenu()" title="Orçamento">Solicitar
+                        Orçamento</a>
                 </li>
             </ul>
             <div class="menu" id="menuToggle">
@@ -46,7 +49,7 @@
             <h2>Registrar Produto</h2>
             <form id="formularioProduto">
                 <input type="hidden" id="produtoId" name="produtoId" />
-                
+
                 <div class="form-group">
                     <label for="nome">Nome:</label>
                     <input type="text" id="nome" name="nome" required />
@@ -69,11 +72,11 @@
 
                 <div class="form-group">
                     <label for="categoria">Categoria:</label>
-                <select id="categoria" name="categoria" required>
-                    <option value="Celulares e Tablets">Celulares e Tablets</option>
-                    <option value="Notebooks e Computadores">Notebooks e Computadores</option>
-                    <option value="PC Gamer e Acessórios">PC Gamer e Acessórios</option>
-                </select>
+                    <select id="categoria" name="categoria" required>
+                        <option value="Celulares e Tablets">Celulares e Tablets</option>
+                        <option value="Notebooks e Computadores">Notebooks e Computadores</option>
+                        <option value="PC Gamer e Acessórios">PC Gamer e Acessórios</option>
+                    </select>
                 </div>
 
                 <div class="form-group">
@@ -101,11 +104,11 @@
                 <input type="text" id="entradaPesquisa" placeholder="Buscar por nome..." />
                 <div class="filtro-status">
                     <label>
-                        <input type="radio" name="statusProduto" value="ativos" checked onchange="filtrarProdutos()" />
+                        <input type="radio" name="statusFiltroProduto" value="ativos" checked onchange="filtrarProdutos()" />
                         Ativos
                     </label>
                     <label>
-                        <input type="radio" name="statusProduto" value="inativos" onchange="filtrarProdutos()" />
+                        <input type="radio" name="statusFiltroProduto" value="inativos" onchange="filtrarProdutos()" />
                         Inativos
                     </label>
                 </div>
@@ -133,4 +136,5 @@
     <script src="script.js"></script>
     <script src="../menu.js"></script>
 </body>
+
 </html>

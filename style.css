@@ -15,7 +15,8 @@
 body {
   background-color: #f4f4f4;
   color: #333;
-  padding-top: 80px; /* Adiciona espaço suficiente para o menu fixo */
+  padding-top: 80px;
+  /* Adiciona espaço suficiente para o menu fixo */
 }
 
 .casa {

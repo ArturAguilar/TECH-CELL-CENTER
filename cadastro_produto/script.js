@@ -1,5 +1,5 @@
 // Adiciona um evento para carregar os dados quando o DOM estiver completamente carregado
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     carregarProdutos();
     configurarOuvintesDeEventos();
 });
@@ -37,7 +37,7 @@ function filtrarProdutos() {
     const corpoTabela = document.getElementById('corpoTabelaProdutos');
 
     // Verifica o status atual (ativos ou inativos)
-    const statusAtual = document.querySelector('input[name="statusProduto"]:checked').value;
+    const statusAtual = document.querySelector('input[name="statusFiltroProduto"]:checked').value;
 
     // Filtra os produtos com base no status e no termo de pesquisa
     const produtosFiltrados = produtos.filter(produto => {

@@ -1,147 +1,150 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="../menu.css">
-    <link rel="shortcut icon" href="../logo.png" type="image/x-icon">
-    <title>Serviços - Tech Cell Center Brasil</title>
-  </head>
-  <body>
-    <header>
-      <nav class="navegacao">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="../menu.css">
+  <link rel="shortcut icon" href="../logo.png" type="image/x-icon">
+  <title>Serviços - Tech Cell Center Brasil</title>
+</head>
+
+<body>
+  <header>
+    <nav class="navegacao">
+      <!-- Link para a página inicial -->
+      <a href="../index.html" class="logo" title="logo">
+        Tech Cell Center <span>Brasil</span></a>
+      <ul class="menu-navegacao">
         <!-- Link para a página inicial -->
-        <a href="../index.html" class="logo" title="logo">
-          Tech Cell Center <span>Brasil</span></a>
-        <ul class="menu-navegacao">
-          <!-- Link para a página inicial -->
-          <li class="item-navegacao">
-            <a href="../index.html" onclick="fecharMenu()" title="início"> Início</a>
-          </li>
-          <!-- Link para a página de clientes -->
-          <li class="item-navegacao">
-            <a href="../cadastro_cliente/cliente.html" onclick="fecharMenu()" title="clientes">
-              Clientes
-            </a>
-          </li>
-          <!-- Link para a página de produtos -->
-          <li class="item-navegacao">
-            <a href="../cadastro_produto/produto.html" onclick="fecharMenu()" title="produtos">
-              Produtos</a>
-          </li>
-          <!-- Link para a página de serviços -->
-          <li class="item-navegacao">
-            <a href="serviço.html" onclick="fecharMenu()" title="serviços">
-              Serviços</a>
-          </li>
-          <!-- Link para a página de solicitação de orçamento -->
-          <li class="item-navegacao">
-            <a href="../cadastro_orçamento/orcamentos.html" onclick="fecharMenu()" title="orçamento">
-              Solicitar Orçamento</a>
-          </li>
-        </ul>
+        <li class="item-navegacao">
+          <a href="../index.html" onclick="fecharMenu()" title="início"> Início</a>
+        </li>
+        <!-- Link para a página de clientes -->
+        <li class="item-navegacao">
+          <a href="../cadastro_cliente/cliente.html" onclick="fecharMenu()" title="clientes">
+            Clientes
+          </a>
+        </li>
+        <!-- Link para a página de produtos -->
+        <li class="item-navegacao">
+          <a href="../cadastro_produto/produto.html" onclick="fecharMenu()" title="produtos">
+            Produtos</a>
+        </li>
+        <!-- Link para a página de serviços -->
+        <li class="item-navegacao">
+          <a href="serviço.html" onclick="fecharMenu()" title="serviços">
+            Serviços</a>
+        </li>
+        <!-- Link para a página de solicitação de orçamento -->
+        <li class="item-navegacao">
+          <a href="../cadastro_orçamento/orcamentos.html" onclick="fecharMenu()" title="orçamento">
+            Solicitar Orçamento</a>
+        </li>
+      </ul>
 
-        <!-- Menu de hambúrguer para dispositivos móveis -->
-        <div class="menu" id="menuToggle">
-          <span class="barra"></span>
-          <span class="barra"></span>
-          <span class="barra"></span>
+      <!-- Menu de hambúrguer para dispositivos móveis -->
+      <div class="menu" id="menuToggle">
+        <span class="barra"></span>
+        <span class="barra"></span>
+        <span class="barra"></span>
+      </div>
+    </nav>
+  </header>
+  <main class="principal">
+    <!-- Botão para mostrar o formulário de adicionar serviço -->
+    <button id="botaoMostrarFormulario" class="botao-mostrar-formulario">Registrar Novo Serviço</button>
+    <!-- Seção do formulário de adicionar serviço -->
+    <section class="formulario-servico" id="secaoFormularioServico" style="display: none;">
+      <h2>Adicionar Serviço</h2>
+      <form id="formularioServico" class="grid-form">
+        <input type="hidden" id="idServico" name="idServico" />
+        <div class="form-group">
+          <label for="nomeServico">Nome do Serviço:</label>
+          <input type="text" id="nomeServico" name="nomeServico" required />
         </div>
-      </nav>
-    </header>
-    <main class="principal">
-      <!-- Botão para mostrar o formulário de adicionar serviço -->
-      <button id="botaoMostrarFormulario" class="botao-mostrar-formulario">Registrar Novo Serviço</button>
-      <!-- Seção do formulário de adicionar serviço -->
-      <section class="formulario-servico" id="secaoFormularioServico" style="display: none;">
-        <h2>Adicionar Serviço</h2>
-        <form id="formularioServico" class="grid-form">
-          <input type="hidden" id="idServico" name="idServico" />
-          <div class="form-group">
-            <label for="nomeServico">Nome do Serviço:</label>
-            <input type="text" id="nomeServico" name="nomeServico" required />
-          </div>
 
-          <div class="form-group">
-            <label for="descricao">Descrição:</label>
-            <input type="text" id="descricao" name="descricao" required />
-          </div>
+        <div class="form-group">
+          <label for="descricao">Descrição:</label>
+          <input type="text" id="descricao" name="descricao" required />
+        </div>
 
-          <div class="form-group">
-            <label for="preco">Preço:</label>
-            <input type="text" id="preco" placeholder="Digite o preço" oninput="aplicarMascaraPreco(this)" />
-          </div>
+        <div class="form-group">
+          <label for="preco">Preço:</label>
+          <input type="text" id="preco" placeholder="Digite o preço" oninput="aplicarMascaraPreco(this)" />
+        </div>
 
-          <div class="form-group">
-            <label for="tempoBase">Tempo Base (em Dias):</label>
-            <input type="number" id="tempoBase" name="tempoBase"  required />
-          </div>
+        <div class="form-group">
+          <label for="tempoBase">Tempo Base (em Dias):</label>
+          <input type="number" id="tempoBase" name="tempoBase" required />
+        </div>
 
-          <div class="form-group">
-            <label for="categoria">Categoria:</label>
-            <select id="categoria" name="categoria" required>
-              <option value="Serviços de Celulares">Serviços de Celulares</option>
-              <option value="Serviços para PC Gamer">Serviços para PC Gamer</option>
-              <option value="Notebooks e Computadores">Notebooks e Computadores</option>
-            </select>
-          </div>
+        <div class="form-group">
+          <label for="categoria">Categoria:</label>
+          <select id="categoria" name="categoria" required>
+            <option value="Serviços de Celulares">Serviços de Celulares</option>
+            <option value="Serviços para PC Gamer">Serviços para PC Gamer</option>
+            <option value="Notebooks e Computadores">Notebooks e Computadores</option>
+          </select>
+        </div>
 
-          <div class="form-group">
-            <label>Status do Serviço:</label>
-            <div class="status-opcoes">
-              <label for="statusAtivo">
-                <input type="radio" id="statusAtivo" name="statusServico" value="ativo" checked> Ativo
-              </label>
-              <label for="statusInativo">
-                <input type="radio" id="statusInativo" name="statusServico" value="inativo"> Inativo
-              </label>
-            </div>
-          </div>
-
-          <div class="form-group form-group-full">
-            <button type="submit" class="botao-adicionar">Adicionar</button>
-            <button type="button" id="botaoCancelar" class="botao-cancelar" onclick="cancelarFormulario()">Cancelar</button>
-          </div>
-        </form>
-      </section>
-      <!-- Seção da tabela de serviços cadastrados -->
-      <section class="tabela-servico">
-        <h2>Serviços Cadastrados</h2>
-        <div class="filtros">
-          <input type="text" id="entradaPesquisa" placeholder="Buscar serviços..." />
-          <div class="filtro-status">
-            <label>
-              <input type="radio" name="statusServico" value="ativos" checked onchange="filtrarServicos()" />
-              Ativos
+        <div class="form-group">
+          <label>Status do Serviço:</label>
+          <div class="status-opcoes">
+            <label for="statusAtivo">
+              <input type="radio" id="statusAtivo" name="statusServico" value="ativo" checked> Ativo
             </label>
-            <label>
-              <input type="radio" name="statusServico" value="inativos" onchange="filtrarServicos()" />
-              Inativos
+            <label for="statusInativo">
+              <input type="radio" id="statusInativo" name="statusServico" value="inativo"> Inativo
             </label>
           </div>
         </div>
-        <div class="contêiner-tabela">
-          <table>
-            <thead>
-              <tr>
-                <th>Código</th>
-                <th>Nome do Serviço</th>
-                <th>Descrição</th>
-                <th>Preço</th>
-                <th>Tempo Base (Dias)</th>
-                <th>Categoria</th>
-                <th>Ações</th>
-              </tr>
-            </thead>
-            <tbody id="corpoTabelaServicos">
-              <!-- Os dados dos serviços serão inseridos aqui pelo JavaScript -->
-            </tbody>
-          </table>
+
+        <div class="form-group form-group-full">
+          <button type="submit" class="botao-adicionar">Adicionar</button>
+          <button type="button" id="botaoCancelar" class="botao-cancelar"
+            onclick="cancelarFormulario()">Cancelar</button>
         </div>
-      </section>
-    </main>
-    <script src="script.js"></script>
-    <script src="../menu.js"></script>
-  </body>
+      </form>
+    </section>
+    <!-- Seção da tabela de serviços cadastrados -->
+    <section class="tabela-servico">
+      <h2>Serviços Cadastrados</h2>
+      <div class="filtros">
+        <input type="text" id="entradaPesquisa" placeholder="Buscar serviços..." />
+        <div class="filtro-status">
+          <label>
+            <input type="radio" name="statusFiltroServico" value="ativos" checked onchange="filtrarServicos()" />
+            Ativos
+          </label>
+          <label>
+            <input type="radio" name="statusFiltroServico" value="inativos" onchange="filtrarServicos()" />
+            Inativos
+          </label>
+        </div>
+      </div>
+      <div class="contêiner-tabela">
+        <table>
+          <thead>
+            <tr>
+              <th>Código</th>
+              <th>Nome do Serviço</th>
+              <th>Preço</th>
+              <th>Tempo Base (Dias)</th>
+              <th>Categoria</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody id="corpoTabelaServicos">
+            <!-- Os dados dos serviços serão inseridos aqui pelo JavaScript -->
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+  <script src="script.js"></script>
+  <script src="../menu.js"></script>
+</body>
+
 </html>

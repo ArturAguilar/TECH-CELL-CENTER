@@ -15,7 +15,7 @@ function configurarOuvintesDeEventos() {
 
     document.getElementById('entradaPesquisa').addEventListener('input', filtrarServicos);
 
-    document.querySelectorAll('input[name="statusServico"]').forEach(radio => {
+    document.querySelectorAll('input[name="statusFiltroServico"]').forEach(radio => {
         radio.addEventListener('change', function () {
             const filtro = this.value; // "ativos" ou "inativos"
             carregarServicos(filtro);
@@ -37,7 +37,7 @@ function filtrarServicos() {
     const corpoTabela = document.getElementById('corpoTabelaServicos');
 
     // Verifica o status atual (ativos ou inativos)
-    const statusAtual = document.querySelector('input[name="statusServico"]:checked').value;
+    const statusAtual = document.querySelector('input[name="statusFiltroServico"]:checked').value;
 
     // Filtra os serviços com base no status e no termo de pesquisa
     const servicosFiltrados = servicos.filter(servico => {
@@ -80,7 +80,7 @@ function salvarServico(event) {
     }
     const tempoBase = parseInt(document.getElementById('tempoBase').value.trim());
     const categoria = document.getElementById('categoria').value.trim();
-    const status = document.querySelector('input[name="statusServico"]:checked').value; // Obtém o status selecionado
+    const status = document.querySelector('input[name="statusFiltroServico"]:checked').value; // Obtém o status selecionado
 
     // Validação dos campos
     if (!nomeServico || !descricao || isNaN(preco) || isNaN(tempoBase) || !categoria) {
@@ -184,7 +184,6 @@ function criarLinhaTabela(servico) {
     linha.innerHTML = `
         <td>${servico.id}</td>
         <td>${servico.nomeServico}</td>
-        <td>${servico.descricao}</td>
         <td>R$ ${servico.preco.toFixed(2).replace(".", ",")}</td>
         <td>${servico.tempoBase} dias</td>
         <td>${servico.categoria}</td>
