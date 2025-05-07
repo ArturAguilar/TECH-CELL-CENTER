@@ -533,7 +533,7 @@ textarea {
 
 /* Botões no modal (se necessário) */
 .modal-conteudo button {
-  background-color: #007bff;
+  background-color: #ff0000;
   color: white;
   border: none;
   padding: 10px 20px;
@@ -544,7 +544,7 @@ textarea {
 }
 
 .modal-conteudo button:hover {
-  background-color: #0056b3;
+  background-color: #ff0a0a;
 }
 
 #botaoCancelarOrcamento {
@@ -554,4 +554,26 @@ textarea {
 
 #botaoCancelarOrcamento {
   background-color: #5a6268;
+}
+
+.modal-buttons {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.btn-pdf {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+
+.btn-pdf:hover {
+    background-color: #c82333;
 }

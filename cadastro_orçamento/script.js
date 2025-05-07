@@ -724,9 +724,220 @@ function abrirModalOrcamento(id) {
         mandarWhatsApp(id);
     };
 
+    // Configura o botão de gerar PDF
+    const botaoPDF = document.getElementById('botaoGerarPDF');
+    botaoPDF.onclick = function () {
+        gerarPDF(id);
+    };
+
     // Exibe o modal
     const modal = document.getElementById('modalOrcamento');
     modal.style.display = 'block';
+}
+
+// Função para gerar PDF do orçamento
+function gerarPDF(id) {
+    const orcamentos = JSON.parse(localStorage.getItem('orcamentos')) || [];
+    const orcamento = orcamentos.find(o => o.id === id);
+
+    if (!orcamento) {
+        alert('Orçamento não encontrado.');
+        return;
+    }
+
+    // Cria uma nova instância do jsPDF
+    const doc = new jsPDF();
+    const pageHeight = doc.internal.pageSize.height;
+    const pageWidth = doc.internal.pageSize.width;
+    const margin = 20;
+    let yPos = 20;
+
+    // Função para verificar se precisa de nova página
+    const checkNewPage = (height) => {
+        if (yPos + height > pageHeight - margin) {
+            doc.addPage();
+            yPos = margin;
+            return true;
+        }
+        return false;
+    };
+
+    // Função auxiliar para adicionar texto com quebra de linha
+    const addText = (text, x, y, maxWidth) => {
+        const lines = doc.splitTextToSize(text, maxWidth);
+        doc.text(lines, x, y);
+        return lines.length * 7;
+    };
+
+    // Cabeçalho
+    doc.setFillColor(255, 72, 0);
+    doc.rect(0, 0, pageWidth, 40, 'F');
+    doc.setTextColor(255, 255, 255);
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(24);
+    doc.text("Tech Cell Center Brasil", pageWidth/2, 25, { align: "center" });
+    doc.setFontSize(16);
+    doc.text("Orçamento", pageWidth/2, 35, { align: "center" });
+
+    // Reset de cores e fonte
+    doc.setTextColor(0, 0, 0);
+    yPos = 50;
+
+    // Informações do Orçamento
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(12);
+    doc.text(`Orçamento #${orcamento.id}`, margin, yPos);
+    doc.text(`Data: ${new Date().toLocaleDateString('pt-BR')}`, pageWidth - margin, yPos, { align: "right" });
+    yPos += 15;
+
+    // Dados do Cliente
+    checkNewPage(60);
+    doc.setFillColor(240, 240, 240);
+    doc.rect(margin - 5, yPos - 5, pageWidth - (margin * 2) + 10, 45, 'F');
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(12);
+    doc.text("Dados do Cliente:", margin, yPos);
+    yPos += 10;
+    
+    doc.setFont("helvetica", "normal");
+    doc.setFontSize(12);
+    doc.text(`Nome: ${orcamento.cliente.nome}`, margin, yPos);
+    yPos += 7;
+    doc.text(`Telefone: ${orcamento.cliente.telefone}`, margin, yPos);
+    yPos += 7;
+    doc.text(`Email: ${orcamento.cliente.email}`, margin, yPos);
+    yPos += 7;
+    doc.text(`Endereço: ${orcamento.cliente.endereco}`, margin, yPos);
+    yPos += 7;
+    doc.text(`CPF/CNPJ: ${orcamento.cliente.cpfCnpj}`, margin, yPos);
+    yPos += 15;
+
+    // Produtos
+    checkNewPage(30);
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(12);
+    doc.text("Produtos:", margin, yPos);
+    yPos += 10;
+
+    // Cabeçalho da tabela de produtos
+    doc.setFillColor(240, 240, 240);
+    doc.rect(margin - 5, yPos - 5, 180, 7, 'F');
+    doc.setFontSize(12);
+    doc.text("Item", margin, yPos);
+    doc.text("Quantidade", margin + 100, yPos);
+    doc.text("Valor Unit.", margin + 150, yPos);
+    doc.text("Total", margin + 200, yPos);
+    yPos += 7;
+
+    // Lista de produtos
+    doc.setFont("helvetica", "normal");
+    orcamento.itens.filter(item => item.produto).forEach(item => {
+        checkNewPage(7);
+        doc.text(item.produto, margin, yPos);
+        doc.text(item.quantidade.toString(), margin + 100, yPos);
+        doc.text(`R$ ${item.precoProduto.toFixed(2).replace('.', ',')}`, margin + 150, yPos);
+        doc.text(`R$ ${(item.precoProduto * item.quantidade).toFixed(2).replace('.', ',')}`, margin + 200, yPos);
+        yPos += 7;
+    });
+    yPos += 10;
+
+    // Serviços
+    checkNewPage(30);
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(12);
+    doc.text("Serviços:", margin, yPos);
+    yPos += 10;
+
+    // Cabeçalho da tabela de serviços
+    doc.setFillColor(240, 240, 240);
+    doc.rect(margin - 5, yPos - 5, 180, 7, 'F');
+    doc.text("Serviço", margin, yPos);
+    doc.text("Valor", margin + 150, yPos);
+    yPos += 7;
+
+    // Lista de serviços
+    doc.setFont("helvetica", "normal");
+    orcamento.itens.filter(item => item.servico).forEach(item => {
+        checkNewPage(7);
+        doc.text(item.servico, margin, yPos);
+        doc.text(`R$ ${item.precoServico.toFixed(2).replace('.', ',')}`, margin + 150, yPos);
+        yPos += 7;
+    });
+    yPos += 15;
+
+    // Total
+    checkNewPage(20);
+    doc.setFillColor(240, 240, 240);
+    doc.rect(margin - 5, yPos - 5, 180, 7, 'F');
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(12);
+    doc.text(`Total do Orçamento: R$ ${orcamento.total.toFixed(2).replace('.', ',')}`, pageWidth - margin, yPos, { align: "right" });
+    yPos += 20;
+
+    // Informações Adicionais
+    checkNewPage(30);
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(12);
+    doc.text("Informações Adicionais:", margin, yPos);
+    yPos += 10;
+    
+    doc.setFont("helvetica", "normal");
+    doc.setFontSize(12);
+    doc.text(`Status: ${orcamento.status}`, margin, yPos);
+    yPos += 7;
+    doc.text(`Forma de Pagamento: ${orcamento.formaPagamento}`, margin, yPos);
+    yPos += 15;
+
+    // Observações
+    checkNewPage(30);
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(12);
+    doc.text("Observações:", margin, yPos);
+    yPos += 10;
+    
+    doc.setFont("helvetica", "normal");
+    doc.setFontSize(12);
+    const observacoes = orcamento.observacoes || 'Nenhuma observação';
+    const observacoesHeight = addText(observacoes, margin, yPos, pageWidth - (margin * 2));
+    yPos += observacoesHeight + 15;
+
+    // Validade do Orçamento
+    checkNewPage(20);
+    const dataValidade = new Date();
+    dataValidade.setDate(dataValidade.getDate() + 7);
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(12);
+    doc.text(`Validade do Orçamento: ${dataValidade.toLocaleDateString('pt-BR')}`, margin, yPos);
+    yPos += 15;
+
+    // Mensagem de Agradecimento
+    checkNewPage(40);
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(12);
+    doc.text("Agradecemos a Preferência!", pageWidth/2, yPos, { align: "center" });
+    yPos += 10;
+    
+    doc.setFont("helvetica", "normal");
+    doc.setFontSize(11);
+    const mensagemAgradecimento = "É uma honra ter a oportunidade de atender você. Nossa equipe está comprometida em oferecer o melhor serviço e qualidade. Conte conosco para todas as suas necessidades em tecnologia e comunicação.";
+    const agradecimentoHeight = addText(mensagemAgradecimento, margin, yPos, pageWidth - (margin * 2));
+    yPos += agradecimentoHeight + 15;
+
+    // Rodapé
+    checkNewPage(20);
+    doc.setDrawColor(200, 200, 200);
+    doc.setLineWidth(0.5);
+    doc.line(margin, yPos, pageWidth - margin, yPos);
+    yPos += 10;
+
+    doc.setFont("helvetica", "italic");
+    doc.setFontSize(10);
+    doc.text("Tech Cell Center Brasil - Soluções que conectam você ao futuro!", pageWidth/2, yPos, { align: "center" });
+    yPos += 7;
+    doc.text("Contato: (XX) XXXX-XXXX | Email: contato@techcellcenter.com.br", pageWidth/2, yPos, { align: "center" });
+
+    // Salva o PDF
+    doc.save(`Orcamento_${orcamento.id}.pdf`);
 }
 
 // Fecha o modal ao clicar no botão de fechar
