@@ -310,3 +310,95 @@ main {
   background-color: #5a6268;
   /* Cor de fundo mais escura ao passar o mouse */
 }
+
+/* Ajustes para dispositivos móveis */
+@media (max-width: 768px) {
+  body {
+    font-size: 12px;
+  }
+
+  .formulario-produto h2,
+  .tabela-produto h2 {
+    font-size: 1.1rem;
+  }
+
+  .form-group label {
+    font-size: 0.85rem;
+  }
+
+  .formulario-produto input,
+  .formulario-produto select,
+  .tabela-produto input {
+    font-size: 0.85rem;
+  }
+
+  .formulario-produto button {
+    padding: 0.5rem 1rem;
+    font-size: 0.85rem;
+  }
+
+  .tabela-produto .acoes button {
+    padding: 0.4rem 0.6rem;
+    font-size: 0.75rem;
+    margin-right: 0.25rem;
+  }
+
+  #botaoCancelar {
+    padding: 0.5rem 1rem;
+    font-size: 0.85rem;
+  }
+
+  .tabela-produto table {
+    font-size: 0.8rem;
+  }
+
+  .status-opcoes label {
+    font-size: 0.85rem;
+  }
+}
+
+/* Ajustes para telas muito pequenas */
+@media (max-width: 480px) {
+  body {
+    font-size: 11px;
+  }
+
+  .formulario-produto h2,
+  .tabela-produto h2 {
+    font-size: 1rem;
+  }
+
+  .form-group label {
+    font-size: 0.8rem;
+  }
+
+  .formulario-produto input,
+  .formulario-produto select,
+  .tabela-produto input {
+    font-size: 0.8rem;
+  }
+
+  .formulario-produto button {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.8rem;
+  }
+
+  .tabela-produto .acoes button {
+    padding: 0.3rem 0.5rem;
+    font-size: 0.7rem;
+    margin-right: 0.2rem;
+  }
+
+  #botaoCancelar {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.8rem;
+  }
+
+  .tabela-produto table {
+    font-size: 0.75rem;
+  }
+
+  .status-opcoes label {
+    font-size: 0.8rem;
+  }
+}

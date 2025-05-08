@@ -225,7 +225,6 @@ function criarLinhaTabela(cliente) {
         <td>${cliente.nome}</td>
         <td>${cpfCnpjFormatado}</td>
         <td>${telefoneFormatado}</td>
-        <td>${cliente.endereco}</td>
         <td class="acoes">
             <button class="detalhes" onclick="abrirModalCliente(${cliente.id})">Ver Detalhes</button>
             <button class="editar" onclick="editarCliente(${cliente.id})">Editar</button>

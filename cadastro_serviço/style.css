@@ -307,3 +307,134 @@ body {
   background-color: #5a6268;
   /* Cor de fundo mais escura ao passar o mouse */
 }
+
+/* Estilos para o contêiner dos botões */
+.botoes-acoes {
+  display: flex;
+  justify-content: flex-start;
+  gap: 10px;
+  margin-top: 10px;
+  width: 100%;
+}
+
+/* Estilos para os botões de ação */
+.botao-adicionar,
+.botao-cancelar {
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  min-width: 100px;
+}
+
+.botao-adicionar {
+  background-color: #28a745;
+  color: #fff;
+}
+
+.botao-adicionar:hover {
+  background-color: #218838;
+}
+
+.botao-cancelar {
+  background-color: #6c757d;
+  color: #fff;
+}
+
+.botao-cancelar:hover {
+  background-color: #5a6268;
+}
+
+/* Ajustes para dispositivos móveis */
+@media (max-width: 768px) {
+  body {
+    font-size: 12px;
+  }
+
+  .botao-mostrar-formulario {
+    padding: 0.5rem 1rem;
+    font-size: 0.85rem;
+  }
+
+  .formulario-servico button {
+    padding: 0.5rem 1rem;
+    font-size: 0.85rem;
+  }
+
+  .tabela-servico .acoes button {
+    padding: 0.4rem 0.6rem;
+    font-size: 0.75rem;
+    margin-right: 0.25rem;
+  }
+
+  .tabela-servico .acoes .editar,
+  .tabela-servico .acoes .deletar,
+  .tabela-servico .acoes .ativar,
+  .tabela-servico .acoes .inativar {
+    margin-bottom: 0.25rem;
+  }
+
+  #botaoCancelar {
+    padding: 0.5rem 1rem;
+    font-size: 0.85rem;
+  }
+
+  .botoes-acoes {
+    gap: 8px;
+  }
+
+  .botao-adicionar,
+  .botao-cancelar {
+    padding: 0.5rem 1rem;
+    font-size: 0.85rem;
+    min-width: 90px;
+  }
+}
+
+/* Ajustes para telas muito pequenas */
+@media (max-width: 480px) {
+  body {
+    font-size: 11px;
+  }
+
+  .botao-mostrar-formulario {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.8rem;
+  }
+
+  .formulario-servico button {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.8rem;
+  }
+
+  .tabela-servico .acoes button {
+    padding: 0.3rem 0.5rem;
+    font-size: 0.7rem;
+    margin-right: 0.2rem;
+  }
+
+  .tabela-servico .acoes .editar,
+  .tabela-servico .acoes .deletar,
+  .tabela-servico .acoes .ativar,
+  .tabela-servico .acoes .inativar {
+    margin-bottom: 0.2rem;
+  }
+
+  #botaoCancelar {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.8rem;
+  }
+
+  .botoes-acoes {
+    gap: 6px;
+  }
+
+  .botao-adicionar,
+  .botao-cancelar {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.8rem;
+    min-width: 80px;
+  }
+}
