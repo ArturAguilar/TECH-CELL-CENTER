@@ -30,6 +30,8 @@ function configurarOuvintesDeEventos() {
         const cpfCnpj = this.value.replace(/\D/g, ""); // Remove caracteres não numéricos
         if (cpfCnpj.length !== 11 && cpfCnpj.length !== 14) {
             alert("CPF ou CNPJ inválido.");
+        } else if (cpfCnpj.length === 14) {
+            buscarDadosPorCNPJ(cpfCnpj);
         }
     });
 
@@ -422,6 +424,39 @@ function buscarEnderecoPorCEP(cep) {
         .catch((error) => console.error("Erro ao buscar CEP:", error))
         .finally(() => {
             loading.style.display = "none"; // Oculta o indicador de carregamento
+        });
+}
+
+// Função para buscar dados do CNPJ
+function buscarDadosPorCNPJ(cnpj) {
+    cnpj = cnpj.replace(/\D/g, ""); // Remove caracteres não numéricos
+    if (cnpj.length !== 14) return;
+
+    const loading = document.getElementById("loading");
+    loading.style.display = "flex"; // Mostra o spinner
+
+    fetch(`https://www.receitaws.com.br/v1/cnpj/${cnpj}`)
+        .then((response) => response.json())
+        .then((data) => {
+            if (data.status === "ERROR") {
+                alert("CNPJ não encontrado ou inválido.");
+                return;
+            }
+            // Preenche os campos do formulário com os dados retornados
+            document.getElementById("nome").value = data.nome || "";
+            document.getElementById("email").value = data.email || "";
+            document.getElementById("telefone").value = data.telefone || "";
+            document.getElementById("cep").value = data.cep || "";
+            document.getElementById("rua").value = data.logradouro || "";
+            document.getElementById("numero").value = data.numero || "";
+            document.getElementById("bairro").value = data.bairro || "";
+            document.getElementById("cidade").value = data.municipio || "";
+        })
+        .catch((error) => {
+            console.error("Erro ao buscar CNPJ:", error);
+        })
+        .finally(() => {
+            loading.style.display = "none"; // Esconde o spinner
         });
 }
 
